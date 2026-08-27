@@ -1,0 +1,17 @@
+# Secrets — el token de The Dog API i les claus de Supabase no van mai al repositori
+.env
+.env.*
+!.env.example
+
+# Sistema
+.DS_Store
+
+# Còpies manuals fetes abans d'editar amb un full de càlcul.
+# A partir del primer commit, aquesta feina la fa el propi git.
+*.old.csv
+
+# Dependències i artefactes de construcció
+node_modules/
+dist/
+build/
+.expo/
