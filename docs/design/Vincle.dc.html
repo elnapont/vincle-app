@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+body{margin:0;background:#efe9e1;font-family:'Instrument Sans',system-ui,sans-serif;color:#241a16}
+a{color:#a21a1a}a:hover{color:#661414}
+.dv-turn{padding:44px 48px 36px;border-bottom:1px solid rgba(102,20,20,.12);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 22px}
+.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#241a16;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 'Instrument Sans',sans-serif;color:#241a16}
+.dv-opts{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(102,20,20,.1);color:#661414;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11.5px/1.3 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)}
+.dv-card{background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:10px;box-shadow:0 2px 10px rgba(102,20,20,.07);overflow:hidden}
+.dv-opt:target .dv-oid{background:#a21a1a;color:#fff}
+.dv-next{margin:24px 0 0;font:12px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)}
+</style></helmet>
+
+<section class="dv-turn" id="t6">
+<div class="dv-thd"><a class="dv-tid" href="#t6">6</a><span class="dv-tname">Guia d'exercicis — bucle consultar → practicar → registrar (§6.1)</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="6a"><div class="dv-olabel"><a class="dv-oid" href="#6a">6a</a>Catàleg d'exercicis — web</div>
+<div class="dv-card" style="width:1180px;background:#fdfbf8">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:60px;border-bottom:1px solid rgba(36,26,22,.1);background:#fff">
+    <div style="display:flex;align-items:center;gap:26px"><div style="display:flex;align-items:center;gap:9px"><div style="width:26px;height:26px;border-radius:8px;background:#661414;display:flex;align-items:center;justify-content:center;font:400 16px 'Instrument Serif',serif;color:#c2ad9a">V</div><span style="font:600 14px 'Instrument Sans',sans-serif">Vincle</span></div><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Inici</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Gossos</span><span style="font:600 13.5px 'Instrument Sans',sans-serif;color:#a21a1a;border-bottom:2px solid #a21a1a;padding-bottom:19px;margin-bottom:-21px">Exercicis</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Races</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Compatibilitats</span></div>
+    <div style="display:flex;align-items:center;gap:10px"><span style="font:500 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Elna Roca</span><div style="width:30px;height:30px;border-radius:50%;background:#c2ad9a;display:flex;align-items:center;justify-content:center;font:600 12px 'Instrument Sans',sans-serif;color:#661414">ER</div></div>
+  </div>
+  <div style="display:flex;gap:28px;padding:28px 32px 34px">
+    <div style="width:230px;display:flex;flex-direction:column;gap:18px">
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:11px">
+        <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Categoria</span>
+        <span style="font:600 13.5px 'Instrument Sans',sans-serif;color:#661414">Totes · 32</span>
+        <span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Obediència bàsica · 11</span>
+        <span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Socialització · 8</span>
+        <span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Tasca específica · 9</span>
+        <span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Maneig i cures · 4</span>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:11px">
+        <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Dificultat</span>
+        <div style="display:flex;flex-wrap:wrap;gap:7px"><span style="font:600 12.5px 'Instrument Sans',sans-serif;background:#661414;color:#fff;padding:7px 12px;border-radius:999px">Inicial</span><span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.65);padding:7px 12px;border-radius:999px">Intermèdia</span><span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.65);padding:7px 12px;border-radius:999px">Avançada</span></div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-left:6px solid #608028;border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:8px">
+        <span style="font:600 13.5px 'Instrument Sans',sans-serif">Catàleg de referència</span>
+        <span style="font:400 13px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Tots els exercicis treballen amb reforç positiu i estan revisats abans de publicar-se.</span>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end">
+        <div style="display:flex;flex-direction:column;gap:5px"><span style="font:400 12px 'JetBrains Mono',monospace;color:#608028">GUIA D'ENSINISTRAMENT</span><span style="font:400 34px/1.1 'Instrument Serif',serif">Exercicis</span></div>
+        <div style="width:250px;height:38px;border-radius:9px;border:1px solid rgba(36,26,22,.16);background:#fff;display:flex;align-items:center;padding:0 13px;font:400 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.45)">Cerca un exercici</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start"><span style="font:600 16px 'Instrument Sans',sans-serif">Ancoratge tàctil</span><span style="font:500 11.5px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.14);color:#4c6620;padding:5px 10px;border-radius:999px">Inicial</span></div>
+          <span style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Que el gos recolzi el cap o el pit sobre la persona quan aquesta ho demana o detecta senyals d'angoixa.</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid rgba(36,26,22,.08)"><span style="font:400 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45)">6 passos · fita «Ancoratge en crisi»</span><span style="font:600 12.5px 'Instrument Sans',sans-serif;color:#a21a1a">Obre la guia</span></div>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start"><span style="font:600 16px 'Instrument Sans',sans-serif">Caminar amb corretja fluixa</span><span style="font:500 11.5px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.14);color:#4c6620;padding:5px 10px;border-radius:999px">Inicial</span></div>
+          <span style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Mantenir la corretja sense tensió al costat de la persona, també amb distraccions moderades.</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid rgba(36,26,22,.08)"><span style="font:400 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45)">5 passos · fita «Transport públic»</span><span style="font:600 12.5px 'Instrument Sans',sans-serif;color:#a21a1a">Obre la guia</span></div>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start"><span style="font:600 16px 'Instrument Sans',sans-serif">Pressió profunda</span><span style="font:500 11.5px 'Instrument Sans',sans-serif;background:rgba(194,173,154,.4);color:#5c4a3a;padding:5px 10px;border-radius:999px">Intermèdia</span></div>
+          <span style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Recolzar el pes del cos sobre les cames o el pit de la persona asseguda o estirada, i mantenir-s'hi.</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid rgba(36,26,22,.08)"><span style="font:400 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45)">7 passos · fita «Ancoratge en crisi»</span><span style="font:600 12.5px 'Instrument Sans',sans-serif;color:#a21a1a">Obre la guia</span></div>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start"><span style="font:600 16px 'Instrument Sans',sans-serif">Tolerància a multituds</span><span style="font:500 11.5px 'Instrument Sans',sans-serif;background:rgba(194,173,154,.4);color:#5c4a3a;padding:5px 10px;border-radius:999px">Intermèdia</span></div>
+          <span style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Romandre relaxat en entorns amb molta gent, soroll i moviment, sense buscar fugir ni reaccionar.</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid rgba(36,26,22,.08)"><span style="font:400 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45)">6 passos · fita «Tolerància a multituds»</span><span style="font:600 12.5px 'Instrument Sans',sans-serif;color:#a21a1a">Obre la guia</span></div>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start"><span style="font:600 16px 'Instrument Sans',sans-serif">Interrompre estereotípies</span><span style="font:500 11.5px 'Instrument Sans',sans-serif;background:rgba(162,26,26,.12);color:#a21a1a;padding:5px 10px;border-radius:999px">Avançada</span></div>
+          <span style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Reconèixer un moviment repetitiu concret i oferir una alternativa tàctil per redirigir l'atenció.</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid rgba(36,26,22,.08)"><span style="font:400 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45)">8 passos · fita «Interrompre estereotípies»</span><span style="font:600 12.5px 'Instrument Sans',sans-serif;color:#a21a1a">Obre la guia</span></div>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start"><span style="font:600 16px 'Instrument Sans',sans-serif">Evitar fugues al carrer</span><span style="font:500 11.5px 'Instrument Sans',sans-serif;background:rgba(162,26,26,.12);color:#a21a1a;padding:5px 10px;border-radius:999px">Avançada</span></div>
+          <span style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Aturar-se i fer pes quan la persona vinculada intenta avançar sense mirar, especialment a les cruïlles.</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid rgba(36,26,22,.08)"><span style="font:400 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45)">9 passos · fita «Evitar fugues»</span><span style="font:600 12.5px 'Instrument Sans',sans-serif;color:#a21a1a">Obre la guia</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="6b"><div class="dv-olabel"><a class="dv-oid" href="#6b">6b</a>Fitxa d'exercici — passos amb reforç positiu</div>
+<div style="display:flex;gap:24px;align-items:flex-start">
+<div class="dv-card" style="width:390px;height:844px;background:#fdfbf8;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font:500 13px 'Instrument Sans',sans-serif"><span>9:41</span><span style="font:500 11px 'JetBrains Mono',monospace">▮▮▮ ⌁ 84%</span></div>
+  <div style="padding:16px 24px 0;display:flex;align-items:center;justify-content:space-between"><span style="font:400 22px 'Instrument Sans',sans-serif;color:#661414">←</span><span style="font:500 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.5)">TASCA ESPECÍFICA</span><span style="font:400 20px 'Instrument Sans',sans-serif;color:#661414">☆</span></div>
+  <div style="padding:16px 24px 0;display:flex;flex-direction:column;gap:9px">
+    <span style="font:400 30px/1.15 'Instrument Serif',serif">Ancoratge tàctil</span>
+    <div style="display:flex;gap:7px"><span style="font:500 12px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.14);color:#4c6620;padding:6px 11px;border-radius:999px">Inicial</span><span style="font:500 12px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.6);padding:6px 11px;border-radius:999px">6 passos</span><span style="font:500 12px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.6);padding:6px 11px;border-radius:999px">10–15 min</span></div>
+    <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-left:6px solid #608028;border-radius:12px;padding:15px;display:flex;flex-direction:column;gap:5px"><span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:rgba(36,26,22,.5)">Objectiu</span><span style="font:400 14px/1.5 'Instrument Sans',sans-serif;text-wrap:pretty">Que el gos recolzi el cap o el pit sobre la persona a petició, i s'hi mantingui fins que li ho indiquin.</span></div>
+  </div>
+  <div style="flex:1;padding:16px 24px 0;display:flex;flex-direction:column;gap:11px;overflow:hidden">
+    <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Passos · reforç positiu</span>
+    <div style="display:flex;gap:12px;align-items:flex-start"><span style="width:24px;height:24px;border-radius:50%;background:#661414;color:#fff;display:flex;align-items:center;justify-content:center;font:600 12px 'JetBrains Mono',monospace;flex:none">1</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font:600 14px 'Instrument Sans',sans-serif">Marca l'acostament</span><span style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Seu a terra i premia amb clicker i premi cada cop que el gos s'apropi al teu costat per iniciativa pròpia.</span></div></div>
+    <div style="display:flex;gap:12px;align-items:flex-start"><span style="width:24px;height:24px;border-radius:50%;background:#661414;color:#fff;display:flex;align-items:center;justify-content:center;font:600 12px 'JetBrains Mono',monospace;flex:none">2</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font:600 14px 'Instrument Sans',sans-serif">Premia el contacte</span><span style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Quan el morro et toqui la cama, marca i premia a l'instant. No l'obliguis mai a mantenir el contacte.</span></div></div>
+    <div style="display:flex;gap:12px;align-items:flex-start"><span style="width:24px;height:24px;border-radius:50%;background:#661414;color:#fff;display:flex;align-items:center;justify-content:center;font:600 12px 'JetBrains Mono',monospace;flex:none">3</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font:600 14px 'Instrument Sans',sans-serif">Allarga la durada</span><span style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Espera 2, 5 i 10 segons abans de marcar. Si es retira, torna a la durada anterior sense corregir-lo.</span></div></div>
+    <div style="display:flex;gap:12px;align-items:flex-start;opacity:.5"><span style="width:24px;height:24px;border-radius:50%;background:rgba(36,26,22,.15);color:#241a16;display:flex;align-items:center;justify-content:center;font:600 12px 'JetBrains Mono',monospace;flex:none">4</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font:600 14px 'Instrument Sans',sans-serif">Afegeix el senyal verbal</span><span style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65)">Digues «toca» just abans del gest…</span></div></div>
+  </div>
+  <div style="padding:14px 24px 0"><div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:15px;display:flex;flex-direction:column;gap:5px"><span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:rgba(36,26,22,.5)">Criteri d'assoliment</span><span style="font:400 14px/1.5 'Instrument Sans',sans-serif;text-wrap:pretty">8 de 10 repeticions correctes, en dos entorns diferents i amb 20 segons de manteniment.</span></div></div>
+  <div style="padding:14px 24px 20px"><div style="height:52px;border-radius:12px;background:#661414;display:flex;align-items:center;justify-content:center;font:600 15px 'Instrument Sans',sans-serif;color:#fff">Practica-ho amb la Fura</div></div>
+  <div style="height:5px;width:130px;border-radius:3px;background:rgba(36,26,22,.25);margin:0 auto 10px"></div>
+</div>
+<div class="dv-card" style="width:390px;height:844px;background:#fdfbf8;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font:500 13px 'Instrument Sans',sans-serif"><span>9:41</span><span style="font:500 11px 'JetBrains Mono',monospace">▮▮▮ ⌁ 84%</span></div>
+  <div style="padding:16px 24px 14px;display:flex;flex-direction:column;gap:4px"><span style="font:400 12px 'JetBrains Mono',monospace;color:#608028">ANCORATGE TÀCTIL · PAS 3 DE 6</span><span style="font:400 26px 'Instrument Serif',serif">Sessió amb la Fura</span></div>
+  <div style="padding:0 24px;display:flex;flex-direction:column;gap:14px;flex:1">
+    <div style="background:#661414;border-radius:14px;padding:18px;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;flex-direction:column"><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.6)">Durada</span><span style="font:400 40px/1.1 'Instrument Serif',serif;color:#fff">08:24</span></div>
+      <div style="display:flex;gap:9px"><span style="padding:9px 16px;border-radius:999px;background:rgba(255,255,255,.16);color:#fff;font:500 13px 'Instrument Sans',sans-serif">Pausa</span><span style="padding:9px 16px;border-radius:999px;background:#c2ad9a;color:#4a0f0f;font:600 13px 'Instrument Sans',sans-serif">Finalitza</span></div>
+    </div>
+    <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-left:6px solid #608028;border-radius:14px;padding:17px;display:flex;flex-direction:column;gap:9px">
+      <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:rgba(36,26,22,.5)">Pas en curs</span>
+      <span style="font:600 17px 'Instrument Sans',sans-serif">Allarga la durada</span>
+      <span style="font:400 14px/1.55 'Instrument Sans',sans-serif;color:rgba(36,26,22,.7);text-wrap:pretty">Espera 2, 5 i 10 segons abans de marcar. Si es retira, torna a la durada anterior sense corregir-lo.</span>
+      <div style="display:flex;gap:9px;margin-top:4px"><span style="flex:1;text-align:center;padding:11px 0;border-radius:10px;border:1px solid rgba(36,26,22,.16);font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Pas anterior</span><span style="flex:1;text-align:center;padding:11px 0;border-radius:10px;background:#608028;color:#fff;font:600 13.5px 'Instrument Sans',sans-serif">Pas següent</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Repeticions d'aquesta sessió</span>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.12);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:13px">
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:500 14px 'Instrument Sans',sans-serif">Correctes</span><div style="display:flex;align-items:center;gap:14px"><span style="width:32px;height:32px;border-radius:10px;background:rgba(36,26,22,.07);display:flex;align-items:center;justify-content:center;font:400 18px 'Instrument Sans',sans-serif">−</span><span style="font:400 22px 'Instrument Serif',serif;width:22px;text-align:center">7</span><span style="width:32px;height:32px;border-radius:10px;background:#608028;color:#fff;display:flex;align-items:center;justify-content:center;font:400 18px 'Instrument Sans',sans-serif">+</span></div></div>
+        <div style="height:1px;background:rgba(36,26,22,.08)"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:500 14px 'Instrument Sans',sans-serif">Intents totals</span><div style="display:flex;align-items:center;gap:14px"><span style="width:32px;height:32px;border-radius:10px;background:rgba(36,26,22,.07);display:flex;align-items:center;justify-content:center;font:400 18px 'Instrument Sans',sans-serif">−</span><span style="font:400 22px 'Instrument Serif',serif;width:22px;text-align:center">10</span><span style="width:32px;height:32px;border-radius:10px;background:rgba(36,26,22,.12);display:flex;align-items:center;justify-content:center;font:400 18px 'Instrument Sans',sans-serif">+</span></div></div>
+      </div>
+    </div>
+    <div style="background:rgba(96,128,40,.1);border-radius:12px;padding:14px 16px;display:flex;gap:11px;align-items:center"><span style="width:22px;height:22px;border-radius:50%;background:#608028;color:#fff;display:flex;align-items:center;justify-content:center;font:600 12px 'Instrument Sans',sans-serif;flex:none">✓</span><span style="font:400 13.5px/1.45 'Instrument Sans',sans-serif;color:#3f5a17;text-wrap:pretty">Amb 8 de 10 arribaries al criteri de la fita «Ancoratge en crisi».</span></div>
+  </div>
+  <div style="padding:14px 24px 20px"><div style="height:52px;border-radius:12px;background:#661414;display:flex;align-items:center;justify-content:center;font:600 15px 'Instrument Sans',sans-serif;color:#fff">Desa i tanca la sessió</div></div>
+  <div style="height:5px;width:130px;border-radius:3px;background:rgba(36,26,22,.25);margin:0 auto 10px"></div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="6c"><div class="dv-olabel"><a class="dv-oid" href="#6c">6c</a>Fita amb els seus exercicis — el vincle entre guia i seguiment</div>
+<div class="dv-card" style="width:820px;background:#fdfbf8;padding:26px 28px 30px;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:5px"><span style="font:400 12px 'JetBrains Mono',monospace;color:#608028">FITA · TASCA ESPECÍFICA · TEA</span><span style="font:400 32px/1.1 'Instrument Serif',serif">Ancoratge en crisi</span><span style="font:400 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Fura · en progrés des del 3 de juny</span></div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><span style="font:400 40px/1 'Instrument Serif',serif;color:#a21a1a">70%</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">7 de 10 assajos correctes</span></div>
+  </div>
+  <div style="height:8px;border-radius:4px;background:rgba(36,26,22,.1)"><div style="width:70%;height:100%;border-radius:4px;background:#a21a1a"></div></div>
+  <div style="display:flex;gap:20px">
+    <div style="flex:1.3;display:flex;flex-direction:column;gap:12px">
+      <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Exercicis que la componen</span>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-left:6px solid #608028;border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px"><div style="flex:1;display:flex;flex-direction:column;gap:3px"><span style="font:600 15px 'Instrument Sans',sans-serif">Ancoratge tàctil</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Inicial · criteri assolit el 21 de juliol</span></div><span style="font:500 12px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.14);color:#4c6620;padding:6px 11px;border-radius:999px">Dominat</span></div>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-left:6px solid #a21a1a;border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px"><div style="flex:1;display:flex;flex-direction:column;gap:5px"><span style="font:600 15px 'Instrument Sans',sans-serif">Pressió profunda</span><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:60%;height:100%;border-radius:3px;background:#a21a1a"></div></div><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Intermèdia · 6 de 10 repeticions</span></div><span style="font:600 12.5px 'Instrument Sans',sans-serif;color:#fff;background:#661414;border-radius:8px;padding:9px 13px">Practica</span></div>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-left:6px solid rgba(36,26,22,.15);border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px"><div style="flex:1;display:flex;flex-direction:column;gap:3px"><span style="font:600 15px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Mantenir la posició amb sorolls</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.45)">Avançada · no iniciat</span></div><span style="font:600 12.5px 'Instrument Sans',sans-serif;color:#661414;border:1px solid rgba(102,20,20,.3);border-radius:8px;padding:9px 13px">Obre la guia</span></div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:12px">
+      <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Historial de la fita</span>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;gap:12px;align-items:flex-start"><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45);padding-top:2px;width:52px">04 AGO</span><div style="display:flex;flex-direction:column"><span style="font:500 13.5px 'Instrument Sans',sans-serif">7/10 en ancoratge</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">45 min · centre</span></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45);padding-top:2px;width:52px">21 JUL</span><div style="display:flex;flex-direction:column"><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:#4c6620">Exercici dominat: ancoratge tàctil</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">criteri superat en dos entorns</span></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45);padding-top:2px;width:52px">03 JUN</span><div style="display:flex;flex-direction:column"><span style="font:500 13.5px 'Instrument Sans',sans-serif">Fita iniciada</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">assignada per Elna Roca</span></div></div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:6px"><span style="font:600 13px 'Instrument Sans',sans-serif">Criteri per tancar-la</span><span style="font:400 13px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Els tres exercicis dominats i 8 de 10 assajos correctes en entorn real.</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Prova: «afegeix vídeo o imatge de suport a cada pas» · «vull veure com queda un exercici avançat amb 9 passos» · «passem al paquet de handoff»</p>
+</section>
+
+<section class="dv-turn" id="t5">
+<div class="dv-thd"><a class="dv-tid" href="#t5">5</a><span class="dv-tname">Pantalles que faltaven i estats</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="5a"><div class="dv-olabel"><a class="dv-oid" href="#5a">5a</a>Panell d'inici — entrenadora</div>
+<div class="dv-card" style="width:1180px;background:#fdfbf8">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:60px;border-bottom:1px solid rgba(36,26,22,.1);background:#fff">
+    <div style="display:flex;align-items:center;gap:26px"><div style="display:flex;align-items:center;gap:9px"><div style="width:26px;height:26px;border-radius:8px;background:#661414;display:flex;align-items:center;justify-content:center;font:400 16px 'Instrument Serif',serif;color:#c2ad9a">V</div><span style="font:600 14px 'Instrument Sans',sans-serif">Vincle</span></div><span style="font:600 13.5px 'Instrument Sans',sans-serif;color:#a21a1a;border-bottom:2px solid #a21a1a;padding-bottom:19px;margin-bottom:-21px">Inici</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Gossos</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Races</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Compatibilitats</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Sessions</span></div>
+    <div style="display:flex;align-items:center;gap:10px"><span style="font:500 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Elna Roca</span><div style="width:30px;height:30px;border-radius:50%;background:#c2ad9a;display:flex;align-items:center;justify-content:center;font:600 12px 'Instrument Sans',sans-serif;color:#661414">ER</div></div>
+  </div>
+  <div style="padding:30px 32px 34px;display:flex;flex-direction:column;gap:22px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end">
+      <div style="display:flex;flex-direction:column;gap:5px"><span style="font:400 12px 'JetBrains Mono',monospace;color:#608028">DIMARTS, 4 D'AGOST</span><span style="font:400 34px/1.1 'Instrument Serif',serif">Bon dia, Elna</span></div>
+      <div style="display:flex;gap:10px"><span style="font:600 13px 'Instrument Sans',sans-serif;color:#661414;border:1px solid rgba(102,20,20,.3);border-radius:9px;padding:11px 16px">Nou gos</span><span style="font:600 13px 'Instrument Sans',sans-serif;background:#a21a1a;color:#fff;border-radius:9px;padding:11px 16px">Nova sessió</span></div>
+    </div>
+    <div style="display:flex;gap:16px">
+      <div style="flex:1;background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:4px"><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Gossos en seguiment</span><span style="font:400 34px 'Instrument Serif',serif">6</span></div>
+      <div style="flex:1;background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:4px"><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Sessions aquesta setmana</span><span style="font:400 34px 'Instrument Serif',serif">11</span></div>
+      <div style="flex:1;background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:4px"><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Fites assolides al mes</span><span style="font:400 34px 'Instrument Serif',serif;color:#608028">4</span></div>
+      <div style="flex:1;background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:4px"><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Incidències obertes</span><span style="font:400 34px 'Instrument Serif',serif;color:#a21a1a">2</span></div>
+    </div>
+    <div style="display:flex;gap:20px">
+      <div style="flex:1.4;background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:600 14px 'Instrument Sans',sans-serif">Agenda d'avui</span><span style="font:500 12.5px 'Instrument Sans',sans-serif;color:#a21a1a">Veure la setmana</span></div>
+        <div style="display:flex;gap:14px;align-items:center;padding-bottom:14px;border-bottom:1px solid rgba(36,26,22,.08)"><span style="font:500 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.5);width:52px">09:30</span><div style="width:36px;height:36px;border-radius:10px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="flex:1;display:flex;flex-direction:column"><span style="font:600 14px 'Instrument Sans',sans-serif">Fura · ancoratge en crisi</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">45 min · centre</span></div><span style="font:600 12.5px 'Instrument Sans',sans-serif;color:#fff;background:#661414;border-radius:8px;padding:8px 13px">Comença</span></div>
+        <div style="display:flex;gap:14px;align-items:center;padding-bottom:14px;border-bottom:1px solid rgba(36,26,22,.08)"><span style="font:500 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.5);width:52px">12:00</span><div style="width:36px;height:36px;border-radius:10px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="flex:1;display:flex;flex-direction:column"><span style="font:600 14px 'Instrument Sans',sans-serif">Nit · sortida a mercat</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">60 min · exterior</span></div><span style="font:500 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Programada</span></div>
+        <div style="display:flex;gap:14px;align-items:center"><span style="font:500 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.5);width:52px">17:00</span><div style="width:36px;height:36px;border-radius:10px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="flex:1;display:flex;flex-direction:column"><span style="font:600 14px 'Instrument Sans',sans-serif">Boira · obediència bàsica</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">30 min · centre</span></div><span style="font:500 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Programada</span></div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:20px">
+        <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:13px">
+          <span style="font:600 14px 'Instrument Sans',sans-serif">Necessita atenció</span>
+          <div style="display:flex;gap:11px;align-items:flex-start"><span style="width:8px;height:8px;border-radius:50%;background:#a21a1a;margin-top:6px"></span><div style="display:flex;flex-direction:column"><span style="font:500 13.5px 'Instrument Sans',sans-serif">Fura — reactivitat a monopatins</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">2 sortides seguides</span></div></div>
+          <div style="display:flex;gap:11px;align-items:flex-start"><span style="width:8px;height:8px;border-radius:50%;background:#a21a1a;margin-top:6px"></span><div style="display:flex;flex-direction:column"><span style="font:500 13.5px 'Instrument Sans',sans-serif">Aran — 3 setmanes sense sessió</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">darrera: 14 de juliol</span></div></div>
+          <div style="display:flex;gap:11px;align-items:flex-start"><span style="width:8px;height:8px;border-radius:50%;background:#c2ad9a;margin-top:6px"></span><div style="display:flex;flex-direction:column"><span style="font:500 13.5px 'Instrument Sans',sans-serif">Boira — fita a punt de revisió</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">9 de 10 assajos correctes</span></div></div>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px">
+          <span style="font:600 14px 'Instrument Sans',sans-serif">Cerca de compatibilitat</span>
+          <span style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6);text-wrap:pretty">Comença per un trastorn i mira quines característiques encaixen millor.</span>
+          <span style="font:600 13px 'Instrument Sans',sans-serif;background:#661414;color:#fff;border-radius:9px;padding:11px 0;text-align:center;margin-top:4px">Obre el qüestionari</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="5b"><div class="dv-olabel"><a class="dv-oid" href="#5b">5b</a>Llista de gossos — web i mòbil</div>
+<div style="display:flex;gap:24px;align-items:flex-start">
+<div class="dv-card" style="width:900px;background:#fdfbf8">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:60px;border-bottom:1px solid rgba(36,26,22,.1);background:#fff">
+    <div style="display:flex;align-items:center;gap:22px"><div style="display:flex;align-items:center;gap:9px"><div style="width:26px;height:26px;border-radius:8px;background:#661414;display:flex;align-items:center;justify-content:center;font:400 16px 'Instrument Serif',serif;color:#c2ad9a">V</div><span style="font:600 14px 'Instrument Sans',sans-serif">Vincle</span></div><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Inici</span><span style="font:600 13.5px 'Instrument Sans',sans-serif;color:#a21a1a;border-bottom:2px solid #a21a1a;padding-bottom:19px;margin-bottom:-21px">Gossos</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Races</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Sessions</span></div>
+    <div style="width:30px;height:30px;border-radius:50%;background:#c2ad9a;display:flex;align-items:center;justify-content:center;font:600 12px 'Instrument Sans',sans-serif;color:#661414">ER</div>
+  </div>
+  <div style="padding:26px 28px 30px;display:flex;flex-direction:column;gap:18px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="font:400 30px 'Instrument Serif',serif">Gossos en seguiment</span>
+      <div style="display:flex;gap:10px;align-items:center"><div style="width:210px;height:38px;border-radius:9px;border:1px solid rgba(36,26,22,.16);background:#fff;display:flex;align-items:center;padding:0 13px;font:400 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.45)">Cerca per nom o raça</div><span style="font:600 13px 'Instrument Sans',sans-serif;background:#a21a1a;color:#fff;border-radius:9px;padding:10px 15px">Nou gos</span></div>
+    </div>
+    <div style="display:flex;gap:8px"><span style="font:600 12.5px 'Instrument Sans',sans-serif;background:#661414;color:#fff;padding:7px 13px;border-radius:999px">Tots · 6</span><span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.65);padding:7px 13px;border-radius:999px">En ensinistrament · 4</span><span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.65);padding:7px 13px;border-radius:999px">En avaluació · 1</span><span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.65);padding:7px 13px;border-radius:999px">Assignat · 1</span></div>
+    <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;overflow:hidden">
+      <div style="display:flex;align-items:center;gap:18px;padding:12px 18px;background:rgba(36,26,22,.03);font:600 11.5px 'Instrument Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:rgba(36,26,22,.5)"><span style="width:38px"></span><span style="flex:1.4">Gos</span><span style="flex:1">Estat</span><span style="flex:1">Fites</span><span style="flex:1">Darrera sessió</span><span style="width:70px"></span></div>
+      <div style="display:flex;align-items:center;gap:18px;padding:14px 18px;border-top:1px solid rgba(36,26,22,.07)"><div style="width:38px;height:38px;border-radius:11px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="flex:1.4;display:flex;flex-direction:column"><span style="font:600 14px 'Instrument Sans',sans-serif">Fura</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Labrador Retriever · 1a 4m</span></div><span style="flex:1"><span style="font:500 12px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.14);color:#4c6620;padding:5px 10px;border-radius:999px">En ensinistrament</span></span><div style="flex:1;display:flex;align-items:center;gap:9px"><div style="width:66px;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:64%;height:100%;border-radius:3px;background:#608028"></div></div><span style="font:500 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.6)">9/14</span></div><span style="flex:1;font:400 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">fa 4 dies</span><span style="width:70px;text-align:right;font:600 12.5px 'Instrument Sans',sans-serif;color:#a21a1a">Obre</span></div>
+      <div style="display:flex;align-items:center;gap:18px;padding:14px 18px;border-top:1px solid rgba(36,26,22,.07)"><div style="width:38px;height:38px;border-radius:11px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="flex:1.4;display:flex;flex-direction:column"><span style="font:600 14px 'Instrument Sans',sans-serif">Boira</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Standard Poodle · 2a 1m</span></div><span style="flex:1"><span style="font:500 12px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.14);color:#4c6620;padding:5px 10px;border-radius:999px">En ensinistrament</span></span><div style="flex:1;display:flex;align-items:center;gap:9px"><div style="width:66px;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:86%;height:100%;border-radius:3px;background:#608028"></div></div><span style="font:500 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.6)">12/14</span></div><span style="flex:1;font:400 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">ahir</span><span style="width:70px;text-align:right;font:600 12.5px 'Instrument Sans',sans-serif;color:#a21a1a">Obre</span></div>
+      <div style="display:flex;align-items:center;gap:18px;padding:14px 18px;border-top:1px solid rgba(36,26,22,.07)"><div style="width:38px;height:38px;border-radius:11px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="flex:1.4;display:flex;flex-direction:column"><span style="font:600 14px 'Instrument Sans',sans-serif">Aran</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Golden Retriever · 10m</span></div><span style="flex:1"><span style="font:500 12px 'Instrument Sans',sans-serif;background:rgba(194,173,154,.35);color:#5c4a3a;padding:5px 10px;border-radius:999px">En avaluació</span></span><div style="flex:1;display:flex;align-items:center;gap:9px"><div style="width:66px;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:21%;height:100%;border-radius:3px;background:#c2ad9a"></div></div><span style="font:500 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.6)">3/14</span></div><span style="flex:1;font:400 13px 'Instrument Sans',sans-serif;color:#a21a1a">fa 3 setmanes</span><span style="width:70px;text-align:right;font:600 12.5px 'Instrument Sans',sans-serif;color:#a21a1a">Obre</span></div>
+      <div style="display:flex;align-items:center;gap:18px;padding:14px 18px;border-top:1px solid rgba(36,26,22,.07)"><div style="width:38px;height:38px;border-radius:11px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="flex:1.4;display:flex;flex-direction:column"><span style="font:600 14px 'Instrument Sans',sans-serif">Nit</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Bernese Mountain Dog · 1a 9m</span></div><span style="flex:1"><span style="font:500 12px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.14);color:#4c6620;padding:5px 10px;border-radius:999px">En ensinistrament</span></span><div style="flex:1;display:flex;align-items:center;gap:9px"><div style="width:66px;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:50%;height:100%;border-radius:3px;background:#608028"></div></div><span style="font:500 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.6)">7/14</span></div><span style="flex:1;font:400 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">fa 2 dies</span><span style="width:70px;text-align:right;font:600 12.5px 'Instrument Sans',sans-serif;color:#a21a1a">Obre</span></div>
+      <div style="display:flex;align-items:center;gap:18px;padding:14px 18px;border-top:1px solid rgba(36,26,22,.07)"><div style="width:38px;height:38px;border-radius:11px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="flex:1.4;display:flex;flex-direction:column"><span style="font:600 14px 'Instrument Sans',sans-serif">Roure</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Labrador Retriever · 3a</span></div><span style="flex:1"><span style="font:500 12px 'Instrument Sans',sans-serif;background:rgba(102,20,20,.1);color:#661414;padding:5px 10px;border-radius:999px">Assignat</span></span><div style="flex:1;display:flex;align-items:center;gap:9px"><div style="width:66px;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:100%;height:100%;border-radius:3px;background:#661414"></div></div><span style="font:500 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.6)">14/14</span></div><span style="flex:1;font:400 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">fa 1 mes</span><span style="width:70px;text-align:right;font:600 12.5px 'Instrument Sans',sans-serif;color:#a21a1a">Obre</span></div>
+    </div>
+  </div>
+</div>
+<div class="dv-card" style="width:390px;height:844px;background:#fdfbf8;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font:500 13px 'Instrument Sans',sans-serif"><span>9:41</span><span style="font:500 11px 'JetBrains Mono',monospace">▮▮▮ ⌁ 84%</span></div>
+  <div style="padding:20px 24px 12px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:400 30px 'Instrument Serif',serif">Gossos</span><span style="width:36px;height:36px;border-radius:11px;background:#a21a1a;color:#fff;display:flex;align-items:center;justify-content:center;font:400 22px 'Instrument Sans',sans-serif">+</span></div>
+    <div style="height:42px;border-radius:11px;border:1px solid rgba(36,26,22,.14);background:#fff;display:flex;align-items:center;padding:0 14px;font:400 14px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.45)">Cerca per nom o raça</div>
+    <div style="display:flex;gap:7px;overflow:hidden"><span style="font:600 12.5px 'Instrument Sans',sans-serif;background:#661414;color:#fff;padding:7px 13px;border-radius:999px;white-space:nowrap">Tots</span><span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.65);padding:7px 13px;border-radius:999px;white-space:nowrap">En ensinistrament</span><span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.65);padding:7px 13px;border-radius:999px;white-space:nowrap">En avaluació</span></div>
+  </div>
+  <div style="flex:1;padding:6px 24px;display:flex;flex-direction:column;gap:11px">
+    <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:14px;padding:15px;display:flex;gap:13px;align-items:center"><div style="width:50px;height:50px;border-radius:13px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:600 16px 'Instrument Sans',sans-serif">Fura</span><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.5)">9/14</span></div><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Labrador Retriever · fa 4 dies</span><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:64%;height:100%;border-radius:3px;background:#608028"></div></div></div></div>
+    <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:14px;padding:15px;display:flex;gap:13px;align-items:center"><div style="width:50px;height:50px;border-radius:13px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:600 16px 'Instrument Sans',sans-serif">Boira</span><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.5)">12/14</span></div><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Standard Poodle · ahir</span><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:86%;height:100%;border-radius:3px;background:#608028"></div></div></div></div>
+    <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:14px;padding:15px;display:flex;gap:13px;align-items:center"><div style="width:50px;height:50px;border-radius:13px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:600 16px 'Instrument Sans',sans-serif">Aran</span><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.5)">3/14</span></div><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:#a21a1a">Golden Retriever · fa 3 setmanes</span><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:21%;height:100%;border-radius:3px;background:#c2ad9a"></div></div></div></div>
+    <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:14px;padding:15px;display:flex;gap:13px;align-items:center"><div style="width:50px;height:50px;border-radius:13px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:600 16px 'Instrument Sans',sans-serif">Nit</span><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.5)">7/14</span></div><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Bernese Mountain Dog · fa 2 dies</span><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:50%;height:100%;border-radius:3px;background:#608028"></div></div></div></div>
+  </div>
+  <div style="border-top:1px solid rgba(36,26,22,.1);background:#fff;padding:12px 30px 20px;display:flex;justify-content:space-between;font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.45)">
+    <span style="display:flex;flex-direction:column;align-items:center;gap:5px"><span style="width:22px;height:22px;border-radius:7px;background:rgba(36,26,22,.12)"></span>Inici</span>
+    <span style="display:flex;flex-direction:column;align-items:center;gap:5px;color:#a21a1a"><span style="width:22px;height:22px;border-radius:7px;background:#a21a1a"></span>Gossos</span>
+    <span style="display:flex;flex-direction:column;align-items:center;gap:5px"><span style="width:22px;height:22px;border-radius:7px;background:rgba(36,26,22,.12)"></span>Races</span>
+    <span style="display:flex;flex-direction:column;align-items:center;gap:5px"><span style="width:22px;height:22px;border-radius:7px;background:rgba(36,26,22,.12)"></span>Perfil</span>
+  </div>
+  <div style="height:5px;width:130px;border-radius:3px;background:rgba(36,26,22,.25);margin:0 auto 10px"></div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="5c"><div class="dv-olabel"><a class="dv-oid" href="#5c">5c</a>Estats: càrrega, llista buida, error de l'API i validació</div>
+<div style="display:flex;gap:20px;align-items:flex-start">
+<div class="dv-card" style="width:340px;height:520px;background:#fdfbf8;padding:24px;display:flex;flex-direction:column;gap:16px">
+  <span style="font:400 11px 'JetBrains Mono',monospace;color:#608028">CÀRREGA · SKELETON</span>
+  <span style="font:400 24px 'Instrument Serif',serif">Races més compatibles</span>
+  <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:14px;padding:15px;display:flex;gap:13px;align-items:center"><div style="width:50px;height:50px;border-radius:13px;background:rgba(36,26,22,.08)"></div><div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="width:65%;height:12px;border-radius:6px;background:rgba(36,26,22,.1)"></div><div style="width:40%;height:10px;border-radius:5px;background:rgba(36,26,22,.07)"></div><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.07)"></div></div></div>
+  <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:14px;padding:15px;display:flex;gap:13px;align-items:center"><div style="width:50px;height:50px;border-radius:13px;background:rgba(36,26,22,.06)"></div><div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="width:50%;height:12px;border-radius:6px;background:rgba(36,26,22,.08)"></div><div style="width:35%;height:10px;border-radius:5px;background:rgba(36,26,22,.06)"></div><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.06)"></div></div></div>
+  <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:14px;padding:15px;display:flex;gap:13px;align-items:center"><div style="width:50px;height:50px;border-radius:13px;background:rgba(36,26,22,.05)"></div><div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="width:58%;height:12px;border-radius:6px;background:rgba(36,26,22,.06)"></div><div style="width:30%;height:10px;border-radius:5px;background:rgba(36,26,22,.05)"></div><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.05)"></div></div></div>
+  <span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.45);margin-top:auto">Calculant la compatibilitat…</span>
+</div>
+<div class="dv-card" style="width:340px;height:520px;background:#fdfbf8;padding:24px;display:flex;flex-direction:column;gap:16px">
+  <span style="font:400 11px 'JetBrains Mono',monospace;color:#608028">LLISTA BUIDA</span>
+  <span style="font:400 24px 'Instrument Serif',serif">Gossos</span>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center">
+    <div style="width:76px;height:76px;border-radius:22px;background:repeating-linear-gradient(135deg,#e6ddd2 0 8px,#dcd1c3 8px 16px)"></div>
+    <span style="font:400 21px/1.25 'Instrument Serif',serif;max-width:230px;text-wrap:pretty">Encara no segueixes cap gos</span>
+    <span style="font:400 13.5px/1.55 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6);max-width:250px;text-wrap:pretty">Afegeix el primer gos i podràs registrar-hi sessions i fites des del primer dia.</span>
+    <span style="font:600 13.5px 'Instrument Sans',sans-serif;background:#661414;color:#fff;border-radius:10px;padding:13px 20px;margin-top:4px">Afegeix un gos</span>
+  </div>
+</div>
+<div class="dv-card" style="width:340px;height:520px;background:#fdfbf8;padding:24px;display:flex;flex-direction:column;gap:16px">
+  <span style="font:400 11px 'JetBrains Mono',monospace;color:#a21a1a">ERROR · API DE RACES</span>
+  <span style="font:400 24px 'Instrument Serif',serif">Races</span>
+  <div style="background:#fff;border:1px solid rgba(162,26,26,.3);border-left:6px solid #a21a1a;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:7px">
+    <span style="font:600 14px 'Instrument Sans',sans-serif;color:#a21a1a">No hem pogut actualitzar el catàleg</span>
+    <span style="font:400 13px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.7);text-wrap:pretty">Mostrem l'última còpia desada. Algunes races poden no estar al dia.</span>
+    <span style="font:400 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45)">còpia del 2 d'agost · 09:14</span>
+  </div>
+  <div style="display:flex;gap:9px"><span style="font:600 13px 'Instrument Sans',sans-serif;background:#661414;color:#fff;border-radius:9px;padding:11px 16px">Torna-ho a provar</span><span style="font:600 13px 'Instrument Sans',sans-serif;color:#661414;border:1px solid rgba(102,20,20,.3);border-radius:9px;padding:11px 16px">Continua amb la còpia</span></div>
+  <div style="flex:1;display:flex;flex-direction:column;gap:10px;opacity:.55">
+    <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:13px;display:flex;gap:11px;align-items:center"><div style="width:40px;height:40px;border-radius:11px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="display:flex;flex-direction:column"><span style="font:600 14px 'Instrument Sans',sans-serif">Labrador Retriever</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">desada localment</span></div></div>
+    <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:13px;display:flex;gap:11px;align-items:center"><div style="width:40px;height:40px;border-radius:11px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div><div style="display:flex;flex-direction:column"><span style="font:600 14px 'Instrument Sans',sans-serif">Standard Poodle</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">desada localment</span></div></div>
+  </div>
+</div>
+<div class="dv-card" style="width:340px;height:520px;background:#fdfbf8;padding:24px;display:flex;flex-direction:column;gap:14px">
+  <span style="font:400 11px 'JetBrains Mono',monospace;color:#a21a1a">VALIDACIÓ · NOU GOS</span>
+  <span style="font:400 24px 'Instrument Serif',serif">Nou gos</span>
+  <div style="display:flex;flex-direction:column;gap:6px"><span style="font:500 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Nom</span><div style="height:46px;border-radius:10px;border:1px solid rgba(36,26,22,.16);background:#fff;display:flex;align-items:center;padding:0 14px;font:400 14.5px 'Instrument Sans',sans-serif">Fura</div></div>
+  <div style="display:flex;flex-direction:column;gap:6px"><span style="font:500 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Raça de referència</span><div style="height:46px;border-radius:10px;border:1px solid rgba(36,26,22,.16);background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:400 14.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.45)">Tria una raça<span style="color:rgba(36,26,22,.4)">▾</span></div></div>
+  <div style="display:flex;flex-direction:column;gap:6px"><span style="font:500 12px 'Instrument Sans',sans-serif;color:#a21a1a">Data de naixement</span><div style="height:46px;border-radius:10px;border:1.5px solid #a21a1a;background:#fff;display:flex;align-items:center;padding:0 14px;font:400 14.5px 'Instrument Sans',sans-serif">12/03/2029</div><span style="font:400 12.5px/1.4 'Instrument Sans',sans-serif;color:#a21a1a">La data no pot ser al futur.</span></div>
+  <div style="display:flex;flex-direction:column;gap:6px"><span style="font:500 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Família d'acollida <span style="color:rgba(36,26,22,.4)">(opcional)</span></span><div style="height:46px;border-radius:10px;border:1px solid rgba(36,26,22,.16);background:#fff;display:flex;align-items:center;padding:0 14px;font:400 14.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.45)">Sense assignar</div></div>
+  <div style="margin-top:auto;display:flex;gap:9px"><span style="flex:1;text-align:center;font:600 14px 'Instrument Sans',sans-serif;color:#661414;border:1px solid rgba(102,20,20,.3);border-radius:10px;padding:13px 0">Cancel·la</span><span style="flex:1;text-align:center;font:600 14px 'Instrument Sans',sans-serif;background:rgba(102,20,20,.35);color:#fff;border-radius:10px;padding:13px 0">Desa</span></div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Prova: «afegeix la pantalla de comparació de 3 races» · «falta la vista de sessions de tot el centre» · «passem al paquet de handoff»</p>
+</section>
+
+<section class="dv-turn" id="t4">
+<div class="dv-thd"><a class="dv-tid" href="#t4">4</a><span class="dv-tname">Versió web de <a class="dv-oid" href="#3a">3a</a></span></div>
+<div class="dv-opts">
+<div class="dv-opt" id="4a"><div class="dv-olabel"><a class="dv-oid" href="#4a">4a</a>Compatibilitats — escriptori</div>
+<div class="dv-card" style="width:1180px;background:#fdfbf8">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:60px;border-bottom:1px solid rgba(36,26,22,.1);background:#fff">
+    <div style="display:flex;align-items:center;gap:26px"><div style="display:flex;align-items:center;gap:9px"><div style="width:26px;height:26px;border-radius:8px;background:#661414;display:flex;align-items:center;justify-content:center;font:400 16px 'Instrument Serif',serif;color:#c2ad9a">V</div><span style="font:600 14px 'Instrument Sans',sans-serif">Vincle</span></div><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Gossos</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Races</span><span style="font:600 13.5px 'Instrument Sans',sans-serif;color:#a21a1a;border-bottom:2px solid #a21a1a;padding-bottom:19px;margin-bottom:-21px">Compatibilitats</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Sessions</span></div>
+    <div style="display:flex;align-items:center;gap:10px"><span style="font:500 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Elna Roca</span><div style="width:30px;height:30px;border-radius:50%;background:#c2ad9a;display:flex;align-items:center;justify-content:center;font:600 12px 'Instrument Sans',sans-serif;color:#661414">ER</div></div>
+  </div>
+  <div style="display:flex;gap:28px;padding:28px 32px 34px">
+    <div style="width:270px;display:flex;flex-direction:column;gap:18px">
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Trastorn</span>
+        <div style="display:flex;flex-wrap:wrap;gap:7px">
+          <span style="font:600 12.5px 'Instrument Sans',sans-serif;background:#661414;color:#fff;padding:7px 12px;border-radius:999px">TEA</span>
+          <span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.65);padding:7px 12px;border-radius:999px">Depressió</span>
+          <span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.65);padding:7px 12px;border-radius:999px">Ansietat</span>
+          <span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.65);padding:7px 12px;border-radius:999px">Bipolar</span>
+          <span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.65);padding:7px 12px;border-radius:999px">TEPT</span>
+          <span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.65);padding:7px 12px;border-radius:999px">TOC</span>
+          <span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(36,26,22,.06);color:rgba(36,26,22,.65);padding:7px 12px;border-radius:999px">TDAH</span>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:14px">
+        <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Pesos del perfil</span>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13px 'Instrument Sans',sans-serif"><span>Entrenabilitat</span><span style="font-family:'JetBrains Mono',monospace;color:#661414">30%</span></div><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:30%;height:100%;border-radius:3px;background:#661414"></div></div></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13px 'Instrument Sans',sans-serif"><span>Calma</span><span style="font-family:'JetBrains Mono',monospace;color:#661414">25%</span></div><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:25%;height:100%;border-radius:3px;background:#661414"></div></div></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13px 'Instrument Sans',sans-serif"><span>Orientació a la persona</span><span style="font-family:'JetBrains Mono',monospace;color:#661414">20%</span></div><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:20%;height:100%;border-radius:3px;background:#661414"></div></div></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13px 'Instrument Sans',sans-serif"><span>Sociabilitat</span><span style="font-family:'JetBrains Mono',monospace;color:rgba(36,26,22,.6)">15%</span></div><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:15%;height:100%;border-radius:3px;background:#c2ad9a"></div></div></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13px 'Instrument Sans',sans-serif"><span>Mida</span><span style="font-family:'JetBrains Mono',monospace;color:rgba(36,26,22,.6)">10%</span></div><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:10%;height:100%;border-radius:3px;background:#c2ad9a"></div></div></div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:11px">
+        <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Filtres</span>
+        <div style="display:flex;justify-content:space-between;font:400 13.5px 'Instrument Sans',sans-serif"><span style="color:rgba(36,26,22,.65)">Pes màxim</span><span style="font:500 13px 'JetBrains Mono',monospace;color:#a21a1a">32 kg</span></div>
+        <div style="height:6px;border-radius:3px;background:rgba(36,26,22,.1);position:relative"><div style="position:absolute;left:0;top:0;bottom:0;width:62%;background:#a21a1a;border-radius:3px"></div><div style="position:absolute;left:62%;top:-6px;width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid #a21a1a"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font:400 13.5px 'Instrument Sans',sans-serif;margin-top:4px"><span style="color:rgba(36,26,22,.65)">Manteniment de pèl baix</span><span style="width:34px;height:20px;border-radius:999px;background:#608028;display:flex;align-items:center;justify-content:flex-end;padding:0 3px"><span style="width:14px;height:14px;border-radius:50%;background:#fff"></span></span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font:400 13.5px 'Instrument Sans',sans-serif"><span style="color:rgba(36,26,22,.65)">Només races del catàleg</span><span style="width:34px;height:20px;border-radius:999px;background:rgba(36,26,22,.15);display:flex;align-items:center;padding:0 3px"><span style="width:14px;height:14px;border-radius:50%;background:#fff"></span></span></div>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end">
+        <div style="display:flex;flex-direction:column;gap:5px"><span style="font:400 12px 'JetBrains Mono',monospace;color:#608028">TEA · ANCORATGE · ESCOLA I TRANSPORT</span><span style="font:400 34px/1.1 'Instrument Serif',serif">Races més compatibles</span></div>
+        <div style="display:flex;gap:10px;align-items:center"><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">24 races avaluades</span><span style="font:600 13px 'Instrument Sans',sans-serif;color:#661414;border:1px solid rgba(102,20,20,.3);border-radius:9px;padding:10px 15px">Exporta</span><span style="font:600 13px 'Instrument Sans',sans-serif;background:#661414;color:#fff;border-radius:9px;padding:10px 15px">Compara les 3 primeres</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="border-radius:14px;overflow:hidden;background:#fff;border:1px solid rgba(36,26,22,.1);display:flex">
+          <div style="width:6px;background:#608028"></div>
+          <div style="flex:1;padding:18px 20px;display:flex;gap:22px;align-items:center">
+            <div style="width:64px;height:64px;border-radius:14px;background:repeating-linear-gradient(135deg,#e6ddd2 0 8px,#dcd1c3 8px 16px)"></div>
+            <div style="width:210px;display:flex;flex-direction:column;gap:3px"><span style="font:600 17px 'Instrument Sans',sans-serif">Labrador Retriever</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Sporting · 29–36 kg · 10–12 anys</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:9px">
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:96px;font:500 11.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Entrenabilitat</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:94%;height:100%;border-radius:3px;background:#608028"></div></div><span style="width:26px;font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.55)">9,4</span></div>
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:96px;font:500 11.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Calma</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:81%;height:100%;border-radius:3px;background:#608028"></div></div><span style="width:26px;font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.55)">8,1</span></div>
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:96px;font:500 11.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Orientació</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:90%;height:100%;border-radius:3px;background:#608028"></div></div><span style="width:26px;font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.55)">9,0</span></div>
+            </div>
+            <div style="width:120px;display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font:400 46px/1 'Instrument Serif',serif;color:#608028">92%</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">compatibilitat</span></div>
+          </div>
+        </div>
+        <div style="border-radius:14px;overflow:hidden;background:#fff;border:1px solid rgba(36,26,22,.1);display:flex">
+          <div style="width:6px;background:#a21a1a"></div>
+          <div style="flex:1;padding:18px 20px;display:flex;gap:22px;align-items:center">
+            <div style="width:64px;height:64px;border-radius:14px;background:repeating-linear-gradient(135deg,#e6ddd2 0 8px,#dcd1c3 8px 16px)"></div>
+            <div style="width:210px;display:flex;flex-direction:column;gap:3px"><span style="font:600 17px 'Instrument Sans',sans-serif">Standard Poodle</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Non-Sporting · 20–32 kg · 12–15 anys</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:9px">
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:96px;font:500 11.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Entrenabilitat</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:96%;height:100%;border-radius:3px;background:#a21a1a"></div></div><span style="width:26px;font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.55)">9,6</span></div>
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:96px;font:500 11.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Calma</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:72%;height:100%;border-radius:3px;background:#a21a1a"></div></div><span style="width:26px;font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.55)">7,2</span></div>
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:96px;font:500 11.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Orientació</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:88%;height:100%;border-radius:3px;background:#a21a1a"></div></div><span style="width:26px;font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.55)">8,8</span></div>
+            </div>
+            <div style="width:120px;display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font:400 46px/1 'Instrument Serif',serif;color:#a21a1a">89%</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">compatibilitat</span></div>
+          </div>
+        </div>
+        <div style="border-radius:14px;overflow:hidden;background:#fff;border:1px solid rgba(36,26,22,.1);display:flex">
+          <div style="width:6px;background:#a21a1a"></div>
+          <div style="flex:1;padding:18px 20px;display:flex;gap:22px;align-items:center">
+            <div style="width:64px;height:64px;border-radius:14px;background:repeating-linear-gradient(135deg,#e6ddd2 0 8px,#dcd1c3 8px 16px)"></div>
+            <div style="width:210px;display:flex;flex-direction:column;gap:3px"><span style="font:600 17px 'Instrument Sans',sans-serif">Golden Retriever</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Sporting · 25–36 kg · 10–12 anys</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:9px">
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:96px;font:500 11.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Entrenabilitat</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:91%;height:100%;border-radius:3px;background:#a21a1a"></div></div><span style="width:26px;font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.55)">9,1</span></div>
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:96px;font:500 11.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Calma</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:74%;height:100%;border-radius:3px;background:#a21a1a"></div></div><span style="width:26px;font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.55)">7,4</span></div>
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:96px;font:500 11.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Orientació</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:89%;height:100%;border-radius:3px;background:#a21a1a"></div></div><span style="width:26px;font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.55)">8,9</span></div>
+            </div>
+            <div style="width:120px;display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font:400 46px/1 'Instrument Serif',serif;color:#a21a1a">86%</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">compatibilitat</span></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:22px;padding:15px 20px;border-radius:14px;background:#fff;border:1px solid rgba(36,26,22,.1)"><div style="width:40px;height:40px;border-radius:11px;background:repeating-linear-gradient(135deg,#e6ddd2 0 8px,#dcd1c3 8px 16px)"></div><span style="width:210px;font:600 15px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.8)">Bernese Mountain Dog</span><span style="flex:1;font:400 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Calma 9,0 · penalitzada per mida (45 kg)</span><span style="width:120px;text-align:right;font:400 26px 'Instrument Serif',serif;color:rgba(36,26,22,.5)">79%</span></div>
+        <div style="display:flex;align-items:center;gap:22px;padding:15px 20px;border-radius:14px;background:#fff;border:1px solid rgba(36,26,22,.1)"><div style="width:40px;height:40px;border-radius:11px;background:repeating-linear-gradient(135deg,#e6ddd2 0 8px,#dcd1c3 8px 16px)"></div><span style="width:210px;font:600 15px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.8)">Havanese</span><span style="flex:1;font:400 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Sociabilitat 9,2 · entrenabilitat mitjana</span><span style="width:120px;text-align:right;font:400 26px 'Instrument Serif',serif;color:rgba(36,26,22,.5)">74%</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<p class="dv-next">Prova: «afegeix la vista de comparació de 3 races» · «mostra d'on surt cada puntuació» · «versió web del qüestionari»</p>
+</section>
+
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname"><a class="dv-oid" href="#1c">1c</a> amb fons clar</span></div>
+<div class="dv-opts">
+<div class="dv-opt" id="3a"><div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Comparativa sobre fons clar</div>
+<div class="dv-card" style="width:390px;height:844px;background:#fdfbf8;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font:500 13px 'Instrument Sans',sans-serif;color:#241a16"><span>9:41</span><span style="font:500 11px 'JetBrains Mono',monospace">▮▮▮ ⌁ 84%</span></div>
+  <div style="padding:20px 24px 16px;display:flex;flex-direction:column;gap:8px">
+    <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:400 26px 'Instrument Serif',serif;color:#241a16">Compatibilitat</span><span style="font:500 12px 'Instrument Sans',sans-serif;color:#661414;border:1px solid rgba(102,20,20,.3);border-radius:999px;padding:6px 12px">TEA ▾</span></div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap"><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.5)">ENTRENABILITAT 30%</span><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.5)">· CALMA 25%</span><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.5)">· ORIENTACIÓ 20%</span></div>
+  </div>
+  <div style="flex:1;padding:0 24px;display:flex;flex-direction:column;gap:11px">
+    <div style="border-radius:14px;overflow:hidden;background:#fff;border:1px solid rgba(36,26,22,.1);display:flex">
+      <div style="width:6px;background:#608028"></div>
+      <div style="flex:1;padding:15px 16px;display:flex;flex-direction:column;gap:11px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:600 16px 'Instrument Sans',sans-serif;color:#241a16">Labrador Retriever</span><span style="font:400 30px 'Instrument Serif',serif;color:#608028">92%</span></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Entrenabilitat</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:94%;height:100%;border-radius:3px;background:#608028"></div></div></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Calma</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:81%;height:100%;border-radius:3px;background:#608028"></div></div></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Orientació</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:90%;height:100%;border-radius:3px;background:#608028"></div></div></div>
+      </div>
+    </div>
+    <div style="border-radius:14px;overflow:hidden;background:#fff;border:1px solid rgba(36,26,22,.1);display:flex">
+      <div style="width:6px;background:#a21a1a"></div>
+      <div style="flex:1;padding:15px 16px;display:flex;flex-direction:column;gap:11px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:600 16px 'Instrument Sans',sans-serif;color:#241a16">Standard Poodle</span><span style="font:400 30px 'Instrument Serif',serif;color:#a21a1a">89%</span></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Entrenabilitat</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:96%;height:100%;border-radius:3px;background:#a21a1a"></div></div></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Calma</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:72%;height:100%;border-radius:3px;background:#a21a1a"></div></div></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Orientació</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:88%;height:100%;border-radius:3px;background:#a21a1a"></div></div></div>
+      </div>
+    </div>
+    <div style="border-radius:14px;overflow:hidden;background:#fff;border:1px solid rgba(36,26,22,.1);display:flex">
+      <div style="width:6px;background:#a21a1a"></div>
+      <div style="flex:1;padding:15px 16px;display:flex;flex-direction:column;gap:11px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:600 16px 'Instrument Sans',sans-serif;color:#241a16">Golden Retriever</span><span style="font:400 30px 'Instrument Serif',serif;color:#a21a1a">86%</span></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Entrenabilitat</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:91%;height:100%;border-radius:3px;background:#a21a1a"></div></div></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Calma</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:74%;height:100%;border-radius:3px;background:#a21a1a"></div></div></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Orientació</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:89%;height:100%;border-radius:3px;background:#a21a1a"></div></div></div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-radius:14px;background:#fff;border:1px solid rgba(36,26,22,.1)"><span style="font:500 15px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.75)">Bernese Mountain Dog</span><span style="font:400 22px 'Instrument Serif',serif;color:rgba(36,26,22,.5)">79%</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-radius:14px;background:#fff;border:1px solid rgba(36,26,22,.1)"><span style="font:500 15px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.75)">Havanese</span><span style="font:400 22px 'Instrument Serif',serif;color:rgba(36,26,22,.5)">74%</span></div>
+  </div>
+  <div style="padding:16px 24px 18px"><div style="height:52px;border-radius:12px;background:#661414;display:flex;align-items:center;justify-content:center;font:600 15px 'Instrument Sans',sans-serif;color:#fff">Compara les tres primeres</div></div>
+  <div style="height:5px;width:130px;border-radius:3px;background:rgba(36,26,22,.25);margin:0 auto 10px"></div>
+</div>
+</div>
+</div>
+<p class="dv-next">Prova: «fes la versió web de <a class="dv-oid" href="#3a">3a</a>» · «aplica <a class="dv-oid" href="#3a">3a</a> a tot el flux» · «prova la franja lateral més ampla»</p>
+</section>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Flux complet — entrenador (base visual de <a class="dv-oid" href="#1a">1a</a>)</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a"><div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Entrada — mòbil i web</div>
+<div style="display:flex;gap:24px;align-items:flex-start">
+<div class="dv-card" style="width:390px;height:844px;display:flex;flex-direction:column;background:#661414">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font:500 13px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.85)"><span>9:41</span><span style="font:500 11px 'JetBrains Mono',monospace">▮▮▮ ⌁ 84%</span></div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 28px 40px;gap:28px">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="width:56px;height:56px;border-radius:16px;background:#c2ad9a;display:flex;align-items:center;justify-content:center;font:400 30px 'Instrument Serif',serif;color:#661414">V</div>
+      <div style="font:400 46px/1 'Instrument Serif',serif;color:#fff">Vincle</div>
+      <div style="font:400 16px/1.5 'Instrument Sans',sans-serif;color:rgba(255,255,255,.72);max-width:280px;text-wrap:pretty">Acompanyem l'ensinistrament de gossos d'assistència, sessió a sessió.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;flex-direction:column;gap:7px"><span style="font:500 12px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.6)">Correu</span><div style="height:52px;border-radius:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);display:flex;align-items:center;padding:0 16px;font:400 15px 'Instrument Sans',sans-serif;color:#fff">elna@vincle.cat</div></div>
+      <div style="display:flex;flex-direction:column;gap:7px"><span style="font:500 12px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.6)">Contrasenya</span><div style="height:52px;border-radius:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);display:flex;align-items:center;padding:0 16px;font:400 15px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.8);letter-spacing:3px">••••••••</div></div>
+      <div style="height:54px;border-radius:12px;background:#c2ad9a;display:flex;align-items:center;justify-content:center;font:600 15px 'Instrument Sans',sans-serif;color:#4a0f0f;margin-top:6px">Entra</div>
+      <div style="display:flex;justify-content:center;gap:6px;font:400 13px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.55);margin-top:4px">No tens compte?<span style="color:#c2ad9a;font-weight:600">Sol·licita accés</span></div>
+    </div>
+  </div>
+  <div style="height:5px;width:130px;border-radius:3px;background:rgba(255,255,255,.4);margin:0 auto 10px"></div>
+</div>
+<div class="dv-card" style="width:980px;height:640px;display:flex">
+  <div style="width:44%;background:#661414;padding:40px;display:flex;flex-direction:column;justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:9px;background:#c2ad9a;display:flex;align-items:center;justify-content:center;font:400 19px 'Instrument Serif',serif;color:#661414">V</div><span style="font:600 15px 'Instrument Sans',sans-serif;color:#fff">Vincle</span></div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font:400 40px/1.15 'Instrument Serif',serif;color:#fff;max-width:330px;text-wrap:pretty">Cada gos té el seu ritme. Nosaltres el recordem.</div>
+      <div style="font:400 15px/1.6 'Instrument Sans',sans-serif;color:rgba(255,255,255,.66);max-width:320px;text-wrap:pretty">Sessions, fites i evolució en un sol lloc, i una guia per entendre quins temperaments encaixen amb cada persona.</div>
+    </div>
+    <div style="font:400 12px 'JetBrains Mono',monospace;color:rgba(255,255,255,.4)">v0.6 · català</div>
+  </div>
+  <div style="flex:1;padding:56px 64px;display:flex;flex-direction:column;justify-content:center;gap:22px;background:#fdfbf8">
+    <div style="font:400 30px/1.2 'Instrument Serif',serif;color:#241a16">Benvinguda de nou</div>
+    <div style="display:flex;flex-direction:column;gap:7px"><span style="font:500 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Correu</span><div style="height:48px;border-radius:10px;border:1px solid rgba(36,26,22,.18);background:#fff;display:flex;align-items:center;padding:0 15px;font:400 15px 'Instrument Sans',sans-serif">elna@vincle.cat</div></div>
+    <div style="display:flex;flex-direction:column;gap:7px"><span style="font:500 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Contrasenya</span><div style="height:48px;border-radius:10px;border:1.5px solid #a21a1a;background:#fff;display:flex;align-items:center;padding:0 15px;font:400 15px 'Instrument Sans',sans-serif;letter-spacing:3px;color:#241a16">••••••••</div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;font:400 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)"><span style="display:flex;align-items:center;gap:8px"><span style="width:16px;height:16px;border-radius:4px;background:#661414"></span>Mantén la sessió oberta</span><span style="color:#a21a1a;font-weight:500">He oblidat la contrasenya</span></div>
+    <div style="height:50px;border-radius:10px;background:#a21a1a;display:flex;align-items:center;justify-content:center;font:600 15px 'Instrument Sans',sans-serif;color:#fff">Entra</div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="2b"><div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Qüestionari de matching — comença pel trastorn</div>
+<div style="display:flex;gap:24px;align-items:flex-start">
+<div class="dv-card" style="width:390px;height:844px;background:#fdfbf8;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font:500 13px 'Instrument Sans',sans-serif;color:#241a16"><span>9:41</span><span style="font:500 11px 'JetBrains Mono',monospace">▮▮▮ ⌁ 84%</span></div>
+  <div style="padding:18px 24px 0;display:flex;align-items:center;gap:14px"><span style="font:400 22px 'Instrument Sans',sans-serif;color:#661414">←</span><div style="flex:1;height:4px;border-radius:2px;background:rgba(102,20,20,.13);overflow:hidden"><div style="width:33%;height:100%;background:#a21a1a"></div></div><span style="font:500 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.5)">1/3</span></div>
+  <div style="padding:26px 24px 0;display:flex;flex-direction:column;gap:8px">
+    <div style="font:400 29px/1.2 'Instrument Serif',serif;color:#241a16">Per a quin trastorn treballem?</div>
+    <div style="font:400 14px/1.55 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6);text-wrap:pretty">A partir d'aquí prioritzem uns eixos de temperament o uns altres.</div>
+  </div>
+  <div style="padding:22px 24px;display:flex;flex-direction:column;gap:10px;flex:1">
+    <div style="border:1.5px solid #a21a1a;background:#a21a1a;border-radius:13px;padding:15px 16px;display:flex;flex-direction:column;gap:4px"><span style="font:600 15px 'Instrument Sans',sans-serif;color:#fff">Trastorn de l'espectre autista</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.72)">Ancoratge, interrupció d'estereotípies, seguretat</span></div>
+    <div style="border:1px solid rgba(36,26,22,.14);background:#fff;border-radius:13px;padding:15px 16px;display:flex;flex-direction:column;gap:4px"><span style="font:600 15px 'Instrument Sans',sans-serif">Depressió</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Activació conductual, rutina, companyia</span></div>
+    <div style="border:1px solid rgba(36,26,22,.14);background:#fff;border-radius:13px;padding:15px 16px;display:flex;flex-direction:column;gap:4px"><span style="font:600 15px 'Instrument Sans',sans-serif">Trastorns d'ansietat</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Pressió profunda, alerta a l'escalada</span></div>
+    <div style="border:1px solid rgba(36,26,22,.14);background:#fff;border-radius:13px;padding:15px 16px;display:flex;flex-direction:column;gap:4px"><span style="font:600 15px 'Instrument Sans',sans-serif">Trastorn bipolar</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Rutina de son, recordatori de medicació</span></div>
+    <div style="border:1px solid rgba(36,26,22,.14);background:#fff;border-radius:13px;padding:15px 16px;display:flex;flex-direction:column;gap:4px"><span style="font:600 15px 'Instrument Sans',sans-serif">TEPT</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Cobertura d'esquena, interrupció de malsons</span></div>
+    <div style="display:flex;gap:10px">
+      <div style="flex:1;border:1px solid rgba(36,26,22,.14);background:#fff;border-radius:13px;padding:15px 16px;font:600 15px 'Instrument Sans',sans-serif">TOC</div>
+      <div style="flex:1;border:1px solid rgba(36,26,22,.14);background:#fff;border-radius:13px;padding:15px 16px;font:600 15px 'Instrument Sans',sans-serif">TDAH</div>
+    </div>
+  </div>
+  <div style="padding:0 24px 22px;display:flex;gap:10px"><div style="height:52px;flex:1;border-radius:12px;background:#661414;display:flex;align-items:center;justify-content:center;font:600 15px 'Instrument Sans',sans-serif;color:#fff">Continua</div></div>
+  <div style="height:5px;width:130px;border-radius:3px;background:rgba(36,26,22,.25);margin:0 auto 10px"></div>
+</div>
+<div class="dv-card" style="width:390px;height:844px;background:#fdfbf8;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font:500 13px 'Instrument Sans',sans-serif;color:#241a16"><span>9:41</span><span style="font:500 11px 'JetBrains Mono',monospace">▮▮▮ ⌁ 84%</span></div>
+  <div style="padding:18px 24px 0;display:flex;align-items:center;gap:14px"><span style="font:400 22px 'Instrument Sans',sans-serif;color:#661414">←</span><div style="flex:1;height:4px;border-radius:2px;background:rgba(102,20,20,.13);overflow:hidden"><div style="width:66%;height:100%;background:#a21a1a"></div></div><span style="font:500 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.5)">2/3</span></div>
+  <div style="padding:26px 24px 0;display:flex;flex-direction:column;gap:8px">
+    <div style="font:400 29px/1.2 'Instrument Serif',serif;color:#241a16">Quines tasques ha de cobrir el gos?</div>
+    <div style="font:400 14px/1.55 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Tria'n fins a tres. Ajusten els pesos dins del perfil de TEA.</div>
+  </div>
+  <div style="padding:22px 24px;display:flex;flex-wrap:wrap;gap:9px;align-content:flex-start;flex:1">
+    <span style="border-radius:999px;padding:11px 16px;background:#661414;color:#fff;font:500 14px 'Instrument Sans',sans-serif">Ancoratge tàctil</span>
+    <span style="border-radius:999px;padding:11px 16px;background:#661414;color:#fff;font:500 14px 'Instrument Sans',sans-serif">Evitar fugues</span>
+    <span style="border-radius:999px;padding:11px 16px;background:#fff;border:1px solid rgba(36,26,22,.16);font:500 14px 'Instrument Sans',sans-serif">Pressió profunda</span>
+    <span style="border-radius:999px;padding:11px 16px;background:#fff;border:1px solid rgba(36,26,22,.16);font:500 14px 'Instrument Sans',sans-serif">Interrompre estereotípies</span>
+    <span style="border-radius:999px;padding:11px 16px;background:#fff;border:1px solid rgba(36,26,22,.16);font:500 14px 'Instrument Sans',sans-serif">Rutines diàries</span>
+    <span style="border-radius:999px;padding:11px 16px;background:#fff;border:1px solid rgba(36,26,22,.16);font:500 14px 'Instrument Sans',sans-serif">Cerca i localització</span>
+    <span style="border-radius:999px;padding:11px 16px;background:#fff;border:1px solid rgba(36,26,22,.16);font:500 14px 'Instrument Sans',sans-serif">Companyia nocturna</span>
+    <div style="width:100%;margin-top:18px;display:flex;flex-direction:column;gap:12px">
+      <div style="font:600 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55);text-transform:uppercase;letter-spacing:.08em">Entorn habitual</div>
+      <div style="display:flex;gap:9px"><span style="flex:1;text-align:center;border-radius:10px;padding:12px 8px;background:#fff;border:1px solid rgba(36,26,22,.16);font:500 13.5px 'Instrument Sans',sans-serif">Casa</span><span style="flex:1;text-align:center;border-radius:10px;padding:12px 8px;background:#608028;color:#fff;font:500 13.5px 'Instrument Sans',sans-serif">Escola</span><span style="flex:1;text-align:center;border-radius:10px;padding:12px 8px;background:#608028;color:#fff;font:500 13.5px 'Instrument Sans',sans-serif">Transport</span></div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+        <div style="display:flex;justify-content:space-between;font:500 13.5px 'Instrument Sans',sans-serif"><span>Mida màxima desitjada</span><span style="font:500 13px 'JetBrains Mono',monospace;color:#a21a1a">32 kg</span></div>
+        <div style="height:6px;border-radius:3px;background:rgba(36,26,22,.12);position:relative"><div style="position:absolute;left:0;top:0;bottom:0;width:62%;background:#a21a1a;border-radius:3px"></div><div style="position:absolute;left:62%;top:-6px;width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid #a21a1a"></div></div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:0 24px 22px"><div style="height:52px;border-radius:12px;background:#661414;display:flex;align-items:center;justify-content:center;font:600 15px 'Instrument Sans',sans-serif;color:#fff">Veure compatibilitats</div></div>
+  <div style="height:5px;width:130px;border-radius:3px;background:rgba(36,26,22,.25);margin:0 auto 10px"></div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="2c"><div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>Fitxa de raça — web</div>
+<div class="dv-card" style="width:1180px;background:#fdfbf8">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:60px;border-bottom:1px solid rgba(36,26,22,.1);background:#fff">
+    <div style="display:flex;align-items:center;gap:26px"><div style="display:flex;align-items:center;gap:9px"><div style="width:26px;height:26px;border-radius:8px;background:#661414;display:flex;align-items:center;justify-content:center;font:400 16px 'Instrument Serif',serif;color:#c2ad9a">V</div><span style="font:600 14px 'Instrument Sans',sans-serif">Vincle</span></div><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Gossos</span><span style="font:600 13.5px 'Instrument Sans',sans-serif;color:#a21a1a;border-bottom:2px solid #a21a1a;padding-bottom:19px;margin-bottom:-21px">Races</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Compatibilitats</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Sessions</span></div>
+    <div style="display:flex;align-items:center;gap:10px"><span style="font:500 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Elna Roca</span><div style="width:30px;height:30px;border-radius:50%;background:#c2ad9a;display:flex;align-items:center;justify-content:center;font:600 12px 'Instrument Sans',sans-serif;color:#661414">ER</div></div>
+  </div>
+  <div style="display:flex;gap:32px;padding:30px 32px 36px">
+    <div style="width:330px;display:flex;flex-direction:column;gap:14px">
+      <div style="height:250px;border-radius:12px;background:repeating-linear-gradient(135deg,#e6ddd2 0 10px,#dcd1c3 10px 20px);display:flex;align-items:flex-end;padding:14px"><span style="font:400 11px 'JetBrains Mono',monospace;color:#7a6a5c;background:rgba(255,255,255,.75);padding:4px 8px;border-radius:5px">foto de raça · The Dog API</span></div>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Dades de catàleg</div>
+        <div style="display:flex;justify-content:space-between;font:400 13.5px 'Instrument Sans',sans-serif"><span style="color:rgba(36,26,22,.6)">Grup</span><span style="font-weight:600">Sporting</span></div>
+        <div style="display:flex;justify-content:space-between;font:400 13.5px 'Instrument Sans',sans-serif"><span style="color:rgba(36,26,22,.6)">Criat per</span><span style="font-weight:600">Recobrament d'aus</span></div>
+        <div style="display:flex;justify-content:space-between;font:400 13.5px 'Instrument Sans',sans-serif"><span style="color:rgba(36,26,22,.6)">Pes</span><span style="font-weight:600">25 – 36 kg</span></div>
+        <div style="display:flex;justify-content:space-between;font:400 13.5px 'Instrument Sans',sans-serif"><span style="color:rgba(36,26,22,.6)">Alçada</span><span style="font-weight:600">55 – 62 cm</span></div>
+        <div style="display:flex;justify-content:space-between;font:400 13.5px 'Instrument Sans',sans-serif"><span style="color:rgba(36,26,22,.6)">Esperança de vida</span><span style="font-weight:600">10 – 12 anys</span></div>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:22px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <span style="font:400 12px 'JetBrains Mono',monospace;color:#608028">RAÇA · CATÀLEG</span>
+          <span style="font:400 40px/1.1 'Instrument Serif',serif">Golden Retriever</span>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:4px">
+            <span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.12);color:#4c6620;padding:5px 11px;border-radius:999px">intelligent</span>
+            <span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.12);color:#4c6620;padding:5px 11px;border-radius:999px">friendly</span>
+            <span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.12);color:#4c6620;padding:5px 11px;border-radius:999px">reliable</span>
+            <span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.12);color:#4c6620;padding:5px 11px;border-radius:999px">kind</span>
+            <span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.12);color:#4c6620;padding:5px 11px;border-radius:999px">confident</span>
+            <span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.12);color:#4c6620;padding:5px 11px;border-radius:999px">trustworthy</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px"><span style="font:600 13.5px 'Instrument Sans',sans-serif;color:#661414;border:1px solid rgba(102,20,20,.3);border-radius:9px;padding:11px 16px">Comparar</span><span style="font:600 13.5px 'Instrument Sans',sans-serif;background:#a21a1a;color:#fff;border-radius:9px;padding:11px 16px">Afegir al seguiment</span></div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:600 14px 'Instrument Sans',sans-serif">Eixos derivats del temperament</span><span style="font:400 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45)">diccionari v0.3 · 6 termes</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 34px">
+          <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13px 'Instrument Sans',sans-serif"><span>Entrenabilitat</span><span style="font-family:'JetBrains Mono',monospace;color:#661414">9,1</span></div><div style="height:7px;border-radius:4px;background:rgba(36,26,22,.09)"><div style="width:91%;height:100%;background:#661414;border-radius:4px"></div></div></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13px 'Instrument Sans',sans-serif"><span>Sociabilitat</span><span style="font-family:'JetBrains Mono',monospace;color:#661414">8,7</span></div><div style="height:7px;border-radius:4px;background:rgba(36,26,22,.09)"><div style="width:87%;height:100%;background:#661414;border-radius:4px"></div></div></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13px 'Instrument Sans',sans-serif"><span>Calma</span><span style="font-family:'JetBrains Mono',monospace;color:#661414">7,4</span></div><div style="height:7px;border-radius:4px;background:rgba(36,26,22,.09)"><div style="width:74%;height:100%;background:#661414;border-radius:4px"></div></div></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13px 'Instrument Sans',sans-serif"><span>Orientació a la persona</span><span style="font-family:'JetBrains Mono',monospace;color:#661414">8,9</span></div><div style="height:7px;border-radius:4px;background:rgba(36,26,22,.09)"><div style="width:89%;height:100%;background:#661414;border-radius:4px"></div></div></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13px 'Instrument Sans',sans-serif"><span>Energia</span><span style="font-family:'JetBrains Mono',monospace;color:#a21a1a">6,8</span></div><div style="height:7px;border-radius:4px;background:rgba(36,26,22,.09)"><div style="width:68%;height:100%;background:#a21a1a;border-radius:4px"></div></div></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13px 'Instrument Sans',sans-serif"><span>Alerta / lladruc</span><span style="font-family:'JetBrains Mono',monospace;color:#a21a1a">4,2</span></div><div style="height:7px;border-radius:4px;background:rgba(36,26,22,.09)"><div style="width:42%;height:100%;background:#a21a1a;border-radius:4px"></div></div></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px">
+        <div style="flex:1;background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:9px"><span style="font:600 14px 'Instrument Sans',sans-serif">Com encaixa amb TEA</span><div style="display:flex;align-items:baseline;gap:8px"><span style="font:400 40px 'Instrument Serif',serif;color:#608028">86%</span><span style="font:400 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">3a del rànquing</span></div><span style="font:400 13.5px/1.55 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Sociabilitat i orientació a la persona altes; l'energia queda una mica per damunt del que demana el perfil.</span></div>
+        <div style="flex:1;background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:11px"><span style="font:600 14px 'Instrument Sans',sans-serif">A tenir en compte</span><span style="font:400 13.5px/1.55 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Manteniment de pèl alt: raspallat diari i muda estacional. Cal preveure-ho amb la família d'acollida.</span><span style="font:400 12px 'JetBrains Mono',monospace;color:rgba(36,26,22,.4)">font: description · The Dog API</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="2d"><div class="dv-olabel"><a class="dv-oid" href="#2d">2d</a>Fitxa de gos + evolució — web</div>
+<div class="dv-card" style="width:1180px;background:#fdfbf8">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:60px;border-bottom:1px solid rgba(36,26,22,.1);background:#fff">
+    <div style="display:flex;align-items:center;gap:26px"><div style="display:flex;align-items:center;gap:9px"><div style="width:26px;height:26px;border-radius:8px;background:#661414;display:flex;align-items:center;justify-content:center;font:400 16px 'Instrument Serif',serif;color:#c2ad9a">V</div><span style="font:600 14px 'Instrument Sans',sans-serif">Vincle</span></div><span style="font:600 13.5px 'Instrument Sans',sans-serif;color:#a21a1a;border-bottom:2px solid #a21a1a;padding-bottom:19px;margin-bottom:-21px">Gossos</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Races</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Compatibilitats</span><span style="font:500 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Sessions</span></div>
+    <div style="display:flex;align-items:center;gap:10px"><span style="font:500 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Elna Roca</span><div style="width:30px;height:30px;border-radius:50%;background:#c2ad9a;display:flex;align-items:center;justify-content:center;font:600 12px 'Instrument Sans',sans-serif;color:#661414">ER</div></div>
+  </div>
+  <div style="padding:28px 32px 34px;display:flex;flex-direction:column;gap:22px">
+    <div style="display:flex;gap:22px;align-items:center">
+      <div style="width:96px;height:96px;border-radius:20px;background:repeating-linear-gradient(135deg,#e6ddd2 0 8px,#dcd1c3 8px 16px)"></div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:baseline;gap:12px"><span style="font:400 36px 'Instrument Serif',serif">Fura</span><span style="font:500 12.5px 'Instrument Sans',sans-serif;background:rgba(96,128,40,.14);color:#4c6620;padding:5px 11px;border-radius:999px">En ensinistrament</span></div>
+        <span style="font:400 14px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">Labrador Retriever · 1 any i 4 mesos · Família Puig-Serra · TEA</span>
+      </div>
+      <div style="display:flex;gap:22px">
+        <div style="display:flex;flex-direction:column;gap:2px"><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Sessions</span><span style="font:400 26px 'Instrument Serif',serif">64</span></div>
+        <div style="display:flex;flex-direction:column;gap:2px"><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Hores</span><span style="font:400 26px 'Instrument Serif',serif">81</span></div>
+        <div style="display:flex;flex-direction:column;gap:2px"><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Fites</span><span style="font:400 26px 'Instrument Serif',serif">9/14</span></div>
+        <div style="align-self:center;font:600 13.5px 'Instrument Sans',sans-serif;background:#a21a1a;color:#fff;border-radius:9px;padding:12px 18px">Nova sessió</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:20px">
+      <div style="flex:2;background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:600 14px 'Instrument Sans',sans-serif">Evolució per habilitat</span><div style="display:flex;gap:6px;font:500 12px 'Instrument Sans',sans-serif"><span style="padding:5px 10px;border-radius:7px;background:rgba(36,26,22,.06);color:rgba(36,26,22,.6)">3 mesos</span><span style="padding:5px 10px;border-radius:7px;background:#661414;color:#fff">6 mesos</span><span style="padding:5px 10px;border-radius:7px;background:rgba(36,26,22,.06);color:rgba(36,26,22,.6)">Tot</span></div></div>
+        <div style="height:200px;display:flex;align-items:flex-end;gap:14px;border-bottom:1px solid rgba(36,26,22,.12);padding-bottom:0">
+          <div style="flex:1;display:flex;align-items:flex-end;gap:4px;height:100%"><div style="flex:1;height:38%;background:#661414;border-radius:4px 4px 0 0"></div><div style="flex:1;height:30%;background:#a21a1a;border-radius:4px 4px 0 0"></div><div style="flex:1;height:22%;background:#c2ad9a;border-radius:4px 4px 0 0"></div></div>
+          <div style="flex:1;display:flex;align-items:flex-end;gap:4px;height:100%"><div style="flex:1;height:46%;background:#661414;border-radius:4px 4px 0 0"></div><div style="flex:1;height:41%;background:#a21a1a;border-radius:4px 4px 0 0"></div><div style="flex:1;height:28%;background:#c2ad9a;border-radius:4px 4px 0 0"></div></div>
+          <div style="flex:1;display:flex;align-items:flex-end;gap:4px;height:100%"><div style="flex:1;height:55%;background:#661414;border-radius:4px 4px 0 0"></div><div style="flex:1;height:44%;background:#a21a1a;border-radius:4px 4px 0 0"></div><div style="flex:1;height:39%;background:#c2ad9a;border-radius:4px 4px 0 0"></div></div>
+          <div style="flex:1;display:flex;align-items:flex-end;gap:4px;height:100%"><div style="flex:1;height:61%;background:#661414;border-radius:4px 4px 0 0"></div><div style="flex:1;height:58%;background:#a21a1a;border-radius:4px 4px 0 0"></div><div style="flex:1;height:43%;background:#c2ad9a;border-radius:4px 4px 0 0"></div></div>
+          <div style="flex:1;display:flex;align-items:flex-end;gap:4px;height:100%"><div style="flex:1;height:74%;background:#661414;border-radius:4px 4px 0 0"></div><div style="flex:1;height:63%;background:#a21a1a;border-radius:4px 4px 0 0"></div><div style="flex:1;height:52%;background:#c2ad9a;border-radius:4px 4px 0 0"></div></div>
+          <div style="flex:1;display:flex;align-items:flex-end;gap:4px;height:100%"><div style="flex:1;height:88%;background:#661414;border-radius:4px 4px 0 0"></div><div style="flex:1;height:71%;background:#a21a1a;border-radius:4px 4px 0 0"></div><div style="flex:1;height:66%;background:#c2ad9a;border-radius:4px 4px 0 0"></div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font:400 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45)"><span>Feb</span><span>Mar</span><span>Abr</span><span>Mai</span><span>Jun</span><span>Jul</span></div>
+        <div style="display:flex;gap:18px;font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65)"><span style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:3px;background:#661414"></span>Obediència</span><span style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:3px;background:#a21a1a"></span>Socialització</span><span style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:3px;background:#c2ad9a"></span>Tasca específica</span></div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:20px">
+        <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <span style="font:600 14px 'Instrument Sans',sans-serif">Darreres sessions</span>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;gap:12px;align-items:flex-start"><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45);padding-top:2px">04 AGO</span><div style="display:flex;flex-direction:column;gap:2px"><span style="font:600 13.5px 'Instrument Sans',sans-serif">Ancoratge amb pressió</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">45 min · valoració 4/5</span></div></div>
+            <div style="display:flex;gap:12px;align-items:flex-start"><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45);padding-top:2px">01 AGO</span><div style="display:flex;flex-direction:column;gap:2px"><span style="font:600 13.5px 'Instrument Sans',sans-serif">Sortida a mercat</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">60 min · valoració 3/5</span></div></div>
+            <div style="display:flex;gap:12px;align-items:flex-start"><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(36,26,22,.45);padding-top:2px">29 JUL</span><div style="display:flex;flex-direction:column;gap:2px"><span style="font:600 13.5px 'Instrument Sans',sans-serif">Obediència bàsica</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">30 min · valoració 5/5</span></div></div>
+          </div>
+        </div>
+        <div style="background:#661414;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:9px">
+          <span style="font:600 13px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.65)">Incidència oberta</span>
+          <span style="font:400 14.5px/1.5 'Instrument Sans',sans-serif;color:#fff;text-wrap:pretty">Reactivitat a monopatins en dues sortides seguides. Proposta: dessensibilització a distància.</span>
+          <span style="font:400 11.5px 'JetBrains Mono',monospace;color:rgba(255,255,255,.5)">registrada l'1 d'agost</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="2e"><div class="dv-olabel"><a class="dv-oid" href="#2e">2e</a>Registre de sessió i fites — mòbil</div>
+<div style="display:flex;gap:24px;align-items:flex-start">
+<div class="dv-card" style="width:390px;height:844px;background:#fdfbf8;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font:500 13px 'Instrument Sans',sans-serif"><span>9:41</span><span style="font:500 11px 'JetBrains Mono',monospace">▮▮▮ ⌁ 84%</span></div>
+  <div style="padding:16px 24px 14px;display:flex;align-items:center;justify-content:space-between"><span style="font:400 22px 'Instrument Sans',sans-serif;color:#661414">✕</span><span style="font:600 14px 'Instrument Sans',sans-serif">Sessió amb Fura</span><span style="font:600 13.5px 'Instrument Sans',sans-serif;color:#a21a1a">Desa</span></div>
+  <div style="flex:1;overflow:hidden;padding:0 24px;display:flex;flex-direction:column;gap:16px">
+    <div style="background:#661414;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:6px;align-items:center">
+      <span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.6)">Durada</span>
+      <span style="font:400 52px/1 'Instrument Serif',serif;color:#fff">42:07</span>
+      <div style="display:flex;gap:10px;margin-top:10px"><span style="padding:9px 18px;border-radius:999px;background:rgba(255,255,255,.16);color:#fff;font:500 13px 'Instrument Sans',sans-serif">Pausa</span><span style="padding:9px 18px;border-radius:999px;background:#c2ad9a;color:#4a0f0f;font:600 13px 'Instrument Sans',sans-serif">Finalitza</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Exercicis treballats</span>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.12);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:500 14px 'Instrument Sans',sans-serif">Ancoratge tàctil</span><div style="display:flex;gap:5px"><span style="width:24px;height:24px;border-radius:7px;background:#608028"></span><span style="width:24px;height:24px;border-radius:7px;background:#608028"></span><span style="width:24px;height:24px;border-radius:7px;background:#608028"></span><span style="width:24px;height:24px;border-radius:7px;background:#608028"></span><span style="width:24px;height:24px;border-radius:7px;background:rgba(36,26,22,.1)"></span></div></div>
+        <div style="height:1px;background:rgba(36,26,22,.08)"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:500 14px 'Instrument Sans',sans-serif">Caminar amb corretja</span><div style="display:flex;gap:5px"><span style="width:24px;height:24px;border-radius:7px;background:#608028"></span><span style="width:24px;height:24px;border-radius:7px;background:#608028"></span><span style="width:24px;height:24px;border-radius:7px;background:#608028"></span><span style="width:24px;height:24px;border-radius:7px;background:rgba(36,26,22,.1)"></span><span style="width:24px;height:24px;border-radius:7px;background:rgba(36,26,22,.1)"></span></div></div>
+        <div style="height:1px;background:rgba(36,26,22,.08)"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:500 14px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.45)">+ Afegeix exercici</span></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Com ha anat</span>
+      <div style="display:flex;gap:8px"><span style="flex:1;text-align:center;padding:13px 0;border-radius:11px;background:#fff;border:1px solid rgba(36,26,22,.12);font:500 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Fluixa</span><span style="flex:1;text-align:center;padding:13px 0;border-radius:11px;background:#fff;border:1px solid rgba(36,26,22,.12);font:500 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Normal</span><span style="flex:1;text-align:center;padding:13px 0;border-radius:11px;background:#608028;font:600 13px 'Instrument Sans',sans-serif;color:#fff">Bona</span><span style="flex:1;text-align:center;padding:13px 0;border-radius:11px;background:#fff;border:1px solid rgba(36,26,22,.12);font:500 13px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">Molt bona</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Nota</span>
+      <div style="background:#fff;border:1px solid rgba(36,26,22,.12);border-radius:12px;padding:14px 16px;height:92px;font:400 14px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.75)">Molt centrada els primers 20 minuts. Es distreu quan passen bicicletes.</div>
+    </div>
+  </div>
+  <div style="height:5px;width:130px;border-radius:3px;background:rgba(36,26,22,.25);margin:14px auto 10px"></div>
+</div>
+<div class="dv-card" style="width:390px;height:844px;background:#fdfbf8;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font:500 13px 'Instrument Sans',sans-serif"><span>9:41</span><span style="font:500 11px 'JetBrains Mono',monospace">▮▮▮ ⌁ 84%</span></div>
+  <div style="padding:20px 24px 6px;display:flex;flex-direction:column;gap:4px"><span style="font:400 30px 'Instrument Serif',serif">Fites de la Fura</span><span style="font:400 13.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6)">9 de 14 assolides</span></div>
+  <div style="padding:12px 24px 0"><div style="height:8px;border-radius:4px;background:rgba(36,26,22,.1)"><div style="width:64%;height:100%;border-radius:4px;background:#608028"></div></div></div>
+  <div style="flex:1;padding:20px 24px;display:flex;flex-direction:column;gap:20px;overflow:hidden">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Socialització</span>
+      <div style="display:flex;gap:12px;align-items:center;background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:14px 15px"><span style="width:22px;height:22px;border-radius:50%;background:#608028;color:#fff;display:flex;align-items:center;justify-content:center;font:600 12px 'Instrument Sans',sans-serif">✓</span><div style="flex:1;display:flex;flex-direction:column"><span style="font:500 14px 'Instrument Sans',sans-serif">Tolerància a multituds</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">assolida el 12 de maig</span></div></div>
+      <div style="display:flex;gap:12px;align-items:center;background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:14px 15px"><span style="width:22px;height:22px;border-radius:50%;background:#608028;color:#fff;display:flex;align-items:center;justify-content:center;font:600 12px 'Instrument Sans',sans-serif">✓</span><div style="flex:1;display:flex;flex-direction:column"><span style="font:500 14px 'Instrument Sans',sans-serif">Transport públic</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">assolida el 2 de juny</span></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Tasca específica · TEA</span>
+      <div style="display:flex;gap:12px;align-items:center;background:#fff;border:1.5px solid #a21a1a;border-radius:12px;padding:14px 15px"><span style="width:22px;height:22px;border-radius:50%;border:2px solid #a21a1a;display:block"></span><div style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="font:500 14px 'Instrument Sans',sans-serif">Ancoratge en crisi</span><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:70%;height:100%;border-radius:3px;background:#a21a1a"></div></div><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.5)">7 de 10 assajos correctes</span></div></div>
+      <div style="display:flex;gap:12px;align-items:center;background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:14px 15px"><span style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(36,26,22,.2);display:block"></span><div style="flex:1;display:flex;flex-direction:column"><span style="font:500 14px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Evitar fugues al carrer</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.42)">no iniciada</span></div></div>
+      <div style="display:flex;gap:12px;align-items:center;background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:12px;padding:14px 15px"><span style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(36,26,22,.2);display:block"></span><div style="flex:1;display:flex;flex-direction:column"><span style="font:500 14px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Interrompre estereotípies</span><span style="font:400 12px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.42)">no iniciada</span></div></div>
+    </div>
+  </div>
+  <div style="border-top:1px solid rgba(36,26,22,.1);background:#fff;padding:12px 30px 20px;display:flex;justify-content:space-between;font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.45)">
+    <span style="display:flex;flex-direction:column;align-items:center;gap:5px"><span style="width:22px;height:22px;border-radius:7px;background:rgba(36,26,22,.12)"></span>Inici</span>
+    <span style="display:flex;flex-direction:column;align-items:center;gap:5px;color:#a21a1a"><span style="width:22px;height:22px;border-radius:7px;background:#a21a1a"></span>Gossos</span>
+    <span style="display:flex;flex-direction:column;align-items:center;gap:5px"><span style="width:22px;height:22px;border-radius:7px;background:rgba(36,26,22,.12)"></span>Races</span>
+    <span style="display:flex;flex-direction:column;align-items:center;gap:5px"><span style="width:22px;height:22px;border-radius:7px;background:rgba(36,26,22,.12)"></span>Perfil</span>
+  </div>
+  <div style="height:5px;width:130px;border-radius:3px;background:rgba(36,26,22,.25);margin:0 auto 10px"></div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Prova: «tira endavant amb <a class="dv-oid" href="#1b">1b</a> per al rànquing» · «afegeix la vista de família d'acollida» · «fes la versió web del qüestionari»</p>
+</section>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Tres direccions visuals — pantalla de compatibilitat (TEA)</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Sobri — llista de fitxes amb tres eixos</div>
+<div class="dv-card" style="width:390px;height:844px;background:#fdfbf8;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font:500 13px 'Instrument Sans',sans-serif"><span>9:41</span><span style="font:500 11px 'JetBrains Mono',monospace">▮▮▮ ⌁ 84%</span></div>
+  <div style="padding:18px 24px 14px;display:flex;flex-direction:column;gap:6px">
+    <span style="font:400 12px 'JetBrains Mono',monospace;color:#608028">TEA · ANCORATGE · ESCOLA</span>
+    <span style="font:400 30px/1.15 'Instrument Serif',serif">Races més compatibles</span>
+    <span style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.6);text-wrap:pretty">Ordenades pels eixos que pesen més en aquest perfil.</span>
+  </div>
+  <div style="flex:1;padding:0 24px;display:flex;flex-direction:column;gap:12px">
+    <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:13px">
+      <div style="display:flex;gap:13px;align-items:center">
+        <div style="width:52px;height:52px;border-radius:13px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div>
+        <div style="flex:1;display:flex;flex-direction:column"><span style="font:600 16px 'Instrument Sans',sans-serif">Labrador Retriever</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Sporting · 29–36 kg</span></div>
+        <span style="font:400 34px/1 'Instrument Serif',serif;color:#661414">92%</span>
+      </div>
+      <div style="display:flex;gap:9px">
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px"><span style="font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Entrenabilitat</span><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:94%;height:100%;background:#661414;border-radius:3px"></div></div></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px"><span style="font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Calma</span><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:81%;height:100%;background:#661414;border-radius:3px"></div></div></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px"><span style="font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Orientació</span><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:90%;height:100%;background:#661414;border-radius:3px"></div></div></div>
+      </div>
+      <span style="font:400 13px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Molt entrenable i estable amb infants; encaixa amb l'ancoratge i les rutines d'escola.</span>
+    </div>
+    <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:13px">
+      <div style="display:flex;gap:13px;align-items:center">
+        <div style="width:52px;height:52px;border-radius:13px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div>
+        <div style="flex:1;display:flex;flex-direction:column"><span style="font:600 16px 'Instrument Sans',sans-serif">Standard Poodle</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Non-Sporting · 20–32 kg</span></div>
+        <span style="font:400 34px/1 'Instrument Serif',serif;color:#661414">89%</span>
+      </div>
+      <div style="display:flex;gap:9px">
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px"><span style="font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Entrenabilitat</span><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:96%;height:100%;background:#661414;border-radius:3px"></div></div></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px"><span style="font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Calma</span><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:72%;height:100%;background:#661414;border-radius:3px"></div></div></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px"><span style="font:500 11px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Orientació</span><div style="height:5px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:88%;height:100%;background:#661414;border-radius:3px"></div></div></div>
+      </div>
+      <span style="font:400 13px/1.5 'Instrument Sans',sans-serif;color:rgba(36,26,22,.65);text-wrap:pretty">Aprèn ràpid i muda poc. Necessita estimulació mental constant.</span>
+    </div>
+    <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:14px;padding:16px;display:flex;gap:13px;align-items:center">
+      <div style="width:44px;height:44px;border-radius:12px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div>
+      <div style="flex:1;display:flex;flex-direction:column"><span style="font:600 15px 'Instrument Sans',sans-serif">Golden Retriever</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Sociabilitat 8,7 · Energia 6,8</span></div>
+      <span style="font:400 26px/1 'Instrument Serif',serif;color:#a21a1a">86%</span>
+    </div>
+    <div style="background:#fff;border:1px solid rgba(36,26,22,.1);border-radius:14px;padding:16px;display:flex;gap:13px;align-items:center">
+      <div style="width:44px;height:44px;border-radius:12px;background:repeating-linear-gradient(135deg,#e6ddd2 0 7px,#dcd1c3 7px 14px)"></div>
+      <div style="flex:1;display:flex;flex-direction:column"><span style="font:600 15px 'Instrument Sans',sans-serif">Bernese Mountain Dog</span><span style="font:400 12.5px 'Instrument Sans',sans-serif;color:rgba(36,26,22,.55)">Calma 9,0 · Mida alta</span></div>
+      <span style="font:400 26px/1 'Instrument Serif',serif;color:#a21a1a">79%</span>
+    </div>
+  </div>
+  <div style="height:5px;width:130px;border-radius:3px;background:rgba(36,26,22,.25);margin:16px auto 10px"></div>
+</div>
+</div>
+
+<div class="dv-opt" id="1b"><div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Editorial — el percentatge com a titular</div>
+<div class="dv-card" style="width:390px;height:844px;background:#c2ad9a;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font:500 13px 'Instrument Sans',sans-serif;color:#4a0f0f"><span>9:41</span><span style="font:500 11px 'JetBrains Mono',monospace">▮▮▮ ⌁ 84%</span></div>
+  <div style="padding:22px 26px 0;display:flex;justify-content:space-between;align-items:center"><span style="font:400 22px 'Instrument Sans',sans-serif;color:#661414">←</span><span style="font:500 12px 'JetBrains Mono',monospace;color:#661414">1 DE 24</span></div>
+  <div style="padding:18px 26px 0;display:flex;flex-direction:column">
+    <span style="font:400 12px 'JetBrains Mono',monospace;color:#4a0f0f;opacity:.7">COMPATIBILITAT AMB TEA</span>
+    <span style="font:400 128px/.82 'Instrument Serif',serif;color:#661414;letter-spacing:-.03em;margin-top:8px">92<span style="font-size:52px">%</span></span>
+    <span style="font:400 34px/1.1 'Instrument Serif',serif;color:#4a0f0f;margin-top:14px">Labrador Retriever</span>
+    <span style="font:400 14.5px/1.55 'Instrument Sans',sans-serif;color:rgba(74,15,15,.72);margin-top:10px;text-wrap:pretty">La combinació que millor respon al perfil: molt entrenable, estable amb infants i orientat a la persona.</span>
+  </div>
+  <div style="margin:22px 26px 0;background:#fdfbf8;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:15px">
+    <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(36,26,22,.5)">Els tres eixos que decideixen</span>
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13.5px 'Instrument Sans',sans-serif"><span>Entrenabilitat</span><span style="font-family:'JetBrains Mono',monospace;color:#661414">9,4 · pes 30%</span></div><div style="height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:94%;height:100%;border-radius:3px;background:#661414"></div></div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13.5px 'Instrument Sans',sans-serif"><span>Calma</span><span style="font-family:'JetBrains Mono',monospace;color:#661414">8,1 · pes 25%</span></div><div style="height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:81%;height:100%;border-radius:3px;background:#661414"></div></div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font:500 13.5px 'Instrument Sans',sans-serif"><span>Orientació a la persona</span><span style="font-family:'JetBrains Mono',monospace;color:#661414">9,0 · pes 20%</span></div><div style="height:6px;border-radius:3px;background:rgba(36,26,22,.1)"><div style="width:90%;height:100%;border-radius:3px;background:#661414"></div></div></div>
+  </div>
+  <div style="flex:1;padding:20px 26px 0;display:flex;flex-direction:column;gap:10px">
+    <span style="font:600 12px 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(74,15,15,.6)">A continuació</span>
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(102,20,20,.18);padding-bottom:9px"><span style="font:500 15px 'Instrument Sans',sans-serif;color:#4a0f0f">Standard Poodle</span><span style="font:400 20px 'Instrument Serif',serif;color:#661414">89%</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(102,20,20,.18);padding-bottom:9px"><span style="font:500 15px 'Instrument Sans',sans-serif;color:#4a0f0f">Golden Retriever</span><span style="font:400 20px 'Instrument Serif',serif;color:#661414">86%</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:500 15px 'Instrument Sans',sans-serif;color:#4a0f0f">Bernese Mountain Dog</span><span style="font:400 20px 'Instrument Serif',serif;color:#661414">79%</span></div>
+  </div>
+  <div style="padding:16px 26px 18px"><div style="height:52px;border-radius:12px;background:#661414;display:flex;align-items:center;justify-content:center;font:600 15px 'Instrument Sans',sans-serif;color:#fff">Obre la fitxa de raça</div></div>
+  <div style="height:5px;width:130px;border-radius:3px;background:rgba(74,15,15,.3);margin:0 auto 10px"></div>
+</div>
+</div>
+
+<div class="dv-opt" id="1c"><div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Comparativa — escala contínua i eixos alineats</div>
+<div class="dv-card" style="width:390px;height:844px;background:#241a16;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font:500 13px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.85)"><span>9:41</span><span style="font:500 11px 'JetBrains Mono',monospace">▮▮▮ ⌁ 84%</span></div>
+  <div style="padding:20px 24px 16px;display:flex;flex-direction:column;gap:8px">
+    <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:400 26px 'Instrument Serif',serif;color:#fff">Compatibilitat</span><span style="font:500 12px 'Instrument Sans',sans-serif;color:#c2ad9a;border:1px solid rgba(194,173,154,.4);border-radius:999px;padding:6px 12px">TEA ▾</span></div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap"><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(255,255,255,.5)">ENTRENABILITAT 30%</span><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(255,255,255,.5)">· CALMA 25%</span><span style="font:500 11.5px 'JetBrains Mono',monospace;color:rgba(255,255,255,.5)">· ORIENTACIÓ 20%</span></div>
+  </div>
+  <div style="flex:1;padding:0 24px;display:flex;flex-direction:column;gap:11px">
+    <div style="border-radius:14px;overflow:hidden;background:rgba(255,255,255,.05);display:flex">
+      <div style="width:6px;background:#608028"></div>
+      <div style="flex:1;padding:15px 16px;display:flex;flex-direction:column;gap:11px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:600 16px 'Instrument Sans',sans-serif;color:#fff">Labrador Retriever</span><span style="font:400 30px 'Instrument Serif',serif;color:#608028">92%</span></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.45)">Entrenabilitat</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"><div style="width:94%;height:100%;border-radius:3px;background:#608028"></div></div></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.45)">Calma</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"><div style="width:81%;height:100%;border-radius:3px;background:#608028"></div></div></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.45)">Orientació</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"><div style="width:90%;height:100%;border-radius:3px;background:#608028"></div></div></div>
+      </div>
+    </div>
+    <div style="border-radius:14px;overflow:hidden;background:rgba(255,255,255,.05);display:flex">
+      <div style="width:6px;background:#a21a1a"></div>
+      <div style="flex:1;padding:15px 16px;display:flex;flex-direction:column;gap:11px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:600 16px 'Instrument Sans',sans-serif;color:#fff">Standard Poodle</span><span style="font:400 30px 'Instrument Serif',serif;color:#c2ad9a">89%</span></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.45)">Entrenabilitat</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"><div style="width:96%;height:100%;border-radius:3px;background:#c2ad9a"></div></div></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.45)">Calma</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"><div style="width:72%;height:100%;border-radius:3px;background:#c2ad9a"></div></div></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.45)">Orientació</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"><div style="width:88%;height:100%;border-radius:3px;background:#c2ad9a"></div></div></div>
+      </div>
+    </div>
+    <div style="border-radius:14px;overflow:hidden;background:rgba(255,255,255,.05);display:flex">
+      <div style="width:6px;background:#a21a1a"></div>
+      <div style="flex:1;padding:15px 16px;display:flex;flex-direction:column;gap:11px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:600 16px 'Instrument Sans',sans-serif;color:#fff">Golden Retriever</span><span style="font:400 30px 'Instrument Serif',serif;color:#c2ad9a">86%</span></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.45)">Entrenabilitat</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"><div style="width:91%;height:100%;border-radius:3px;background:#c2ad9a"></div></div></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.45)">Calma</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"><div style="width:74%;height:100%;border-radius:3px;background:#c2ad9a"></div></div></div>
+        <div style="display:flex;gap:6px;align-items:center"><span style="width:82px;font:500 11px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.45)">Orientació</span><div style="flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"><div style="width:89%;height:100%;border-radius:3px;background:#c2ad9a"></div></div></div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.05)"><span style="font:500 15px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.8)">Bernese Mountain Dog</span><span style="font:400 22px 'Instrument Serif',serif;color:rgba(255,255,255,.55)">79%</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.05)"><span style="font:500 15px 'Instrument Sans',sans-serif;color:rgba(255,255,255,.8)">Havanese</span><span style="font:400 22px 'Instrument Serif',serif;color:rgba(255,255,255,.55)">74%</span></div>
+  </div>
+  <div style="padding:16px 24px 18px"><div style="height:52px;border-radius:12px;background:#c2ad9a;display:flex;align-items:center;justify-content:center;font:600 15px 'Instrument Sans',sans-serif;color:#4a0f0f">Compara les tres primeres</div></div>
+  <div style="height:5px;width:130px;border-radius:3px;background:rgba(255,255,255,.3);margin:0 auto 10px"></div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Prova: «vull <a class="dv-oid" href="#1c">1c</a> però amb fons clar» · «afegeix el radar d'eixos a <a class="dv-oid" href="#1a">1a</a>» · «més direccions»</p>
+</section>
+
+</x-dc>
+</body>
+</html>
