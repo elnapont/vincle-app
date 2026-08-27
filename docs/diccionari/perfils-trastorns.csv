@@ -1,0 +1,43 @@
+﻿trastorn,trastorn_nom,eix,pes,direccio,justificacio,font,pes_proposta,direccio_proposta,justificacio_proposta,font_proposta
+tea,Trastorn de l'espectre autista,entrenabilitat,10,suma,,,15,suma,L'entrenabilitat és el predictor positiu bàsic a tota la literatura de gossos d'assistència; el TEA no en demana més que la resta,Bray2019; Duffy2012
+tea,Trastorn de l'espectre autista,energia,12,suma,,,5,suma,Cap font vincula el nivell d'energia amb l'èxit en TEA; pes baix per no introduir soroll,Burrows2008
+tea,Trastorn de l'espectre autista,calma,15,suma,,,25,suma,L'ancoratge i la pressió calmant són les funcions centrals descrites; demanen un gos estable que no s'activi amb la desregulació del nen,Burrows2008
+tea,Trastorn de l'espectre autista,sociabilitat,25,suma,,,20,suma,El gos fa de pont social i ha de tolerar maneig imprevisible; l'agressivitat cap a altres gossos és un predictor de fracàs,Burrows2008; Bray2019
+tea,Trastorn de l'espectre autista,orientacio-persona,20,suma,,,15,suma,"El vincle amb el nen és el que sosté l'ancoratge, però és el nen qui s'hi vincula més que a l'inrevés",Burrows2008
+tea,Trastorn de l'espectre autista,alerta,10,resta,,,5,resta,El lladruc persistent és el predictor de fracàs més fort de tots; a més afegeix càrrega sensorial a un infant sovint hipersensible,Bray2019
+tea,Trastorn de l'espectre autista,tolerancia-entorns,8,suma,,,15,suma,La por a desconeguts i als sorolls sobtats és el segon predictor de fracàs; el gos ha de funcionar a escola i al carrer,Bray2019; Burrows2008
+depressio,Depressió,entrenabilitat,10,suma,,,15,suma,Predictor positiu bàsic comú a tots els trastorns,Bray2019; Duffy2012
+depressio,Depressió,energia,20,suma,,,20,suma,L'activació conductual és el mecanisme proposat: el gos ha de demandar sortides i trencar la inèrcia. És l'únic trastorn on l'energia alta és un actiu clar,Rodriguez2020b
+depressio,Depressió,calma,10,suma,,,10,suma,Menys crític que en ansietat o TEPT: aquí no es busca contenir una crisi sinó activar,Rodriguez2020b
+depressio,Depressió,sociabilitat,25,suma,,,20,suma,Reduir l'aïllament social és un dels efectes més consistents descrits; el gos actua de catalitzador amb terceres persones,Rodriguez2020b
+depressio,Depressió,orientacio-persona,15,suma,,,20,suma,El gos ha de buscar activament la persona perquè la rutina funcioni; sense iniciativa cap a ella no hi ha activació,Rodriguez2020b
+depressio,Depressió,alerta,10,resta,,,5,resta,Lladruc persistent com a predictor de fracàs; sense relació específica amb la depressió,Bray2019
+depressio,Depressió,tolerancia-entorns,10,suma,,,10,suma,Necessari per a l'accés públic però menys central que en trastorns amb component d'evitació,Bray2019
+ansietat,Trastorns d'ansietat,entrenabilitat,10,suma,,,15,suma,Predictor positiu bàsic comú a tots els trastorns,Bray2019; Duffy2012
+ansietat,Trastorns d'ansietat,energia,5,suma,,,5,suma,Convindria energia continguda però l'eix no ho pot expressar: cap raça hi baixa de 5. S'opta per pes baix en comptes d'invertir la direcció,limitacio-dades
+ansietat,Trastorns d'ansietat,calma,40,suma,,,30,suma,El pes més alt del perfil: la funció central és transmetre estabilitat; l'excitabilitat és una causa habitual de retirada del programa,Bray2019; Rodriguez2020a
+ansietat,Trastorns d'ansietat,sociabilitat,14,suma,,,15,suma,Ha de ser previsible amb desconeguts als llocs concorreguts que disparen l'ansietat,Bray2019
+ansietat,Trastorns d'ansietat,orientacio-persona,13,suma,,,15,suma,Interrompre l'escalada exigeix que el gos detecti el canvi d'estat de la persona,Rodriguez2020a
+ansietat,Trastorns d'ansietat,alerta,10,resta,,,5,resta,Un gos reactiu o lladrador amplifica l'activació en comptes de contenir-la,Bray2019
+ansietat,Trastorns d'ansietat,tolerancia-entorns,8,suma,,,15,suma,Ha de mantenir-se estable justament als entorns que la persona evita,Bray2019
+bipolar,Trastorn bipolar,entrenabilitat,10,suma,,,15,suma,Predictor positiu bàsic comú a tots els trastorns,Bray2019; Duffy2012
+bipolar,Trastorn bipolar,energia,20,suma,,,10,suma,Ha de servir tant a la fase depressiva com a la maníaca; una energia molt alta ajuda en una i entorpeix l'altra,Rodriguez2020b
+bipolar,Trastorn bipolar,calma,20,suma,,,25,suma,L'estabilitat del gos és el que ha de romandre constant mentre l'estat de la persona oscil·la,Bray2019
+bipolar,Trastorn bipolar,sociabilitat,15,suma,,,15,suma,Requisit general de comportament públic previsible,Bray2019
+bipolar,Trastorn bipolar,orientacio-persona,10,suma,,,20,suma,Les rutines de son i medicació depenen que el gos estigui pendent de la persona i n'iniciï el contacte,Rodriguez2020b
+bipolar,Trastorn bipolar,alerta,10,resta,,,5,resta,Lladruc persistent com a predictor de fracàs; alterar el son és contraproduent en un trastorn on la privació de son és desencadenant,Bray2019
+bipolar,Trastorn bipolar,tolerancia-entorns,15,suma,,,10,suma,Requisit general d'accés públic,Bray2019
+tept,Trastorn d'estrès posttraumàtic,entrenabilitat,10,suma,,,15,suma,Predictor positiu bàsic comú a tots els trastorns,Bray2019; Duffy2012
+tept,Trastorn d'estrès posttraumàtic,energia,5,suma,,,5,suma,Sense vincle documentat amb l'eficàcia en TEPT; pes baix,Rodriguez2020a
+tept,Trastorn d'estrès posttraumàtic,calma,30,suma,,,25,suma,"«Calmar i confortar l'ansietat» és la tasca que els veterans valoren com la més important (4,23/5) i la que més fan servir (5,05 cops al dia)",Rodriguez2020a
+tept,Trastorn d'estrès posttraumàtic,sociabilitat,20,suma,,,15,suma,Els programes seleccionen els gossos per temperament amigable i absència d'agressivitat o por,Rodriguez2020a
+tept,Trastorn d'estrès posttraumàtic,orientacio-persona,10,suma,,,20,suma,«Interrompre/avisar de l'ansietat» és la tercera tasca en importància i exigeix que el gos llegeixi l'estat de la persona,Rodriguez2020a
+tept,Trastorn d'estrès posttraumàtic,alerta,15,resta,,,5,resta,"Punt debatible: la tasca «cobrir/vigilar l'esquena» és la segona en importància, però és una conducta ENTRENADA, no un tret de raça. Com a temperament, un gos hipervigilant reforça la hiperactivació del pacient",Rodriguez2020a; Bray2019
+tept,Trastorn d'estrès posttraumàtic,tolerancia-entorns,10,suma,,,15,suma,L'accés públic és central en aquest perfil i la por a desconeguts hi és incompatible,Rodriguez2020a; Bray2019
+tdah,Trastorn de dèficit d'atenció amb hiperactivitat,entrenabilitat,10,suma,,,15,suma,Predictor positiu bàsic comú a tots els trastorns,Bray2019; Duffy2012
+tdah,Trastorn de dèficit d'atenció amb hiperactivitat,energia,20,suma,,,15,suma,L'activitat física compartida és un mecanisme plausible i el gos ha de poder seguir el ritme del nen,Schuck2018
+tdah,Trastorn de dèficit d'atenció amb hiperactivitat,calma,20,suma,,,20,suma,"El gos ha de ser l'element estable de la interacció; si hi afegeix agitació, no compleix la funció",Schuck2018
+tdah,Trastorn de dèficit d'atenció amb hiperactivitat,sociabilitat,15,suma,,,20,suma,La millora de les habilitats socials és el resultat més clar de l'assaig controlat disponible,Schuck2018
+tdah,Trastorn de dèficit d'atenció amb hiperactivitat,orientacio-persona,15,suma,,,15,suma,L'ancoratge de l'atenció depèn que el gos busqui i mantingui el contacte,Schuck2018
+tdah,Trastorn de dèficit d'atenció amb hiperactivitat,alerta,10,resta,,,5,resta,Lladruc persistent com a predictor de fracàs; sense relació específica amb el TDAH,Bray2019
+tdah,Trastorn de dèficit d'atenció amb hiperactivitat,tolerancia-entorns,10,suma,,,10,suma,Requisit general d'accés públic,Bray2019
