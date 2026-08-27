@@ -1,0 +1,51 @@
+﻿terme,terme_ca,frequencia,eix,puntuacio,notes,races_exemple
+intelligent,intel·ligent,538,entrenabilitat,7,,Africanis · Aidi · Airedale Terrier
+loyal,lleial,454,orientacio-persona,7,,Affenpinscher · Afghan Hound · Africanis
+alert,vigilant,377,alerta,9,,Affenpinscher · Africanis · Aidi
+energetic,enèrgic,304,energia,9,,Aidi · Airedale Terrier · Airedoodle
+courageous,valent,213,tolerancia-entorns,8,,Affenpinscher · Aidi · Airedale Terrier
+independent,independent,211,orientacio-persona,4,,Afghan Hound · Africanis · Aidi
+independent,independent,211,entrenabilitat,3,Segona fila: el terme afecta dos eixos (§5.2),Afghan Hound · Africanis · Aidi
+affectionate,afectuós,165,sociabilitat,8,,Alaskan Malamute · American Bulldog · American Bully
+friendly,amigable,163,sociabilitat,9,,Airedoodle · Alaskan Husky · Alaskan Malamute
+protective,protector,143,orientacio-persona,7,,Aidi · Akbash · Akita
+playful,juganer,142,energia,8,,Affenpinscher · Alaskan Klee Kai · Alaskan Malamute
+confident,segur de si mateix,139,tolerancia-entorns,9,,Affenpinscher · Afghan Hound · Airedale Terrier
+gentle,dolç,129,sociabilitat,6,,American Bully · American Cocker Spaniel · American Foxhound
+calm,tranquil,125,calma,9,,Akbash · Aksaray Malaklisi · Ariégeois
+work-focused,orientat a la feina,103,entrenabilitat,9,,Alaskan Husky · Alpine Dachsbracke · American English Coonhound
+devoted,entregat,78,orientacio-persona,6,,Anglo-Français de Petite Vénerie · Australian Shepherd · Barbet
+adaptable,adaptable,50,tolerancia-entorns,9,,Africanis · Alopekis · Ariège Pointer
+outgoing,extravertit,50,sociabilitat,9,,Airedale Terrier · Alaskan Malamute · American Bully
+eager to please,disposat a complaure,47,entrenabilitat,10,,American Bully · American Eskimo Dog · American Pit Bull Terrier
+athletic,atlètic,38,energia,8,,Alaskan Husky · American Leopard Hound · Australian Shepherd
+docile,dòcil,13,calma,6,,Ariège Pointer · Barbado da Terceira · Bracco Italiano
+happy,alegre,13,sociabilitat,5,,American Cocker Spaniel · American Water Spaniel · Basset Fauve de Bretagne
+reserved,reservat,8,sociabilitat,2,,Eurasier · Kanni · Kishu Ken
+lively,vivaç,6,calma,3,,Chihuahua · Chinese Crested · Dutch Smoushond
+curious,curiós,5,tolerancia-entorns,7,,Alaskan Klee Kai · American Hairless Terrier · Basenji
+hardy,resistent,5,tolerancia-entorns,6,,Chukotka Sled Dog · Icelandic Sheepdog · Kamchatka Sled Dog
+spirited,animós,5,calma,3,,Glen of Imaal Terrier · Irish Terrier · Manchester Terrier
+dignified,digne,4,calma,6,,Afghan Hound · Akita · Irish Wolfhound
+smart,llest,4,entrenabilitat,7,Sinònim d'intelligent: mateixa puntuació per no premiar una tria arbitrària de l'API,American Cocker Spaniel · American Staffordshire Terrier · French Bulldog
+aloof,distant,3,orientacio-persona,2,,Afghan Hound · Azawakh · Chow Chow
+patient,pacient,3,calma,9,,Saint Bernard · Sapsali · Spinone Italiano
+agile,àgil,2,energia,6,,Peruvian Inca Orchid · Philippine Forest Dog
+charming,encantador,2,orientacio-persona,8,,Maltese · Pug
+determined,decidit,2,alerta,5,,Hanoverian Scenthound · Segugio Italiano
+even-tempered,equilibrat,2,calma,5,,Drever · Pointer
+fearless,intrèpid,2,tolerancia-entorns,8,,Maltese · Miniature Pinscher
+mischievous,entremaliat,2,entrenabilitat,3,,Bull Terrier · Miniature Bull Terrier
+active,actiu,1,energia,8,,Sprocker Spaniel
+amiable,afable,1,sociabilitat,9,,Otterhound
+cautious,prudent,1,tolerancia-entorns,3,,New Guinea Singing Dog
+cheerful,jovial,1,sociabilitat,7,,Kooikerhondje
+clever,espavilat,1,entrenabilitat,7,Sinònim d'intelligent: mateixa puntuació per no premiar una tria arbitrària de l'API,Miniature Dachshund
+easygoing,de tracte fàcil,1,calma,8,,Black and Tan Coonhound
+good-natured,de bon caràcter,1,sociabilitat,7,,Bernese Mountain Dog
+merry,joiós,1,sociabilitat,6,,English Cocker Spaniel
+optimistic,optimista,1,tolerancia-entorns,6,,Flat-Coated Retriever
+sensitive,sensible,1,sociabilitat,7,,Field Spaniel
+sweet-tempered,de caràcter dolç,1,sociabilitat,7,,Russian Tsvetnaya Bolonka
+tenacious,tenaç,1,alerta,6,,Serbian Hound
+variable depending on ancestry and individual traits,variable segons l'ascendència i els trets individuals,1,,,,Mongrel
