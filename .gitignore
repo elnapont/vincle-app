@@ -15,3 +15,7 @@ node_modules/
 dist/
 build/
 .expo/
+
+# Configuració local d'editor que arrossega la plantilla d'Expo
+.vscode/
+.claude/
