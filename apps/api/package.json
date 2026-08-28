@@ -1,0 +1,12 @@
+{
+  "name": "@vincle/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Capa d'API pròpia: proxy amb cache de The Dog API i matching",
+  "scripts": {
+    "start": "supabase start",
+    "stop": "supabase stop",
+    "serve": "supabase functions serve",
+    "deploy": "supabase functions deploy"
+  }
+}

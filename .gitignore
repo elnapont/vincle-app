@@ -19,3 +19,6 @@ build/
 # Configuració local d'editor que arrossega la plantilla d'Expo
 .vscode/
 .claude/
+
+# Secrets de les Edge Functions
+apps/api/supabase/functions/.env
