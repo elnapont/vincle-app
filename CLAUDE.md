@@ -126,7 +126,14 @@ Client-servidor amb API REST. Sense sobre-enginyeria.
 - El client **mai** crida directament l'API pública de races: sempre a través del servidor,
   per poder cachejar, normalitzar i no dependre de la disponibilitat externa.
 - El **matching** és un mòdul propi, aïllat i testejable, perquè és el nucli conceptual del
-  treball i evolucionarà.
+  treball i evolucionarà. Viu a `/packages/matching` i no dins de `/apps/api`: així és
+  TypeScript pur, sense APIs de Node ni del navegador, i es pot provar amb Node sense muntar
+  res. La funció de servidor només n'és una closca prima. Les seves proves reprodueixen les
+  xifres de `docs/diccionari/previsualitzacio-ranquing.md`, de manera que qualsevol canvi que
+  alteri el rànquing es detecta immediatament.
+- El **diccionari i els perfils** es generen com a TypeScript tipat des dels CSV amb
+  `npm run dades:genera`. L'aplicació no parseja CSV en execució: si un CSV és incorrecte, la
+  generació falla en desenvolupament i no a les mans de l'usuari.
 - Autenticació i rols gestionats per Supabase Auth.
 
 ### Estructura del repositori (monorepo)
@@ -137,6 +144,7 @@ Client-servidor amb API REST. Sense sobre-enginyeria.
   /api          → capa d'API pròpia (matching + proxy races)
 /packages
   /shared-types → tipus TS compartits (Dog, Session, MatchResult, Family...)
+  /matching     → motor de matching: derivació d'eixos i puntuació
 /scripts        → tasques puntuals de preparació de dades (no formen part de l'app)
 /docs
   CLAUDE.md     → aquest document

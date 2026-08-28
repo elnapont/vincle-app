@@ -1,0 +1,23 @@
+{
+  "name": "vincle-app",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Vincle — explorador de races i seguiment d'ensinistrament de gossos d'assistència",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dades:extreu": "node --experimental-strip-types scripts/extreu-termes.ts",
+    "dades:valida": "node --experimental-strip-types scripts/valida-diccionari.ts && node --experimental-strip-types scripts/valida-perfils.ts",
+    "dades:genera": "node --experimental-strip-types scripts/genera-dades-referencia.ts",
+    "dades:previsualitza": "node --experimental-strip-types scripts/previsualitza-ranquing.ts",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "tsc --build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "supabase": "^2.2.1",
+    "typescript": "^5.7.2"
+  }
+}
