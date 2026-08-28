@@ -152,6 +152,15 @@ Client-servidor amb API REST. Sense sobre-enginyeria.
   /diccionari   → plantilla i dades d'origen del diccionari de traducció (§5.2, §5.3)
 ```
 
+> **Variants de disseny resoltes.** El handoff ofereix alternatives que s'han de triar:
+>
+> - **Rànquing mòbil (`7d`): s'implementa la variant de llista.** És l'hereva de la `3a`, la
+>   direcció que ja s'havia triat a h1. La **variant editorial queda descartada**.
+> - Conseqüència: el token `percentatge protagonista` de **88px** es va crear per al titular de
+>   la variant editorial, i amb aquesta descartada **queda sense fer servir**. Es manté definit
+>   perquè el handoff el documenta, però cap pantalla no l'utilitza. El canvi de 128px a 88px
+>   que Claude Design va marcar com «l'única desviació de h1» ja no afecta res del producte.
+
 > **Brief d'actualització del disseny.** `docs/design/brief-actualitzacio.md` recull tots els
 > canvis decidits després de generar el paquet `h1` i que el deixen desactualitzat: els sis
 > trastorns, la mida com a filtre, els set eixos més la longevitat, els temperaments en català,

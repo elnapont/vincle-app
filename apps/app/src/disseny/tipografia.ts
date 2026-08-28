@@ -37,6 +37,10 @@ export const text = {
    * Percentatge protagonista del rànquing mòbil. Va baixar de 128px a 88px per
    * deixar lloc a la posició i al mesurador: a 128px la xifra es llegia com un
    * veredicte, i el recorregut real només va del 41 % al 80 %.
+   *
+   * ACTUALMENT SENSE FER SERVIR: era el titular de la variant editorial de `7d`,
+   * que es va descartar a favor de la de llista. Es manté perquè el handoff el
+   * documenta i perquè la decisió es podria revisar.
    */
   percentatgeProtagonista: {
     fontFamily: familia.serif, fontSize: 88, lineHeight: 88 * 0.9, color: color.tinta,
