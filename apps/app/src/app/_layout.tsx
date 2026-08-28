@@ -24,6 +24,7 @@ import {
   JetBrainsMono_500Medium,
 } from '@expo-google-fonts/jetbrains-mono';
 import { color } from '../disseny/index.ts';
+import { ProveidorQuestionari } from '../estat/Questionari.tsx';
 
 SplashScreen.preventAutoHideAsync().catch(() => {
   // Si la pantalla de càrrega ja s'ha amagat, no és cap problema.
@@ -49,7 +50,7 @@ export default function ArrelLayout() {
   if (!fontsLlestes && !errorFonts) return null;
 
   return (
-    <>
+    <ProveidorQuestionari>
       <StatusBar style="dark" />
       <Stack
         screenOptions={{
@@ -57,6 +58,6 @@ export default function ArrelLayout() {
           contentStyle: { backgroundColor: color.paper },
         }}
       />
-    </>
+    </ProveidorQuestionari>
   );
 }
