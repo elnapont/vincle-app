@@ -32,8 +32,19 @@ const PESTANYES = [
   { etiqueta: 'Exercicis', desti: '/exercicis' as const },
 ];
 
-/** Quants exercicis ha de tenir cada bloc quan el catàleg estigui complet. */
-const PREVISTOS: Record<number, number> = { 1: 3, 2: 5, 3: 4, 4: 3, 5: 4 };
+/**
+ * Quants exercicis té cada bloc.
+ *
+ * Es compta del catàleg i no d'una llista escrita a mà. Abans hi havia aquí els
+ * imports previstos —3, 5, 4, 3, 4— per poder ensenyar «escrits/previstos»
+ * mentre l'Elna els redactava; ara que hi són tots, això només deia «3/3» a tot
+ * arreu. Qui vigila que els recomptes siguin els que toquen és el generador
+ * (`scripts/genera-exercicis.ts`), que avisa en construir les dades: és el lloc
+ * on es nota, i no una còpia dins la pantalla que es pot desviar en silenci.
+ */
+const PER_BLOC = new Map<number, number>(
+  BLOCS_CATALEG.map((b) => [b.bloc, EXERCICIS.filter((e) => e.bloc === b.bloc).length]),
+);
 
 export default function CatalegExercicis() {
   const { esMobil, lateralASobre } = useTrencament();
@@ -44,9 +55,6 @@ export default function CatalegExercicis() {
     () => (bloc === null ? EXERCICIS : EXERCICIS.filter((e) => e.bloc === bloc)),
     [bloc],
   );
-
-  const compta = (n: number) => EXERCICIS.filter((e) => e.bloc === n).length;
-  const totalPrevistos = Object.values(PREVISTOS).reduce((a, b) => a + b, 0);
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
@@ -71,9 +79,7 @@ export default function CatalegExercicis() {
                   >
                     {b.nom}
                   </Text>
-                  <Text style={text.metadadaFort}>
-                    {`${compta(b.bloc)}/${PREVISTOS[b.bloc] ?? '?'}`}
-                  </Text>
+                  <Text style={text.metadadaFort}>{PER_BLOC.get(b.bloc) ?? 0}</Text>
                 </Pressable>
               ))}
             </Targeta>
@@ -86,16 +92,6 @@ export default function CatalegExercicis() {
                 pràctic del treball.
               </Text>
             </Targeta>
-
-            {EXERCICIS.length < totalPrevistos ? (
-              <Targeta franja="absencia">
-                <Seccio>En redacció</Seccio>
-                <Text style={estils.nota}>
-                  {`${EXERCICIS.length} de ${totalPrevistos} exercicis escrits. `}
-                  Els blocs que encara no hi són s'aniran afegint.
-                </Text>
-              </Targeta>
-            ) : null}
           </View>
 
           {/* Contingut: la graella d'exercicis */}
@@ -154,7 +150,7 @@ export default function CatalegExercicis() {
 }
 
 function TargetaExercici({ exercici }: { exercici: Exercise }) {
-  const previstos = PREVISTOS[exercici.bloc] ?? '?';
+  const delBloc = PER_BLOC.get(exercici.bloc) ?? '?';
 
   return (
     <Link href={{ pathname: '/exercicis/[id]', params: { id: exercici.id } }} asChild>
@@ -164,7 +160,7 @@ function TargetaExercici({ exercici }: { exercici: Exercise }) {
         style={({ pressed }) => [estils.plena, pressed ? { opacity: 0.85 } : null]}
       >
         <Targeta estil={[estils.targeta, { backgroundColor: fonsBloc(exercici.bloc) }]}>
-          <Text style={estils.eyebrow}>{`EXERCICI ${exercici.ordre} DE ${previstos}`}</Text>
+          <Text style={estils.eyebrow}>{`EXERCICI ${exercici.ordre} DE ${delBloc}`}</Text>
           <View style={estils.filaNom}>
             <View style={estils.ordinal}>
               <Text style={estils.ordinalNumero}>{exercici.ordre}</Text>
