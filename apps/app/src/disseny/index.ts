@@ -8,3 +8,4 @@ export * from './ControlLliscant.tsx';
 export * from './MesuradorRecorregut.tsx';
 export * from './BarraNavegacio.tsx';
 export * from './Camp.tsx';
+export * from './FotoRaca.tsx';

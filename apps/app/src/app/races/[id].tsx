@@ -14,16 +14,19 @@
  *     sobre una escala de 0 a 100 sembla molt més del que és.
  */
 
+import { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import type { Breed, EixDerivat, Trastorn } from '@vincle/shared-types';
-import { ETIQUETA_EIX, ETIQUETA_TRASTORN_CURTA, etiquetaGrup } from '@vincle/shared-types';
+import {
+  ETIQUETA_EIX, ETIQUETA_TRASTORN, ETIQUETA_TRASTORN_CURTA, TRASTORNS, etiquetaGrup,
+} from '@vincle/shared-types';
 import { TRADUCCIO_TERME, derivaEixos, perfilDe, ranquing } from '@vincle/matching';
 import { useCataleg } from '../../dades/useCataleg.ts';
 import { useQuestionari } from '../../estat/Questionari.tsx';
 import {
-  BarraEix, Boto, Esquelet, MesuradorRecorregut, Seccio, Targeta, Xip,
+  BarraEix, Boto, Esquelet, FotoRaca, MesuradorRecorregut, Seccio, Targeta, Xip,
   color, espai, text, tinta, useTrencament,
 } from '../../disseny/index.ts';
 
@@ -78,19 +81,29 @@ export default function FitxaRaça() {
 
   const perfilTrastorn = perfilDe(trastorn);
   const eixos = derivaEixos(raça);
-  // La posició només té sentit dins del rànquing sencer, així que es calcula
-  // sobre tot el catàleg i després se'n busca aquesta raça.
-  const resultat = ranquing(estat.cataleg.races, perfilTrastorn, { pesMaximKg: null })
-    .find((r) => r.breedId === raça.id)!;
-
   const senseDades = eixos.filter((e) => e.valor === null);
+
+  // La posició només té sentit dins del rànquing sencer, així que es calcula
+  // sobre tot el catàleg. Es fa per als sis trastorns alhora: mirar una raça que
+  // t'agrada i veure amb quin encaixa millor és l'altra direcció del matching, i
+  // val tant com la primera.
+  const encaixos = useMemo(
+    () => TRASTORNS.map((t) => {
+      const r = ranquing(estat.cataleg.races, perfilDe(t), { pesMaximKg: null })
+        .find((x) => x.breedId === raça.id)!;
+      return { trastorn: t, puntuacio: r.puntuacio, posicio: r.posicio, total: r.totalAvaluades };
+    }).sort((a, b) => b.puntuacio - a.puntuacio),
+    [estat.cataleg.races, raça.id],
+  );
+
+  const resultat = encaixos.find((e) => e.trastorn === trastorn)!;
 
   return (
     <Pantalla>
       <View style={[estils.columnes, esMobil && estils.columnesApilades]}>
         {/* Columna esquerra: imatge i dades de catàleg */}
         <View style={[estils.columnaEsquerra, esMobil && estils.plena]}>
-          <View style={estils.imatge} />
+          <FotoRaca url={raça.imatgeUrl} nom={raça.nom} alcada={250} />
           <Targeta>
             <Seccio>Dades de catàleg</Seccio>
             <FilaDada etiqueta="Grup" valor={etiquetaGrup(raça.grup)} />
@@ -150,18 +163,38 @@ export default function FitxaRaça() {
           </Targeta>
 
           <Targeta>
-            <Seccio>Com encaixa amb {ETIQUETA_TRASTORN_CURTA[trastorn]}</Seccio>
-            <View style={estils.filaPuntuacio}>
-              <Text style={estils.percentatge}>
-                {resultat.puntuacio.toFixed(1).replace('.', ',')}%
-              </Text>
-              <Text style={text.metadadaFort}>
-                {`#${resultat.posicio} DE ${resultat.totalAvaluades}`}
-              </Text>
-            </View>
-            <MesuradorRecorregut puntuacio={resultat.puntuacio} primer={resultat.posicio === 1} />
+            <Seccio>Com encaixa amb cada trastorn</Seccio>
             <Text style={text.cosSecundari}>
-              {explicacio(resultat.puntuacio, resultat.posicio, resultat.totalAvaluades)}
+              El matching sol anar del trastorn cap a les races. Aquí va al revés:
+              tens una raça i vols saber per a què encaixa millor.
+            </Text>
+
+            {encaixos.map((e, i) => {
+              const actiu = e.trastorn === trastorn;
+              return (
+                <View key={e.trastorn} style={estils.filaEncaix}>
+                  <View style={estils.nomEncaix}>
+                    <Text style={[estils.trastornNom, actiu && estils.trastornActiu]}>
+                      {ETIQUETA_TRASTORN[e.trastorn]}
+                    </Text>
+                    <Text style={text.metadada}>{`#${e.posicio} de ${e.total}`}</Text>
+                  </View>
+                  <View style={estils.mesuradorEncaix}>
+                    <MesuradorRecorregut puntuacio={e.puntuacio} primer={i === 0} />
+                  </View>
+                  <Text style={[
+                    estils.percentatgeEncaix,
+                    { color: i === 0 ? color.oliva : color.vermell },
+                  ]}>
+                    {e.puntuacio.toFixed(1).replace('.', ',')}%
+                  </Text>
+                </View>
+              );
+            })}
+
+            <Text style={text.cosSecundari}>
+              {explicacio(encaixos[0]!.trastorn, encaixos[0]!.puntuacio,
+                encaixos[encaixos.length - 1]!.puntuacio)}
             </Text>
           </Targeta>
 
@@ -208,11 +241,22 @@ function EixDeLaFitxa({
   );
 }
 
-function explicacio(puntuacio: number, posicio: number, total: number): string {
-  const percentil = Math.round((posicio / total) * 100);
-  return `Queda a la posició ${posicio} de ${total}, dins del ${percentil} % més compatible `
-    + `per a aquest perfil. Cap raça del catàleg no passa del 80 %, així que aquesta xifra `
-    + `situa la raça dins del rànquing, no diu que sigui una bona tria per si sola.`;
+/**
+ * Explica la diferència entre el millor i el pitjor encaix. Si és petita, vol dir
+ * que la raça no està especialment indicada per a res en concret, i val més
+ * dir-ho que deixar que el primer de la llista sembli una recomanació.
+ */
+function explicacio(millor: Trastorn, alt: number, baix: number): string {
+  const marge = alt - baix;
+  if (marge < 3) {
+    return `Aquesta raça puntua gairebé igual per als sis trastorns: la diferència `
+      + `entre el primer i l'últim és de només ${marge.toFixed(1).replace('.', ',')} punts. `
+      + `Vol dir que el seu temperament no la fa especialment indicada per a cap en concret.`;
+  }
+  return `On millor encaixa és amb ${ETIQUETA_TRASTORN[millor].toLowerCase()}, amb `
+    + `${marge.toFixed(1).replace('.', ',')} punts de diferència respecte de l'últim. `
+    + `Cap raça del catàleg no passa del 80 %, així que aquestes xifres situen la raça dins `
+    + `del rànquing i no diuen que sigui una bona tria per si sola.`;
 }
 
 /**
@@ -285,6 +329,10 @@ const estils = StyleSheet.create({
     alignItems: 'baseline', gap: espai.m,
   },
   valorDada: { ...text.cosSecundari, color: color.tinta },
-  filaPuntuacio: { flexDirection: 'row', alignItems: 'baseline', gap: espai.m },
-  percentatge: { ...text.percentatgeFitxa, color: color.granat },
+  filaEncaix: { flexDirection: 'row', alignItems: 'center', gap: espai.m },
+  nomEncaix: { width: 190, gap: 1 },
+  trastornNom: { ...text.cosSecundari, fontSize: 13, color: color.tinta },
+  trastornActiu: { fontFamily: text.nomLlista.fontFamily },
+  mesuradorEncaix: { flex: 1, minWidth: 90 },
+  percentatgeEncaix: { ...text.metadadaFort, fontSize: 13, width: 52, textAlign: 'right' },
 });

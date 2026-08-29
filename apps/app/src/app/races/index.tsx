@@ -14,7 +14,7 @@
  */
 
 import { useMemo, useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
 import type { Breed } from '@vincle/shared-types';
@@ -22,7 +22,7 @@ import { etiquetaGrup } from '@vincle/shared-types';
 import { TRADUCCIO_TERME } from '@vincle/matching';
 import { useCataleg } from '../../dades/useCataleg.ts';
 import {
-  BarraNavegacio, Boto, Esquelet, Targeta, Xip,
+  BarraNavegacio, Boto, Esquelet, FotoRaca, Targeta, Xip,
   color, espai, familia, radi, text, tinta, useTrencament,
 } from '../../disseny/index.ts';
 
@@ -32,6 +32,20 @@ const PESTANYES = [
   { etiqueta: 'Compatibilitats', desti: '/compatibilitats' as const },
   { etiqueta: 'Sessions', desti: '/gossos' as const },
 ];
+
+/**
+ * Normalitza per comparar: sense accents, sense punt volat i en minúscules. Sense
+ * això, buscar «intelligent» no trobaria «intel·ligent» ni «sabues» trobaria
+ * «Sabuès», que en un producte en català es nota de seguida.
+ */
+function sensePuntuacio(text: string): string {
+  return text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/·/g, '')
+    .toLowerCase()
+    .trim();
+}
 
 /** Quantes races es dibuixen alhora. 631 targetes amb imatge serien massa. */
 const PER_PAGINA = 24;
@@ -45,12 +59,12 @@ export default function CatalegRaces() {
   const races = estat.fase === 'llest' ? estat.cataleg.races : [];
 
   const resultats = useMemo(() => {
-    const q = cerca.trim().toLowerCase();
+    const q = sensePuntuacio(cerca);
     if (q === '') return races;
     return races.filter((r) =>
-      r.nom.toLowerCase().includes(q)
-      || (r.origen ?? '').toLowerCase().includes(q)
-      || r.termes.some((t) => (TRADUCCIO_TERME[t] ?? t).toLowerCase().includes(q)));
+      sensePuntuacio(r.nom).includes(q)
+      || sensePuntuacio(r.origen ?? '').includes(q)
+      || r.termes.some((t) => sensePuntuacio(TRADUCCIO_TERME[t] ?? t).includes(q)));
   }, [cerca, races]);
 
   return (
@@ -125,7 +139,21 @@ export default function CatalegRaces() {
             <View style={estils.graella}>
               {resultats.slice(0, visibles).map((raca) => (
                 <View key={raca.id} style={esMobil ? estils.plena : estils.cela}>
-                  <TargetaRaca raca={raca} />
+                  <Link
+                    href={{ pathname: '/races/[id]', params: { id: raca.id } }}
+                    asChild
+                  >
+                    <Pressable
+                      accessibilityRole="link"
+                      accessibilityLabel={`Fitxa de ${raca.nom}`}
+                      style={({ pressed }) => [
+                        estils.plena,
+                        pressed ? { opacity: 0.85 } : null,
+                      ]}
+                    >
+                      <TargetaRaca raca={raca} />
+                    </Pressable>
+                  </Link>
                 </View>
               ))}
             </View>
@@ -147,25 +175,9 @@ export default function CatalegRaces() {
 function TargetaRaca({ raca }: { raca: Breed }) {
   return (
     <Targeta estil={estils.targeta}>
-      {raca.imatgeUrl ? (
-        <Image
-          source={{ uri: raca.imatgeUrl }}
-          style={estils.imatge}
-          resizeMode="cover"
-          accessibilityLabel={`Fotografia d'un ${raca.nom}`}
-        />
-      ) : (
-        <View style={[estils.imatge, estils.imatgeBuida]}>
-          <Text style={text.metadada}>sense fotografia</Text>
-        </View>
-      )}
+      <FotoRaca url={raca.imatgeUrl} nom={raca.nom} alcada={170} />
 
-      <Link
-        href={{ pathname: '/races/[id]', params: { id: raca.id } }}
-        style={estils.enllacTitol}
-      >
-        <Text style={estils.nom}>{raca.nom}</Text>
-      </Link>
+      <Text style={estils.nom}>{raca.nom}</Text>
 
       <Text style={text.metadada}>
         {[
@@ -187,7 +199,7 @@ function TargetaRaca({ raca }: { raca: Breed }) {
       {raca.descripcio ? (
         <View style={estils.prosa}>
           <Text style={estils.marcaOriginal}>TEXT ORIGINAL DE THE DOG API · EN ANGLÈS</Text>
-          <Text style={text.cosSecundari} numberOfLines={5}>{raca.descripcio}</Text>
+          <Text style={text.cosSecundari}>{raca.descripcio}</Text>
         </View>
       ) : null}
     </Targeta>
