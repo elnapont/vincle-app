@@ -25,12 +25,15 @@ const COLOR_ESTAT = {
 } as const;
 
 export function Cami({
-  blocs, seguentId, onObrir,
+  blocs, seguentId, onObrir, onAssolir, onDesfer,
 }: {
   blocs: ProgresBloc[];
   /** Identificador de l'exercici que toca ara, per destacar-lo. */
   seguentId: string | null;
   onObrir?: (exerciciId: string) => void;
+  /** Donar-ho per assolit a mà, per damunt del recompte de sessions. */
+  onAssolir?: (exerciciId: string) => void;
+  onDesfer?: (exerciciId: string) => void;
 }) {
   return (
     <View style={estils.contenidor}>
@@ -49,6 +52,8 @@ export function Cami({
               progres={p}
               esSeguent={p.exercici.id === seguentId}
               onPress={onObrir ? () => onObrir(p.exercici.id) : undefined}
+              onAssolir={onAssolir ? () => onAssolir(p.exercici.id) : undefined}
+              onDesfer={onDesfer ? () => onDesfer(p.exercici.id) : undefined}
             />
           ))}
         </Fragment>
@@ -58,13 +63,17 @@ export function Cami({
 }
 
 function FilaExercici({
-  progres, esSeguent, onPress,
+  progres, esSeguent, onPress, onAssolir, onDesfer,
 }: {
   progres: ProgresExercici;
   esSeguent: boolean;
   onPress?: () => void;
+  onAssolir?: () => void;
+  onDesfer?: () => void;
 }) {
-  const { exercici, estat, sessionsFetes, sessionsRecomanades, fraccio } = progres;
+  const {
+    exercici, estat, assolitManualment, sessionsFetes, sessionsRecomanades, fraccio,
+  } = progres;
 
   return (
     <Pressable
@@ -110,7 +119,23 @@ function FilaExercici({
               : `sense pauta comptable · ${sessionsFetes} ${sessionsFetes === 1 ? 'sessió' : 'sessions'}`}
           </Text>
         )}
+
+        {assolitManualment ? (
+          <Text style={estils.marcaManual}>ASSOLIT A MÀ</Text>
+        ) : null}
       </View>
+
+      {/* L'acció va fora de la zona que obre la fitxa, per no disparar-se sola. */}
+      {estat === 'assolit' && onDesfer ? (
+        <Pressable onPress={onDesfer} hitSlop={8} accessibilityLabel={`Desfés l'assoliment de ${exercici.nom}`}>
+          <Text style={estils.accio}>Desfés</Text>
+        </Pressable>
+      ) : null}
+      {estat !== 'assolit' && onAssolir ? (
+        <Pressable onPress={onAssolir} hitSlop={8} accessibilityLabel={`Dona per assolit ${exercici.nom}`}>
+          <Text style={estils.accio}>Assolit</Text>
+        </Pressable>
+      ) : null}
     </Pressable>
   );
 }
@@ -153,4 +178,6 @@ const estils = StyleSheet.create({
   barra: { flex: 1 },
   recompte: { ...text.metadadaFort, fontSize: 11, color: color.tinta },
   senseMeta: { ...text.metadada, fontSize: 11 },
+  marcaManual: { ...text.escalaBarra, fontSize: 9, color: color.olivaFosc },
+  accio: { ...text.cosSecundari, fontSize: 12.5, color: color.vermell },
 });

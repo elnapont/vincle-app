@@ -21,6 +21,7 @@ import { useGossos } from '../../dades/gossos.ts';
 import { edat } from '../../dades/fixtures.ts';
 import { formataDurada, quanVaSer, useSessions, type Sessio } from '../../dades/sessions.ts';
 import { calculaProgres } from '../../dades/progres.ts';
+import { desfesAssoliment, marcaAssolit, useAssoliments } from '../../dades/assoliments.ts';
 import { Avatar } from './index.tsx';
 import {
   BarraNavegacio, Boto, Cami, Esquelet, GraficEvolucio, Seccio, Targeta, Xip,
@@ -43,6 +44,7 @@ export default function FitxaGos() {
   const { esMobil, lateralASobre } = useTrencament();
   const { estat: estatGossos } = useGossos();
   const { estat: estatSessions } = useSessions(id);
+  const { assolits, recarrega: recarregaAssoliments } = useAssoliments(id);
 
   const [ara] = useState(() => Date.now());
   const [rang, setRang] = useState<Rang>(6);
@@ -68,7 +70,7 @@ export default function FitxaGos() {
     [sessions, blocDe, rang, ara],
   );
 
-  const progres = useMemo(() => calculaProgres(sessions), [sessions]);
+  const progres = useMemo(() => calculaProgres(sessions, assolits), [sessions, assolits]);
 
   const metriques = useMemo(() => {
     const segons = sessions.reduce((a, s) => a + s.duracioSegons, 0);
@@ -160,7 +162,16 @@ export default function FitxaGos() {
               <Cami
                 blocs={progres.blocs}
                 seguentId={progres.seguent?.id ?? null}
-                onObrir={(id) => router.push({ pathname: '/exercicis/[id]', params: { id } })}
+                onObrir={(exerciciId) =>
+                  router.push({ pathname: '/exercicis/[id]', params: { id: exerciciId } })}
+                onAssolir={async (exerciciId) => {
+                  await marcaAssolit(gos.id, exerciciId);
+                  recarregaAssoliments();
+                }}
+                onDesfer={async (exerciciId) => {
+                  await desfesAssoliment(gos.id, exerciciId);
+                  recarregaAssoliments();
+                }}
               />
             )}
           </Targeta>

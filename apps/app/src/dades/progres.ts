@@ -19,6 +19,8 @@ export type EstatExercici = 'assolit' | 'en-curs' | 'no-iniciat';
 export interface ProgresExercici {
   exercici: Exercise;
   estat: EstatExercici;
+  /** L'ha donat per assolit una persona, per damunt del recompte de sessions. */
+  assolitManualment: boolean;
   sessionsFetes: number;
   /**
    * Sessions que recomana la pauta. `null` quan la recomanació és qualitativa o
@@ -54,11 +56,16 @@ export interface Progres {
  * rang —«3-4 sessions diàries»— i exigir sempre el sostre faria que res no
  * s'acabés mai.
  *
- * Els exercicis amb recomanació qualitativa **no poden arribar a assolits**: no hi
- * ha cap xifra contra la qual comparar, i inventar-ne una seria pitjor que dir
- * quantes sessions porta.
+ * Els exercicis amb recomanació qualitativa no poden arribar a assolits pel
+ * recompte: no hi ha cap xifra contra la qual comparar. Per això hi ha els
+ * **assoliments manuals**, que prevalen sobre el càlcul. També serveixen per a la
+ * resta: el llindar de sessions és una aproximació i qui ensinistra pot veure que
+ * el gos ho té abans d'arribar-hi.
  */
-export function calculaProgres(sessions: readonly Sessio[]): Progres {
+export function calculaProgres(
+  sessions: readonly Sessio[],
+  assolitsManualment: ReadonlyMap<string, Date> = new Map(),
+): Progres {
   const fetesPerExercici = new Map<string, number>();
   for (const s of sessions) {
     if (!s.exerciciId) continue;
@@ -72,14 +79,18 @@ export function calculaProgres(sessions: readonly Sessio[]): Progres {
         const fetes = fetesPerExercici.get(exercici.id) ?? 0;
         const recomanades = sessionsTotals(exercici.recomanacio);
 
+        const manual = assolitsManualment.has(exercici.id);
+
         const estat: EstatExercici =
-          fetes === 0 ? 'no-iniciat'
-            : recomanades !== null && fetes >= recomanades.min ? 'assolit'
-              : 'en-curs';
+          manual ? 'assolit'
+            : fetes === 0 ? 'no-iniciat'
+              : recomanades !== null && fetes >= recomanades.min ? 'assolit'
+                : 'en-curs';
 
         return {
           exercici,
           estat,
+          assolitManualment: manual,
           sessionsFetes: fetes,
           sessionsRecomanades: recomanades,
           fraccio: recomanades === null
