@@ -146,7 +146,11 @@ export default function Gossos() {
             ) : esMobil ? (
               visibles.map((g) => (
                 <Link key={g.id} href={{ pathname: '/gossos/[id]', params: { id: g.id } }} asChild>
-                  <Pressable accessibilityRole="link" accessibilityLabel={`Fitxa de ${g.nom}`}>
+                  <Pressable
+                    accessibilityRole="link"
+                    accessibilityLabel={`Fitxa de ${g.nom}`}
+                    style={estils.enllacBloc}
+                  >
                     <TargetaGos gos={g} darrera={darreraSessio.get(g.id)} ara={ara} />
                   </Pressable>
                 </Link>
@@ -328,6 +332,11 @@ const estils = StyleSheet.create({
   },
   capcaleraText: { ...text.encapcalamentSeccio },
   fila: {
+    // `width: '100%'` és necessari, no decoratiu: a web l'enllaç que embolcalla
+    // la fila es renderitza com una etiqueta `<a>`, que és de línia i no
+    // s'estira. Sense això, la fila s'encongeix fins al contingut i les columnes
+    // es desmunten.
+    width: '100%',
     flexDirection: 'row', alignItems: 'center', gap: espai.m,
     paddingHorizontal: espai.l, paddingVertical: espai.ml,
     borderBottomWidth: 1, borderBottomColor: tinta.separador,
@@ -342,6 +351,9 @@ const estils = StyleSheet.create({
   enllacObre: { ...text.navegacio, color: color.vermell },
   // Estats interactius del handoff: fons tènue en passar-hi el ratolí i escala
   // 0,98 en prémer.
+  // Qualsevol zona clicable que hagi d'ocupar l'amplada sencera, pel mateix
+  // motiu que la fila: l'enllaç de web és de línia.
+  enllacBloc: { width: '100%' },
   filaSobre: { backgroundColor: tinta.fila },
   filaPremuda: { opacity: 0.85 },
 

@@ -98,6 +98,15 @@ export function Xip({
 // Botó
 // ---------------------------------------------------------------------------
 
+/**
+ * Botó.
+ *
+ * **Dins d'un `<Link asChild>` cal passar-li `estil={{ width: '100%' }}`.** A web,
+ * l'enllaç es renderitza com una etiqueta `<a>`, que és de línia i no s'estira:
+ * sense amplada pròpia, el que hi ha a dins s'encongeix fins al contingut. Val
+ * per a qualsevol zona clicable que hagi d'ocupar l'amplada sencera, no només per
+ * als botons.
+ */
 export function Boto({
   titol, onPress, to = 'primari', desactivat = false, estil,
 }: {

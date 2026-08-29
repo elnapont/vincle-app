@@ -119,7 +119,7 @@ export default function Inici() {
                 començar a mirar.
               </Text>
               <Link href="/questionari" asChild>
-                <Boto titol="Fes el qüestionari" to="sobreGranat" />
+                <Boto titol="Fes el qüestionari" to="sobreGranat" estil={estils.enllacBloc} />
               </Link>
             </Targeta>
           </View>
@@ -188,6 +188,8 @@ const estils = StyleSheet.create({
   botoComenca: { paddingHorizontal: espai.l },
   flexible: { flex: 1, minWidth: 0 },
 
+  // Amplada sencera dins d'un enllaç: vegeu la nota del component Boto.
+  enllacBloc: { width: '100%' },
   avis: { flexDirection: 'row', alignItems: 'flex-start', gap: espai.s },
   punt: { width: 8, height: 8, borderRadius: 4, marginTop: 6 },
   nomAvis: { ...text.cosSecundari, color: color.tinta },
