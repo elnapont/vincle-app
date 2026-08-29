@@ -10,8 +10,9 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
-import { AGENDA_AVUI, ATENCIO, GOSSOS, METRIQUES } from '../dades/fixtures.ts';
-import { Avatar } from './gossos.tsx';
+import { AGENDA_AVUI, ATENCIO, METRIQUES } from '../dades/fixtures.ts';
+import { useGossos } from '../dades/gossos.ts';
+import { Avatar } from './gossos/index.tsx';
 import {
   BarraNavegacio, Boto, Seccio, Targeta,
   color, espai, text, tinta, useTrencament,
@@ -19,7 +20,7 @@ import {
 
 const PESTANYES = [
   { etiqueta: 'Gossos', desti: '/gossos' as const },
-  { etiqueta: 'Races', desti: '/compatibilitats' as const },
+  { etiqueta: 'Races', desti: '/races' as const },
   { etiqueta: 'Compatibilitats', desti: '/compatibilitats' as const },
   { etiqueta: 'Sessions', desti: '/gossos' as const },
 ];
@@ -30,7 +31,15 @@ export default function Inici() {
     weekday: 'long', day: 'numeric', month: 'long',
   });
 
-  const nomGos = (id: string) => GOSSOS.find((g) => g.id === id)?.nom ?? '';
+  const { estat } = useGossos();
+  const gossos = estat.fase === 'llest' ? estat.gossos : [];
+
+  // L'agenda i els avisos encara són dades de prova: no hi ha taules de sessions
+  // ni d'incidències. Es projecten sobre els gossos reals per posició, de manera
+  // que ensenyin noms de debò en comptes d'identificadors inventats; quan hi hagi
+  // les taules, això desapareix.
+  const nomGos = (index: number) => gossos[index % Math.max(1, gossos.length)]?.nom ?? '—';
+  const hiHaGossos = gossos.length > 0;
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
@@ -43,7 +52,7 @@ export default function Inici() {
         </View>
 
         <View style={estils.metriques}>
-          <Metrica valor={METRIQUES.gossosEnSeguiment} etiqueta="Gossos en seguiment" />
+          <Metrica valor={gossos.filter((g) => g.estat === 'ensinistrament').length} etiqueta="Gossos en seguiment" />
           <Metrica valor={METRIQUES.sessionsSetmana} etiqueta="Sessions aquesta setmana" />
           <Metrica valor={METRIQUES.fitesDelMes} etiqueta="Fites aquest mes" to="oliva" />
           <Metrica valor={METRIQUES.incidenciesObertes} etiqueta="Incidències obertes" to="vermell" />
@@ -52,13 +61,13 @@ export default function Inici() {
         <View style={[estils.columnes, lateralASobre && estils.apilades]}>
           <View style={estils.principal}>
             <Seccio>Agenda d'avui</Seccio>
-            {AGENDA_AVUI.map((cita, i) => (
+            {hiHaGossos ? AGENDA_AVUI.map((cita, i) => (
               <Targeta key={cita.hora} mobil={esMobil} franja={i === 0 ? 'oliva' : null}>
                 <View style={estils.cita}>
                   <Text style={estils.hora}>{cita.hora}</Text>
-                  <Avatar nom={nomGos(cita.gosId)} mida={36} />
+                  <Avatar nom={nomGos(i)} mida={36} />
                   <View style={estils.flexible}>
-                    <Text style={text.nomLlista}>{nomGos(cita.gosId)}</Text>
+                    <Text style={text.nomLlista}>{nomGos(i)}</Text>
                     <Text style={text.metadada}>{cita.titol}</Text>
                   </View>
                   {i === 0 ? (
@@ -66,20 +75,26 @@ export default function Inici() {
                   ) : null}
                 </View>
               </Targeta>
-            ))}
+            )) : (
+              <Targeta mobil={esMobil} franja="absencia">
+                <Text style={text.cosSecundari}>
+                  Encara no hi ha cap gos en seguiment, així que no hi ha agenda.
+                </Text>
+              </Targeta>
+            )}
           </View>
 
           <View style={[estils.lateral, lateralASobre && estils.plena]}>
             <Targeta mobil={esMobil}>
               <Seccio>Necessita atenció</Seccio>
-              {ATENCIO.map((a) => (
-                <View key={a.gosId + a.motiu} style={estils.avis}>
+              {ATENCIO.map((a, i) => (
+                <View key={a.motiu} style={estils.avis}>
                   <View style={[
                     estils.punt,
                     { backgroundColor: a.urgent ? color.vermell : color.sorra },
                   ]} />
                   <View style={estils.flexible}>
-                    <Text style={estils.nomAvis}>{nomGos(a.gosId)}</Text>
+                    <Text style={estils.nomAvis}>{nomGos(i)}</Text>
                     <Text style={text.metadada}>{a.motiu}</Text>
                   </View>
                 </View>

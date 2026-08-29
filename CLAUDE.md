@@ -152,6 +152,20 @@ Client-servidor amb API REST. Sense sobre-enginyeria.
   /diccionari   → plantilla i dades d'origen del diccionari de traducció (§5.2, §5.3)
 ```
 
+> **Pantalles que el handoff no té.** S'han construït amb el vocabulari del sistema i caldrà
+> que Claude Design les reculli quan es regeneri el paquet:
+>
+> - **Alta d'un gos** (`/gossos/nou`). La llista de `5b` ensenyava gossos que no es podien
+>   crear.
+> - **Catàleg de races** (`/races`). La pestanya «Races» de la barra de navegació hi era però
+>   no portava enlloc.
+>
+> **Idioma al catàleg de races.** Els termes de `temperament` van en **català**, com a tot el
+> producte, perquè són dades del model que alimenten el matching (§5.2.1). La `description` i
+> la `history`, en canvi, són prosa que l'API només dona en anglès i que no es pot traduir per
+> a 631 races: es mostren **tal com arriben, amb una marca que ho digui**. Dir d'on ve un text
+> i en quina llengua està és més honest que amagar-lo o fer veure que és nostre.
+
 > **Variants de disseny resoltes.** El handoff ofereix alternatives que s'han de triar:
 >
 > - **Rànquing mòbil (`7d`): s'implementa la variant de llista.** És l'hereva de la `3a`, la

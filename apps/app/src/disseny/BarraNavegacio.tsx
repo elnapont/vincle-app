@@ -18,7 +18,7 @@ export interface Pestanya {
 }
 
 export function BarraNavegacio({
-  pestanyes, activa, usuari = 'Elna Roca',
+  pestanyes, activa, usuari = 'Elna Pont',
 }: {
   pestanyes: Pestanya[];
   /** Etiqueta de la pestanya activa. */
