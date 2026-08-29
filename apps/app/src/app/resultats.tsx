@@ -13,14 +13,14 @@
  * gossos fracassaran que quins triomfaran: el rànquing descarta bé i tria regular.
  */
 
-import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import type { MatchResult, PerfilTrastorn } from '@vincle/shared-types';
 import { ETIQUETA_EIX, ETIQUETA_TRASTORN_CURTA } from '@vincle/shared-types';
 import { perfilDe, ranquing } from '@vincle/matching';
-import { carregaCataleg } from '../dades/races.ts';
+import { useCataleg } from '../dades/useCataleg.ts';
+import type { CatalegRaces } from '../dades/races.ts';
 import { useQuestionari } from '../estat/Questionari.tsx';
 import {
   BarraEix, Boto, CapcaleraPas, Esquelet, MesuradorRecorregut, Seccio, Targeta,
@@ -30,42 +30,10 @@ import {
 /** Quants resultats es despleguen. A 844px de mòbil n'hi caben tres. */
 const RESULTATS_VISIBLES = 3;
 
-type Estat =
-  | { fase: 'carregant' }
-  | { fase: 'llest'; resultats: MatchResult[]; total: number; esCopiaCache: boolean; actualitzatEl: Date }
-  | { fase: 'error'; missatge: string };
-
 export default function Resultats() {
   const router = useRouter();
   const { perfil } = useQuestionari();
-  const [estat, setEstat] = useState<Estat>({ fase: 'carregant' });
-
-  useEffect(() => {
-    if (!perfil) return;
-    let viu = true;
-
-    carregaCataleg()
-      .then((cataleg) => {
-        if (!viu) return;
-        const resultats = ranquing(cataleg.races, perfilDe(perfil.trastorn), perfil);
-        setEstat({
-          fase: 'llest',
-          resultats,
-          total: cataleg.total,
-          esCopiaCache: cataleg.esCopiaCache,
-          actualitzatEl: cataleg.actualitzatEl,
-        });
-      })
-      .catch((error: unknown) => {
-        if (!viu) return;
-        setEstat({
-          fase: 'error',
-          missatge: error instanceof Error ? error.message : 'Error desconegut',
-        });
-      });
-
-    return () => { viu = false; };
-  }, [perfil]);
+  const { estat, reintenta } = useCataleg();
 
   if (!perfil) {
     return (
@@ -104,28 +72,17 @@ export default function Resultats() {
           <Targeta mobil franja="vermell">
             <Text style={text.nomLlista}>No hem pogut carregar el catàleg</Text>
             <Text style={text.cosSecundari}>{estat.missatge}</Text>
-            <Boto titol="Torna-ho a provar" to="secundari" onPress={() => setEstat({ fase: 'carregant' })} />
+            <Boto titol="Torna-ho a provar" to="secundari" onPress={reintenta} />
           </Targeta>
         ) : null}
 
         {estat.fase === 'llest' ? (
-          <>
-            {estat.esCopiaCache ? <AvisCopia data={estat.actualitzatEl} /> : null}
-
-            <Text style={text.metadada}>{estat.total} races avaluades</Text>
-
-            {estat.resultats.slice(0, RESULTATS_VISIBLES).map((resultat, i) => (
-              <FilaResultat
-                key={resultat.breedId}
-                resultat={resultat}
-                perfil={perfilTrastorn}
-                eixosDestacats={eixosDestacats.map((e) => e.eix)}
-                primer={i === 0}
-              />
-            ))}
-
-            <LecturaHonesta />
-          </>
+          <ResultatsCarregats
+            cataleg={estat.cataleg}
+            perfil={perfilTrastorn}
+            eixosDestacats={eixosDestacats.map((e) => e.eix)}
+            pesMaximKg={perfil.pesMaximKg}
+          />
         ) : null}
       </ScrollView>
     </SafeAreaView>
@@ -133,6 +90,41 @@ export default function Resultats() {
 }
 
 // ---------------------------------------------------------------------------
+
+/**
+ * El rànquing es calcula aquí i no al cos de la pantalla perquè només té sentit
+ * quan hi ha catàleg: així el tipus ho garanteix en comptes de deixar-ho a un
+ * encadenament d'opcionals.
+ */
+function ResultatsCarregats({
+  cataleg, perfil, eixosDestacats, pesMaximKg,
+}: {
+  cataleg: CatalegRaces;
+  perfil: PerfilTrastorn;
+  eixosDestacats: string[];
+  pesMaximKg: number | null;
+}) {
+  const resultats = ranquing(cataleg.races, perfil, { pesMaximKg });
+
+  return (
+    <>
+      {cataleg.esCopiaCache ? <AvisCopia data={cataleg.actualitzatEl} /> : null}
+      <Text style={text.metadada}>{cataleg.total} races avaluades</Text>
+
+      {resultats.slice(0, RESULTATS_VISIBLES).map((resultat, i) => (
+        <FilaResultat
+          key={resultat.breedId}
+          resultat={resultat}
+          perfil={perfil}
+          eixosDestacats={eixosDestacats}
+          primer={i === 0}
+        />
+      ))}
+
+      <LecturaHonesta />
+    </>
+  );
+}
 
 function FilaResultat({
   resultat, perfil, eixosDestacats, primer,
@@ -190,6 +182,12 @@ function FilaResultat({
       {resultat.penalitzacio ? (
         <Text style={estils.penalitzacio}>{resultat.penalitzacio}</Text>
       ) : null}
+
+      <Link href={{ pathname: '/races/[id]', params: { id: resultat.breedId } }} asChild>
+        <Pressable accessibilityRole="link">
+          <Text style={estils.enllacFitxa}>Obre la fitxa de raça</Text>
+        </Pressable>
+      </Link>
     </Targeta>
   );
 }
@@ -249,4 +247,5 @@ const estils = StyleSheet.create({
   vuiteEix: { ...text.escalaBarra, color: tinta.eixSenseDadesText },
   penalitzacio: { ...text.metadada, color: color.vermell },
   carregant: { gap: espai.m },
+  enllacFitxa: { ...text.cosSecundari, color: color.vermell, fontFamily: text.nomLlista.fontFamily, fontSize: 13.5 },
 });

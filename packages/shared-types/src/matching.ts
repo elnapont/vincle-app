@@ -148,3 +148,35 @@ export const matchProfileSchema = z.object({
 });
 
 export type MatchProfile = z.infer<typeof matchProfileSchema>;
+
+// ---------------------------------------------------------------------------
+// Grups de raça
+// ---------------------------------------------------------------------------
+
+/**
+ * Etiquetes en català dels grups canònics.
+ *
+ * El camp `breed_group` de The Dog API arriba amb 27 valors bruts on conviuen
+ * sinònims del mateix grup; la capa d'API els redueix a aquests onze codis. Les
+ * etiquetes segueixen la terminologia fixada a `docs/diccionari/traduccions-ca.csv`.
+ */
+export const ETIQUETA_GRUP: Readonly<Record<string, string>> = {
+  'sabues': 'Coniller',
+  'llebrer': 'Llebrer',
+  'treball': 'Treball',
+  'pastor': 'Pastor',
+  'mostra-cobrament': 'Mostra i cobrament',
+  'terrier': 'Terrier',
+  'miniatura': 'Miniatura',
+  'companyia': 'Companyia',
+  'no-esportiu': 'No esportiu',
+  'spitz-primitiu': 'Spitz i tipus primitius',
+  'mestis': 'Mestís',
+  'sense-classificar': 'Sense classificar',
+};
+
+/** Nom llegible d'un grup; si no el coneixem, es mostra el codi tal qual. */
+export function etiquetaGrup(grup: string | null): string {
+  if (!grup) return 'Sense classificar';
+  return ETIQUETA_GRUP[grup] ?? grup;
+}
