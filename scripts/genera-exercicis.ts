@@ -41,13 +41,16 @@ interface Exercici {
   nom: string;
   explicacio: string;
   nota: string | null;
-  recomanacio: {
-    sessionsMin: number;
-    sessionsMax: number;
-    frequencia: string;
-    dies: number;
-    minutsPerSessio: number | null;
-  };
+  recomanacio:
+    | {
+        tipus: 'pauta';
+        sessionsMin: number;
+        sessionsMax: number;
+        frequencia: string;
+        dies: number | null;
+        minutsPerSessio: number | null;
+      }
+    | { tipus: 'lliure'; text: string };
   milestoneIds: string[];
 }
 
@@ -106,24 +109,20 @@ function nombre(camps: Record<string, string>, clau: string, fitxer: string): nu
 }
 
 /**
- * Nombre de sessions, que pot ser un valor sol o un rang: «3-4» vol dir de tres
- * a quatre. Amb un valor sol, el mínim i el màxim coincideixen.
+ * Nombre de sessions: un valor sol o un rang com «3-4».
+ *
+ * Retorna `null` si el que hi ha escrit no són xifres. Això no és un error: hi ha
+ * exercicis on la recomanació és qualitativa —«fins que el cadell canvia les
+ * dents»— i llavors el text s'aprofita tal qual. És el que surt de manera natural
+ * en omplir la plantilla, i val més acceptar-ho que obligar a inventar un número.
  */
-function rangSessions(brut: string, fitxer: string): { min: number; max: number } {
+function rangSessions(brut: string): { min: number; max: number } | null {
+  if (!brut) return null;
   const parts = brut.split(/\s*[-–]\s*/).map((p) => Number(p.trim()));
-  const valids = parts.every((n) => Number.isInteger(n) && n > 0);
-
-  if (!brut || parts.length > 2 || !valids) {
-    problemes.push(`${fitxer}: «sessions» ha de ser un número o un rang com «3-4» (ara: «${brut}»).`);
-    return { min: 0, max: 0 };
-  }
+  if (parts.length > 2 || !parts.every((n) => Number.isInteger(n) && n > 0)) return null;
 
   const [a, b] = [parts[0]!, parts[1] ?? parts[0]!];
-  if (a > b) {
-    problemes.push(`${fitxer}: el rang de sessions va del gran al petit («${brut}»).`);
-    return { min: b, max: a };
-  }
-  return { min: a, max: b };
+  return a <= b ? { min: a, max: b } : { min: b, max: a };
 }
 
 function llegeixExercici(fitxer: string, cami: string): Exercici | null {
@@ -144,34 +143,51 @@ function llegeixExercici(fitxer: string, cami: string): Exercici | null {
   if (!nom) problemes.push(`${fitxer}: falta el nom.`);
   if (!explicacio) problemes.push(`${fitxer}: falta la secció «## Explicació».`);
 
-  const frequencia = camps.frequencia ?? '';
-  if (!FREQUENCIES.includes(frequencia)) {
-    problemes.push(`${fitxer}: freqüència «${frequencia}» desconeguda. Vàlides: ${FREQUENCIES.join(', ')}.`);
-  }
-
   const bloc = nombre(camps, 'bloc', fitxer);
   const ordre = nombre(camps, 'ordre', fitxer);
-  const sessions = rangSessions(camps.sessions ?? '', fitxer);
+  const brutSessions = camps.sessions ?? '';
+  const sessions = rangSessions(brutSessions);
 
-  // Els minuts són opcionals: hi ha recomanacions que no diuen quant dura cada
-  // sessió, i inventar-ho seria pitjor que deixar-ho en blanc.
-  const minutsBrut = camps.minuts ?? '';
-  const minuts = minutsBrut ? nombre(camps, 'minuts', fitxer) : null;
+  let recomanacio: Exercici['recomanacio'];
 
-  // La nota també és opcional: molts exercicis no en tenen.
+  if (sessions === null) {
+    // Recomanació qualitativa: s'aprofita el text tal qual.
+    if (!brutSessions) {
+      problemes.push(`${fitxer}: falta la recomanació («sessions»).`);
+    }
+    recomanacio = { tipus: 'lliure', text: brutSessions };
+  } else {
+    const frequencia = camps.frequencia ?? '';
+    if (!FREQUENCIES.includes(frequencia)) {
+      problemes.push(`${fitxer}: freqüència «${frequencia}» desconeguda. Vàlides: ${FREQUENCIES.join(', ')}.`);
+    }
+
+    // Els minuts i els dies són opcionals: hi ha pautes que no diuen quant dura
+    // cada sessió i n'hi ha que no tenen final —«1 sessió diària», sempre.
+    // Inventar-ho seria pitjor que deixar-ho en blanc.
+    const minuts = camps.minuts ? nombre(camps, 'minuts', fitxer) : null;
+    const dies = camps.dies ? nombre(camps, 'dies', fitxer) : null;
+
+    if (frequencia === 'total' && dies === null) {
+      problemes.push(`${fitxer}: amb freqüència «total» cal dir durant quants dies.`);
+    }
+
+    recomanacio = {
+      tipus: 'pauta',
+      sessionsMin: sessions.min,
+      sessionsMax: sessions.max,
+      frequencia, dies, minutsPerSessio: minuts,
+    };
+  }
+
+  // La nota és opcional: molts exercicis no en tenen.
   const nota = seccio(text, 'Nota');
 
   return {
     id: `e${bloc}-${ordre}`,
     bloc, ordre, nom, explicacio,
     nota: nota || null,
-    recomanacio: {
-      sessionsMin: sessions.min,
-      sessionsMax: sessions.max,
-      frequencia,
-      dies: nombre(camps, 'dies', fitxer),
-      minutsPerSessio: minuts,
-    },
+    recomanacio,
     // Les fites encara no estan definides (§9). El camp queda buit i s'omplirà
     // sense haver de tocar els fitxers dels exercicis.
     milestoneIds: [],
@@ -304,10 +320,12 @@ function escriu(exercicis: Exercici[], blocs: Bloc[]): void {
       `    nom: ${j(e.nom)},`,
       `    explicacio: ${j(e.explicacio)},`,
       `    nota: ${j(e.nota)},`,
-      `    recomanacio: { sessionsMin: ${e.recomanacio.sessionsMin}, `
-        + `sessionsMax: ${e.recomanacio.sessionsMax}, `
-        + `frequencia: ${j(e.recomanacio.frequencia)}, dies: ${e.recomanacio.dies}, `
-        + `minutsPerSessio: ${e.recomanacio.minutsPerSessio} },`,
+      `    recomanacio: ${e.recomanacio.tipus === 'lliure'
+        ? `{ tipus: "lliure", text: ${j(e.recomanacio.text)} }`
+        : `{ tipus: "pauta", sessionsMin: ${e.recomanacio.sessionsMin}, `
+          + `sessionsMax: ${e.recomanacio.sessionsMax}, `
+          + `frequencia: ${j(e.recomanacio.frequencia)}, dies: ${e.recomanacio.dies}, `
+          + `minutsPerSessio: ${e.recomanacio.minutsPerSessio} }`},`,
       `    milestoneIds: [],`,
       '  },',
     ]),

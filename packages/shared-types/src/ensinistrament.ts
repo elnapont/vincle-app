@@ -25,29 +25,41 @@ export type Bloc = z.infer<typeof blocSchema>;
 /**
  * Recomanació de pràctica.
  *
- * Té dues formes perquè el contingut real en té dues: «3-4 sessions diàries
- * durant 6 dies» és un rang **per dia**, i «15 sessions de 20 minuts durant 3
- * dies» és un **total** amb durada. Forçar-ne una de sola obligaria a inventar
- * dades o a perdre'n.
+ * Té dues menes perquè el contingut real en té dues. La majoria d'exercicis donen
+ * una **pauta** amb xifres —«3-4 sessions diàries durant 6 dies»—, però n'hi ha
+ * que no en poden donar cap: «no es recomana cap nombre concret de sessions,
+ * aquesta mesura es va aprenent fins que el cadell canvia les dents». Forçar-hi
+ * un número seria inventar-lo.
  *
- * Es guarda descomposta i no com a text perquè el seguiment hi pugui comparar el
- * que s'ha fet de debò.
+ * A les pautes, el període també és opcional: «1 sessió diària» sense final és
+ * una recomanació vàlida per a coses que es practiquen sempre.
  */
-export const recomanacioSchema = z.object({
-  /** Mínim de sessions. Amb un valor sol, coincideix amb el màxim. */
-  sessionsMin: z.number().int().positive(),
-  sessionsMax: z.number().int().positive(),
-  /** `diaria`: les sessions són per dia. `total`: repartides pel període. */
-  frequencia: z.enum(['diaria', 'total']),
-  dies: z.number().int().positive(),
-  /** Durada de cada sessió, quan consta. */
-  minutsPerSessio: z.number().int().positive().nullable(),
-});
+export const recomanacioSchema = z.discriminatedUnion('tipus', [
+  z.object({
+    tipus: z.literal('pauta'),
+    /** Mínim de sessions. Amb un valor sol, coincideix amb el màxim. */
+    sessionsMin: z.number().int().positive(),
+    sessionsMax: z.number().int().positive(),
+    /** `diaria`: les sessions són per dia. `total`: repartides pel període. */
+    frequencia: z.enum(['diaria', 'total']),
+    /** Durant quants dies. `null` si la pràctica no té final marcat. */
+    dies: z.number().int().positive().nullable(),
+    /** Durada de cada sessió, quan consta. */
+    minutsPerSessio: z.number().int().positive().nullable(),
+  }),
+  z.object({
+    tipus: z.literal('lliure'),
+    /** La recomanació tal com està escrita, quan no es pot posar en xifres. */
+    text: z.string().min(1),
+  }),
+]);
 
 export type Recomanacio = z.infer<typeof recomanacioSchema>;
 
 /** Text de la recomanació per a la interfície, en català. */
 export function textRecomanacio(r: Recomanacio): string {
+  if (r.tipus === 'lliure') return r.text;
+
   const unaSola = r.sessionsMax === 1;
   const quantes = r.sessionsMin === r.sessionsMax
     ? `${r.sessionsMin}`
@@ -57,14 +69,22 @@ export function textRecomanacio(r: Recomanacio): string {
   // «3–4 sessions diàries».
   const cadencia = r.frequencia === 'diaria' ? (unaSola ? ' diària' : ' diàries') : '';
   const durada = r.minutsPerSessio ? ` de ${r.minutsPerSessio} minuts` : '';
-  const dies = `${r.dies} ${r.dies === 1 ? 'dia' : 'dies'}`;
+  const periode = r.dies === null
+    ? ''
+    : ` durant ${r.dies} ${r.dies === 1 ? 'dia' : 'dies'}`;
 
-  return `${quantes} ${paraula}${cadencia}${durada} durant ${dies}`;
+  return `${quantes} ${paraula}${cadencia}${durada}${periode}`;
 }
 
-/** Sessions totals que suposa la recomanació, per comparar-hi el seguiment. */
-export function sessionsTotals(r: Recomanacio): { min: number; max: number } {
-  const factor = r.frequencia === 'diaria' ? r.dies : 1;
+/**
+ * Sessions totals que suposa la recomanació, per comparar-hi el seguiment.
+ * `null` quan no es pot saber: sense xifres o sense període no hi ha total.
+ */
+export function sessionsTotals(r: Recomanacio): { min: number; max: number } | null {
+  if (r.tipus === 'lliure') return null;
+  if (r.frequencia === 'diaria' && r.dies === null) return null;
+
+  const factor = r.frequencia === 'diaria' ? r.dies! : 1;
   return { min: r.sessionsMin * factor, max: r.sessionsMax * factor };
 }
 

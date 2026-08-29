@@ -27,11 +27,18 @@ minuts:
 |---|---|
 | «3-4 sessions diàries durant 6 dies» | `sessions: 3-4` · `frequencia: diaria` · `dies: 6` |
 | «15 sessions de 20 minuts durant 3 dies» | `sessions: 15` · `minuts: 20` · `frequencia: total` · `dies: 3` |
+| «1 sessió diària», sense final | `sessions: 1` · `frequencia: diaria` · `dies:` en blanc |
+| «Fins que el cadell canvia les dents» | S'escriu la frase sencera a `sessions` |
 
-`sessions` accepta un número o un rang. `frequencia` és **`diaria`** si les
-sessions són per dia, o **`total`** si són el total repartit pel període. `minuts`
-és opcional: si la recomanació no diu quant dura cada sessió, es deixa en blanc en
-comptes d'inventar-ho.
+`sessions` accepta un número, un rang o **una frase**. Si el que hi poses no són
+xifres, es guarda tal qual com a recomanació qualitativa: hi ha exercicis que no
+tenen cap nombre de sessions i inventar-n'hi un seria pitjor.
+
+`frequencia` és **`diaria`** si les sessions són per dia, o **`total`** si són el
+total repartit pel període.
+
+`minuts` i `dies` són **opcionals**: si la recomanació no diu quant dura cada
+sessió, o si la pràctica no té final marcat, es deixen en blanc.
 
 A sota, dues seccions:
 
