@@ -116,7 +116,7 @@ export default function FitxaRaça() {
       <View style={[estils.columnes, esMobil && estils.columnesApilades]}>
         {/* Columna esquerra: imatge i dades de catàleg */}
         <View style={[estils.columnaEsquerra, esMobil && estils.plena]}>
-          <FotoRaca url={raça.imatgeUrl} nom={raça.nom} alcada={250} />
+          <FotoRaca url={raça.imatgeUrl} nom={raça.nom} />
           <Targeta>
             <Seccio>Dades de catàleg</Seccio>
             <FilaDada etiqueta="Grup" valor={etiquetaGrup(raça.grup)} />

@@ -23,7 +23,7 @@ import { TRADUCCIO_TERME } from '@vincle/matching';
 import { useCataleg } from '../../dades/useCataleg.ts';
 import {
   BarraNavegacio, Boto, Esquelet, FotoRaca, Targeta, Xip,
-  color, espai, familia, radi, text, tinta, useTrencament,
+  color, espai, familia, text, tinta, useTrencament,
 } from '../../disseny/index.ts';
 
 const PESTANYES = [
@@ -50,14 +50,47 @@ function sensePuntuacio(text: string): string {
 /** Quantes races es dibuixen alhora. 631 targetes amb imatge serien massa. */
 const PER_PAGINA = 24;
 
+/**
+ * Columnes segons l'amplada disponible.
+ *
+ * Es calcula i no es deixa a `flexGrow`, que era el que ho feia malament: amb un
+ * sol resultat de la cerca, aquell únic element s'estirava fins a l'amplada
+ * sencera de la pantalla. Ara una targeta sola ocupa una columna, com totes.
+ */
+function columnes(amplada: number): number {
+  if (amplada >= 1040) return 3;
+  if (amplada >= 720) return 2;
+  return 1;
+}
+
+/**
+ * Parteix la llista en files de `mida` elements i omple l'última amb buits.
+ *
+ * Sembla més embolic que posar percentatges d'amplada, però permet fer servir
+ * `gap` —que és el que demana el sistema, sense marges entre germans— i evita
+ * que una targeta sola s'estiri fins a l'amplada sencera quan la cerca només
+ * deixa un resultat. Els buits de l'última fila mantenen l'alineació.
+ */
+function enFiles<T>(elements: T[], mida: number): (T | null)[][] {
+  const files: (T | null)[][] = [];
+  for (let i = 0; i < elements.length; i += mida) {
+    const fila: (T | null)[] = elements.slice(i, i + mida);
+    while (fila.length < mida) fila.push(null);
+    files.push(fila);
+  }
+  return files;
+}
+
 export default function CatalegRaces() {
   const { estat, reintenta } = useCataleg();
-  const { esMobil } = useTrencament();
+  const { esMobil, amplada: amplePantalla } = useTrencament();
   const [cerca, setCerca] = useState('');
   const [visibles, setVisibles] = useState(PER_PAGINA);
 
   // Igual que a la llista de gossos: el condicional dins del memo, si no crearia
   // un array nou a cada dibuix.
+  const nColumnes = columnes(amplePantalla);
+
   const races = useMemo(
     () => (estat.fase === 'llest' ? estat.cataleg.races : []),
     [estat],
@@ -104,10 +137,10 @@ export default function CatalegRaces() {
         </View>
 
         {estat.fase === 'carregant' ? (
-          <View style={estils.graella}>
-            {[1, 0.8, 0.6, 0.4].map((o, i) => (
-              <View key={i} style={esMobil ? estils.plena : estils.cela}>
-                <Esquelet alcada={280} opacitat={o} />
+          <View style={estils.fila}>
+            {Array.from({ length: nColumnes }, (_, i) => (
+              <View key={i} style={estils.cela}>
+                <Esquelet alcada={280} opacitat={1 - i * 0.25} />
               </View>
             ))}
           </View>
@@ -142,23 +175,29 @@ export default function CatalegRaces() {
             ) : null}
 
             <View style={estils.graella}>
-              {resultats.slice(0, visibles).map((raca) => (
-                <View key={raca.id} style={esMobil ? estils.plena : estils.cela}>
-                  <Link
-                    href={{ pathname: '/races/[id]', params: { id: raca.id } }}
-                    asChild
-                  >
-                    <Pressable
-                      accessibilityRole="link"
-                      accessibilityLabel={`Fitxa de ${raca.nom}`}
-                      style={({ pressed }) => [
-                        estils.plena,
-                        pressed ? { opacity: 0.85 } : null,
-                      ]}
-                    >
-                      <TargetaRaca raca={raca} />
-                    </Pressable>
-                  </Link>
+              {enFiles(resultats.slice(0, visibles), nColumnes).map((fila, f) => (
+                <View key={f} style={estils.fila}>
+                  {fila.map((raca, c) => (
+                    <View key={raca?.id ?? `buit-${c}`} style={estils.cela}>
+                      {raca ? (
+                        <Link
+                          href={{ pathname: '/races/[id]', params: { id: raca.id } }}
+                          asChild
+                        >
+                          <Pressable
+                            accessibilityRole="link"
+                            accessibilityLabel={`Fitxa de ${raca.nom}`}
+                            style={({ pressed }) => [
+                              estils.plena,
+                              pressed ? { opacity: 0.85 } : null,
+                            ]}
+                          >
+                            <TargetaRaca raca={raca} />
+                          </Pressable>
+                        </Link>
+                      ) : null}
+                    </View>
+                  ))}
                 </View>
               ))}
             </View>
@@ -180,7 +219,7 @@ export default function CatalegRaces() {
 function TargetaRaca({ raca }: { raca: Breed }) {
   return (
     <Targeta estil={estils.targeta}>
-      <FotoRaca url={raca.imatgeUrl} nom={raca.nom} alcada={170} />
+      <FotoRaca url={raca.imatgeUrl} nom={raca.nom} />
 
       <Text style={estils.nom}>{raca.nom}</Text>
 
@@ -226,18 +265,12 @@ const estils = StyleSheet.create({
     fontFamily: familia.sans, fontSize: 14, color: color.tinta,
     marginTop: espai.xs,
   },
-  graella: { flexDirection: 'row', flexWrap: 'wrap', gap: espai.l },
-  // Tres columnes: un terç menys la part proporcional dels dos buits.
-  cela: { width: '31.7%', minWidth: 260, flexGrow: 1 },
+  graella: { gap: espai.l },
+  fila: { flexDirection: 'row', gap: espai.l, alignItems: 'stretch' },
+  // `minWidth: 0` perquè un nom llarg no eixampli la columna i desquadri la fila.
+  cela: { flex: 1, minWidth: 0 },
   plena: { width: '100%' },
   targeta: { gap: espai.s, height: '100%' },
-  imatge: {
-    width: '100%', height: 160,
-    borderRadius: radi.targeta,
-    backgroundColor: '#e6ddd2',
-  },
-  imatgeBuida: { alignItems: 'center', justifyContent: 'center' },
-  enllacTitol: { textDecorationLine: 'none' },
   nom: { ...text.nomLlista, fontSize: 17 },
   xips: { flexDirection: 'row', flexWrap: 'wrap', gap: espai.xxs },
   prosa: {

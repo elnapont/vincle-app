@@ -10,6 +10,12 @@
  * Es fa servir `expo-image` i no el component bàsic perquè gestiona el
  * `contentPosition`, encadena una transició en carregar i deixa posar un color de
  * fons mentre arriba, que amb 24 imatges alhora es nota.
+ *
+ * El marc es defineix per **relació d'aspecte** i no per alçada fixa. Amb alçada
+ * fixa, una targeta que s'eixampli —perquè la cerca ha deixat un sol resultat,
+ * per exemple— converteix el marc en una franja horitzontal i el retallat només
+ * n'ensenya una tira. Amb relació d'aspecte, el marc creix proporcionat i la
+ * fotografia sempre es veu igual de bé.
  */
 
 import { Image } from 'expo-image';
@@ -21,17 +27,24 @@ import { text } from './tipografia.ts';
 /** Color dels marcadors de posició del handoff, mentre la imatge no arriba. */
 const FONS_IMATGE = '#e6ddd2';
 
+/**
+ * Relació d'aspecte per defecte del marc. És la mediana real del catàleg (1,34),
+ * de manera que la fotografia mitjana amb prou feines s'ha de retallar.
+ */
+const RELACIO = 1.34;
+
 export function FotoRaca({
-  url, nom, alcada, estil,
+  url, nom, relacio = RELACIO, estil,
 }: {
   url: string | null;
   nom: string;
-  alcada: number;
+  /** Amplada dividida per alçada del marc. */
+  relacio?: number;
   estil?: StyleProp<ImageStyle>;
 }) {
   if (!url) {
     return (
-      <View style={[estils.marc as StyleProp<ViewStyle>, estils.buida, { height: alcada }]}>
+      <View style={[estils.marc as StyleProp<ViewStyle>, estils.buida, { aspectRatio: relacio }]}>
         <Text style={text.metadada}>sense fotografia</Text>
       </View>
     );
@@ -40,7 +53,7 @@ export function FotoRaca({
   return (
     <Image
       source={{ uri: url }}
-      style={[estils.marc, { height: alcada }, estil]}
+      style={[estils.marc, { aspectRatio: relacio }, estil]}
       contentFit="cover"
       // A dalt i centrat: on sol ser el cap del gos.
       contentPosition="top center"
