@@ -191,8 +191,23 @@ function Taula({ gossos, darrera, ara }: { gossos: Dog[]; darrera: Map<string, D
         <View style={estils.colAccio} />
       </View>
 
+      {/*
+        La fila sencera obre la fitxa, no només l'acció de la dreta: el handoff
+        defineix un estat de ratolí per a les files de taula, cosa que ja implica
+        que tota la fila és interactiva. «Obre» es queda com a pista visual, però
+        deixa de ser un enllaç a part per no niar-ne un dins d'un altre.
+      */}
       {gossos.map((gos) => (
-        <View key={gos.id} style={estils.fila}>
+        <Link key={gos.id} href={{ pathname: '/gossos/[id]', params: { id: gos.id } }} asChild>
+          <Pressable
+            accessibilityRole="link"
+            accessibilityLabel={`Fitxa de ${gos.nom}`}
+            style={({ pressed, hovered }) => [
+              estils.fila,
+              hovered && estils.filaSobre,
+              pressed && estils.filaPremuda,
+            ]}
+          >
           <View style={estils.colAvatar}><Avatar nom={gos.nom} /></View>
 
           <View style={estils.colGos}>
@@ -210,13 +225,9 @@ function Taula({ gossos, darrera, ara }: { gossos: Dog[]; darrera: Map<string, D
 
           <DarreraSessio data={darrera.get(gos.id)} ara={ara} estil={estils.colSessio} />
 
-          <Link
-            href={{ pathname: '/gossos/[id]', params: { id: gos.id } }}
-            style={estils.colAccio}
-          >
-            <Text style={estils.enllacObre}>Obre</Text>
-          </Link>
-        </View>
+          <Text style={[estils.colAccio, estils.enllacObre]}>Obre</Text>
+          </Pressable>
+        </Link>
       ))}
     </Targeta>
   );
@@ -329,6 +340,10 @@ const estils = StyleSheet.create({
   colAccio: { width: 50 },
   senseFites: { ...text.metadadaFort, color: tinta.eixSenseDadesGuionet },
   enllacObre: { ...text.navegacio, color: color.vermell },
+  // Estats interactius del handoff: fons tènue en passar-hi el ratolí i escala
+  // 0,98 en prémer.
+  filaSobre: { backgroundColor: tinta.fila },
+  filaPremuda: { opacity: 0.85 },
 
   capcaleraTargeta: { flexDirection: 'row', alignItems: 'center', gap: espai.m },
   peuTargeta: { flexDirection: 'row', justifyContent: 'space-between', gap: espai.m },
