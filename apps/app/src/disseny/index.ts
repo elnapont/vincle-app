@@ -6,3 +6,4 @@ export * from './useTrencament.ts';
 export * from './CapcaleraPas.tsx';
 export * from './ControlLliscant.tsx';
 export * from './MesuradorRecorregut.tsx';
+export * from './BarraNavegacio.tsx';
