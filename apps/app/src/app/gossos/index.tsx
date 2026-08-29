@@ -47,7 +47,12 @@ export default function Gossos() {
   const [cerca, setCerca] = useState('');
   const [filtre, setFiltre] = useState<Filtre>('tots');
 
-  const tots = estat.fase === 'llest' ? estat.gossos : [];
+  // El condicional va dins del useMemo: fora, crearia un array nou a cada dibuix
+  // i el memo no serviria de res.
+  const tots = useMemo(
+    () => (estat.fase === 'llest' ? estat.gossos : []),
+    [estat],
+  );
 
   const visibles = useMemo(() => {
     const q = cerca.trim().toLowerCase();

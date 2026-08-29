@@ -81,7 +81,6 @@ export function useGossos(): { estat: EstatGossos; recarrega: () => void } {
 
   useEffect(() => {
     let viu = true;
-    setEstat({ fase: 'carregant' });
 
     supabase
       .from('gossos')
@@ -102,6 +101,9 @@ export function useGossos(): { estat: EstatGossos; recarrega: () => void } {
     return () => { viu = false; };
   }, [intent]);
 
-  const recarrega = useCallback(() => setIntent((n) => n + 1), []);
+  const recarrega = useCallback(() => {
+    setEstat({ fase: 'carregant' });
+    setIntent((n) => n + 1);
+  }, []);
   return { estat, recarrega };
 }

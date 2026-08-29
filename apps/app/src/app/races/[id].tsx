@@ -20,7 +20,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import type { Breed, EixDerivat, Trastorn } from '@vincle/shared-types';
 import {
-  ETIQUETA_EIX, ETIQUETA_TRASTORN, ETIQUETA_TRASTORN_CURTA, TRASTORNS, etiquetaGrup,
+  ETIQUETA_EIX, ETIQUETA_TRASTORN, TRASTORNS, etiquetaGrup,
 } from '@vincle/shared-types';
 import { TRADUCCIO_TERME, derivaEixos, perfilDe, ranquing } from '@vincle/matching';
 import { useCataleg } from '../../dades/useCataleg.ts';
@@ -47,6 +47,35 @@ export default function FitxaRaça() {
   // compatibilitat amb el TEA, que és el primer trastorn de la llista.
   const trastorn: Trastorn = perfil?.trastorn ?? 'tea';
 
+  const races = estat.fase === 'llest' ? estat.cataleg.races : null;
+  const raça = races?.find((r) => r.id === id) ?? null;
+
+  /**
+   * Com encaixa la raça amb cadascun dels sis trastorns.
+   *
+   * Va abans dels returns primerencs de sota perquè és un hook: React exigeix
+   * que se'n cridin sempre els mateixos i en el mateix ordre. Si estigués després
+   * del `return` de l'estat de càrrega, al primer dibuix se'n cridarien tres i al
+   * segon quatre, i l'aplicació peta en carregar el catàleg.
+   *
+   * La posició només té sentit dins del rànquing sencer, així que es calcula
+   * sobre tot el catàleg i per als sis trastorns alhora: mirar una raça que
+   * t'agrada i veure amb quin encaixa millor és l'altra direcció del matching.
+   */
+  const encaixos = useMemo(() => {
+    if (!races || !raça) return [];
+    return TRASTORNS
+      .map((t) => {
+        const r = ranquing(races, perfilDe(t), { pesMaximKg: null })
+          .find((x) => x.breedId === raça.id);
+        return r
+          ? { trastorn: t, puntuacio: r.puntuacio, posicio: r.posicio, total: r.totalAvaluades }
+          : null;
+      })
+      .filter((e) => e !== null)
+      .sort((a, b) => b.puntuacio - a.puntuacio);
+  }, [races, raça]);
+
   if (estat.fase === 'carregant') {
     return (
       <Pantalla>
@@ -69,8 +98,7 @@ export default function FitxaRaça() {
     );
   }
 
-  const raça = estat.cataleg.races.find((r) => r.id === id);
-  if (!raça) {
+  if (!raça || encaixos.length === 0) {
     return (
       <Pantalla>
         <Text style={text.titolWeb}>Aquesta raça no és al catàleg</Text>
@@ -82,21 +110,6 @@ export default function FitxaRaça() {
   const perfilTrastorn = perfilDe(trastorn);
   const eixos = derivaEixos(raça);
   const senseDades = eixos.filter((e) => e.valor === null);
-
-  // La posició només té sentit dins del rànquing sencer, així que es calcula
-  // sobre tot el catàleg. Es fa per als sis trastorns alhora: mirar una raça que
-  // t'agrada i veure amb quin encaixa millor és l'altra direcció del matching, i
-  // val tant com la primera.
-  const encaixos = useMemo(
-    () => TRASTORNS.map((t) => {
-      const r = ranquing(estat.cataleg.races, perfilDe(t), { pesMaximKg: null })
-        .find((x) => x.breedId === raça.id)!;
-      return { trastorn: t, puntuacio: r.puntuacio, posicio: r.posicio, total: r.totalAvaluades };
-    }).sort((a, b) => b.puntuacio - a.puntuacio),
-    [estat.cataleg.races, raça.id],
-  );
-
-  const resultat = encaixos.find((e) => e.trastorn === trastorn)!;
 
   return (
     <Pantalla>

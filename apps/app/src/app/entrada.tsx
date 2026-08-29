@@ -11,13 +11,13 @@
  */
 
 import { useState } from 'react';
-import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { z } from 'zod';
 import { useSessio } from '../estat/Sessio.tsx';
 import {
-  Boto, Camp, color, espai, familia, radi, text, tinta, useTrencament,
+  Boto, Camp, color, espai, familia, text, tinta, useTrencament,
 } from '../disseny/index.ts';
 
 const credencialsSchema = z.object({

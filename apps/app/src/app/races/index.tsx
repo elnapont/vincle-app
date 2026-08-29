@@ -56,7 +56,12 @@ export default function CatalegRaces() {
   const [cerca, setCerca] = useState('');
   const [visibles, setVisibles] = useState(PER_PAGINA);
 
-  const races = estat.fase === 'llest' ? estat.cataleg.races : [];
+  // Igual que a la llista de gossos: el condicional dins del memo, si no crearia
+  // un array nou a cada dibuix.
+  const races = useMemo(
+    () => (estat.fase === 'llest' ? estat.cataleg.races : []),
+    [estat],
+  );
 
   const resultats = useMemo(() => {
     const q = sensePuntuacio(cerca);

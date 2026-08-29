@@ -7,7 +7,7 @@
  * més que dibuixar-lo. `PanResponder` funciona igual a mòbil i a web.
  */
 
-import { useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { PanResponder, StyleSheet, Text, View } from 'react-native';
 import type { LayoutChangeEvent } from 'react-native';
 import { alcadaBarra, color, espai, radi, tinta, TOCABLE_MINIM } from './tokens.ts';
@@ -30,31 +30,28 @@ export function ControlLliscant({
   valor, minim, maxim, onCanvi, referencia, formata = (v) => String(v), etiquetaAccessible,
 }: ControlLliscantProps) {
   const [amplada, setAmplada] = useState(0);
-  // La referència s'ha de llegir dins del PanResponder, que es crea un sol cop.
-  const referencies = useRef({ amplada: 0, onCanvi });
-  referencies.current = { amplada, onCanvi };
-
   const fraccio = (valor - minim) / (maxim - minim);
 
-  const desDePosicio = (x: number): number => {
-    const ample = referencies.current.amplada;
-    if (ample <= 0) return valor;
-    const f = Math.max(0, Math.min(1, x / ample));
-    return Math.round(minim + f * (maxim - minim));
-  };
+  /**
+   * El responedor es recrea quan canvia l'amplada o el gestor, i no viu en un
+   * ref que es mutava a cada dibuix. Mutar un ref durant el render funciona per
+   * casualitat i React ho desaconsella; recrear-lo és barat i no depèn del
+   * valor actual, així que no interromp cap gest en curs.
+   */
+  const responedor = useMemo(() => {
+    const desDePosicio = (x: number): number => {
+      if (amplada <= 0) return minim;
+      const f = Math.max(0, Math.min(1, x / amplada));
+      return Math.round(minim + f * (maxim - minim));
+    };
 
-  const responedor = useRef(
-    PanResponder.create({
+    return PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: (e) => {
-        referencies.current.onCanvi(desDePosicio(e.nativeEvent.locationX));
-      },
-      onPanResponderMove: (e) => {
-        referencies.current.onCanvi(desDePosicio(e.nativeEvent.locationX));
-      },
-    }),
-  ).current;
+      onPanResponderGrant: (e) => onCanvi(desDePosicio(e.nativeEvent.locationX)),
+      onPanResponderMove: (e) => onCanvi(desDePosicio(e.nativeEvent.locationX)),
+    });
+  }, [amplada, minim, maxim, onCanvi]);
 
   const mida = (e: LayoutChangeEvent) => setAmplada(e.nativeEvent.layout.width);
 

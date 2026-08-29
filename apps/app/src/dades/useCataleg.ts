@@ -23,7 +23,6 @@ export function useCataleg(): { estat: EstatCataleg; reintenta: () => void } {
     // Si la pantalla es tanca mentre la petició vola, no s'ha d'actualitzar
     // l'estat d'un component que ja no hi és.
     let viu = true;
-    setEstat({ fase: 'carregant' });
 
     carregaCataleg()
       .then((cataleg) => { if (viu) setEstat({ fase: 'llest', cataleg }); })
@@ -38,6 +37,11 @@ export function useCataleg(): { estat: EstatCataleg; reintenta: () => void } {
     return () => { viu = false; };
   }, [intent]);
 
-  const reintenta = useCallback(() => setIntent((n) => n + 1), []);
+  // L'estat de càrrega es posa aquí i no dins de l'efecte: fer-ho a l'efecte
+  // provoca un dibuix de més i React ho desaconsella.
+  const reintenta = useCallback(() => {
+    setEstat({ fase: 'carregant' });
+    setIntent((n) => n + 1);
+  }, []);
   return { estat, reintenta };
 }

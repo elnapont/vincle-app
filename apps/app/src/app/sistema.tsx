@@ -13,10 +13,10 @@
 
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { derivaEixos, perfilDe, puntua } from '@vincle/matching';
+
 import type { Breed } from '@vincle/shared-types';
 import { ETIQUETA_TRASTORN } from '@vincle/shared-types';
-import { TRADUCCIO_TERME } from '@vincle/matching';
+import { TRADUCCIO_TERME, derivaEixos, perfilDe, puntua } from '@vincle/matching';
 import {
   BarraEix, Boto, Esquelet, Seccio, Targeta, Xip,
   color, espai, text, useTrencament,

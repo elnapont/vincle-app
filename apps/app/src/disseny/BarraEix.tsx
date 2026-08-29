@@ -19,7 +19,7 @@
  *     perquè una barra curta no sembli un defecte quan és una virtut.
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
 import type { Direccio, Eix } from '@vincle/shared-types';
 import { ETIQUETA_EIX } from '@vincle/shared-types';
@@ -54,7 +54,11 @@ export function BarraEix({
 
   // Les barres animen l'amplada en carregar el resultat. Amb `null` no hi ha res
   // a animar, perquè no hi ha replè.
-  const progres = useRef(new Animated.Value(0)).current;
+  //
+  // El valor animat va a `useMemo` i no a `useRef`: llegir `.current` d'un ref
+  // durant el dibuix és el que React desaconsella, i aquí el valor es fa servir
+  // per calcular l'amplada a cada render.
+  const progres = useMemo(() => new Animated.Value(0), []);
   useEffect(() => {
     if (senseDades) return;
     Animated.timing(progres, {
