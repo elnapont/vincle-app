@@ -11,3 +11,4 @@ export * from './Camp.tsx';
 export * from './FotoRaca.tsx';
 export * from './TextOriginal.tsx';
 export * from './GraficEvolucio.tsx';
+export * from './Cami.tsx';

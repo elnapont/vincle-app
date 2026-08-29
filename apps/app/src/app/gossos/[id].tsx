@@ -20,9 +20,10 @@ import { BLOCS_CATALEG, EXERCICIS } from '../../dades/exercicis.ts';
 import { useGossos } from '../../dades/gossos.ts';
 import { edat } from '../../dades/fixtures.ts';
 import { formataDurada, quanVaSer, useSessions, type Sessio } from '../../dades/sessions.ts';
+import { calculaProgres } from '../../dades/progres.ts';
 import { Avatar } from './index.tsx';
 import {
-  BarraNavegacio, Boto, Esquelet, GraficEvolucio, Seccio, Targeta, Xip,
+  BarraNavegacio, Boto, Cami, Esquelet, GraficEvolucio, Seccio, Targeta, Xip,
   color, espai, familia, text, tinta, useTrencament,
   type PuntEvolucio,
 } from '../../disseny/index.ts';
@@ -66,6 +67,8 @@ export default function FitxaGos() {
     () => construeixEvolucio(sessions, blocDe, rang, ara),
     [sessions, blocDe, rang, ara],
   );
+
+  const progres = useMemo(() => calculaProgres(sessions), [sessions]);
 
   const metriques = useMemo(() => {
     const segons = sessions.reduce((a, s) => a + s.duracioSegons, 0);
@@ -126,15 +129,45 @@ export default function FitxaGos() {
       <View style={estils.metriques}>
         <Metrica valor={String(metriques.sessions)} etiqueta="Sessions" />
         <Metrica valor={metriques.hores.toFixed(1).replace('.', ',')} etiqueta="Hores" />
-        <Metrica valor={String(metriques.exercicis)} etiqueta="Exercicis practicats" />
-        <Metrica valor="—" etiqueta="Fites" apagada />
+        <Metrica
+          valor={`${progres.assolits}/${progres.total}`}
+          etiqueta="Exercicis assolits"
+        />
       </View>
 
       <View style={[estils.columnes, lateralASobre && estils.apilades]}>
         <View style={estils.principal}>
           <Targeta mobil={esMobil}>
             <View style={estils.filaSeccio}>
-              <Seccio>Evolució</Seccio>
+              <Seccio>El camí</Seccio>
+              {progres.seguent ? (
+                <Boto
+                  titol={`Practica «${progres.seguent.nom}»`}
+                  onPress={() => router.push({
+                    pathname: '/sessions/nova',
+                    params: { gosId: gos.id, exerciciId: progres.seguent!.id },
+                  })}
+                  estil={estils.botoSeguent}
+                />
+              ) : null}
+            </View>
+
+            {progres.total === 0 ? (
+              <Text style={text.cosSecundari}>
+                El catàleg d'exercicis encara s'està redactant.
+              </Text>
+            ) : (
+              <Cami
+                blocs={progres.blocs}
+                seguentId={progres.seguent?.id ?? null}
+                onObrir={(id) => router.push({ pathname: '/exercicis/[id]', params: { id } })}
+              />
+            )}
+          </Targeta>
+
+          <Targeta mobil={esMobil}>
+            <View style={estils.filaSeccio}>
+              <Seccio>Sessions per mes</Seccio>
               <View style={estils.rangs}>
                 {([3, 6, 'tot'] as Rang[]).map((r) => (
                   <Xip key={String(r)} to={rang === r ? 'actiu' : 'neutre'} onPress={() => setRang(r)}>
@@ -308,13 +341,14 @@ const estils = StyleSheet.create({
 
   columnes: { flexDirection: 'row', gap: espai.l, alignItems: 'flex-start' },
   apilades: { flexDirection: 'column' },
-  principal: { flex: 1, minWidth: 0 },
+  principal: { flex: 1, minWidth: 0, gap: espai.l },
   lateral: { width: 320 },
   plena: { width: '100%' },
   flexible: { flex: 1, minWidth: 0 },
 
   filaSeccio: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espai.m, flexWrap: 'wrap' },
   rangs: { flexDirection: 'row', gap: espai.xs },
+  botoSeguent: { paddingHorizontal: espai.m, minHeight: 36 },
 
   filaSessio: {
     flexDirection: 'row', alignItems: 'center', gap: espai.m,

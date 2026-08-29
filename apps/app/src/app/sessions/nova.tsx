@@ -17,7 +17,7 @@ import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { textRecomanacio } from '@vincle/shared-types';
-import { EXERCICIS } from '../../dades/exercicis.ts';
+import { BLOCS_CATALEG, EXERCICIS } from '../../dades/exercicis.ts';
 import { useGossos } from '../../dades/gossos.ts';
 import { formataDurada, registraSessio } from '../../dades/sessions.ts';
 import {
@@ -40,7 +40,14 @@ export default function SessioNova() {
   }>();
   const { estat: estatGossos } = useGossos();
 
-  const exercici = EXERCICIS.find((e) => e.id === exerciciId) ?? null;
+  // L'exercici pot venir pel paràmetre —des de la fitxa o des del camí del gos— o
+  // triar-se aquí. `undefined` vol dir que encara no s'hi ha tocat.
+  const [triatManual, setTriatManual] = useState<string | null | undefined>(undefined);
+  const idActiu = triatManual === undefined ? (exerciciId ?? null) : triatManual;
+  const exercici = EXERCICIS.find((e) => e.id === idActiu) ?? null;
+  const blocActiu = exercici
+    ? BLOCS_CATALEG.find((b) => b.bloc === exercici.bloc)?.nom ?? null
+    : null;
   // El condicional dins del memo: fora, crearia un array nou a cada dibuix.
   const gossos = useMemo(
     () => (estatGossos.fase === 'llest' ? estatGossos.gossos : []),
@@ -101,9 +108,12 @@ export default function SessioNova() {
         <Pressable onPress={() => router.back()} style={estils.tancar} accessibilityLabel="Tanca">
           <Text style={estils.creu}>✕</Text>
         </Pressable>
-        <Text style={estils.titolModal}>
-          {exercici ? exercici.nom : 'Sessió lliure'}
-        </Text>
+        <View style={estils.titolBloc}>
+          {blocActiu ? <Text style={estils.eyebrowModal}>{blocActiu.toUpperCase()}</Text> : null}
+          <Text style={estils.titolModal} numberOfLines={1}>
+            {exercici ? exercici.nom : 'Sessió lliure'}
+          </Text>
+        </View>
         <View style={estils.tancar} />
       </View>
 
@@ -149,6 +159,46 @@ export default function SessioNova() {
             <Text style={estils.explicacio}>{exercici.nota}</Text>
           </Targeta>
         ) : null}
+
+        {/* Quin exercici */}
+        <Targeta mobil>
+          <View style={estils.filaSeccio}>
+            <Seccio>Quin exercici</Seccio>
+            {exercici ? (
+              <Pressable onPress={() => setTriatManual(null)}>
+                <Text style={estils.canvia}>Fes-la lliure</Text>
+              </Pressable>
+            ) : null}
+          </View>
+
+          {BLOCS_CATALEG.map((b) => {
+            const delBloc = EXERCICIS.filter((e) => e.bloc === b.bloc);
+            if (delBloc.length === 0) return null;
+            return (
+              <View key={b.bloc} style={estils.grupBloc}>
+                <Text style={estils.nomBloc}>{b.nom.toUpperCase()}</Text>
+                <View style={estils.xips}>
+                  {delBloc.map((e) => (
+                    <Xip
+                      key={e.id}
+                      to={idActiu === e.id ? 'actiu' : 'neutre'}
+                      onPress={() => setTriatManual(e.id)}
+                    >
+                      {`${e.ordre}. ${e.nom}`}
+                    </Xip>
+                  ))}
+                </View>
+              </View>
+            );
+          })}
+
+          {!exercici ? (
+            <Text style={estils.pistaLliure}>
+              Sense exercici triat es desa com a sessió lliure, que també compta a
+              l'historial però no avança el camí.
+            </Text>
+          ) : null}
+        </Targeta>
 
         {/* Amb què */}
         {gossos.length > 1 ? (
@@ -286,7 +336,14 @@ const estils = StyleSheet.create({
   },
   tancar: { width: TOCABLE_MINIM, height: TOCABLE_MINIM, alignItems: 'center', justifyContent: 'center' },
   creu: { fontFamily: familia.sans, fontSize: 20, color: color.granat },
-  titolModal: { ...text.nomLlista, fontSize: 15, flex: 1, textAlign: 'center' },
+  titolBloc: { flex: 1, alignItems: 'center' },
+  eyebrowModal: { ...text.escalaBarra, fontSize: 9 },
+  titolModal: { ...text.nomLlista, fontSize: 15, textAlign: 'center' },
+  filaSeccio: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: espai.m },
+  canvia: { ...text.cosSecundari, fontSize: 12.5, color: color.vermell },
+  grupBloc: { gap: espai.xs },
+  nomBloc: { ...text.escalaBarra },
+  pistaLliure: { ...text.cosSecundari, fontSize: 12.5, lineHeight: 18 },
 
   contingut: {
     padding: espai.xl, gap: espai.m,
