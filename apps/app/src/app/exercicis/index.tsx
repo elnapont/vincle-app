@@ -19,6 +19,7 @@ import { Link } from 'expo-router';
 import type { Exercise } from '@vincle/shared-types';
 import { textRecomanacioCurt } from '@vincle/shared-types';
 import { BLOCS_CATALEG, EXERCICIS } from '../../dades/exercicis.ts';
+import { useSessio } from '../../estat/Sessio.tsx';
 import {
   BarraNavegacio, Seccio, Targeta, Xip,
   color, espai, text, useTrencament,
@@ -36,6 +37,7 @@ const PREVISTOS: Record<number, number> = { 1: 3, 2: 5, 3: 4, 4: 3, 5: 4 };
 
 export default function CatalegExercicis() {
   const { esMobil, lateralASobre } = useTrencament();
+  const { surt } = useSessio();
   const [bloc, setBloc] = useState<number | null>(null);
 
   const visibles = useMemo(
@@ -48,7 +50,7 @@ export default function CatalegExercicis() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio pestanyes={PESTANYES} activa="Exercicis" /> : null}
+      {!esMobil ? <BarraNavegacio pestanyes={PESTANYES} activa="Exercicis" onSortir={surt} /> : null}
 
       <ScrollView contentContainerStyle={estils.desplacament}>
         <View style={[estils.columnes, lateralASobre && estils.apilades]}>

@@ -23,6 +23,7 @@ import { formataDurada, quanVaSer, useSessions, type Sessio } from '../../dades/
 import { calculaProgres } from '../../dades/progres.ts';
 import { desfesAssoliment, marcaAssolit, useAssoliments } from '../../dades/assoliments.ts';
 import { Avatar } from './index.tsx';
+import { useSessio } from '../../estat/Sessio.tsx';
 import {
   BarraNavegacio, Boto, Cami, Esquelet, GraficEvolucio, Seccio, Targeta, Xip,
   color, espai, familia, text, tinta, useTrencament,
@@ -42,6 +43,7 @@ export default function FitxaGos() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { esMobil, lateralASobre } = useTrencament();
+  const { surt } = useSessio();
   const { estat: estatGossos } = useGossos();
   const { estat: estatSessions } = useSessions(id);
   const { assolits, recarrega: recarregaAssoliments } = useAssoliments(id);
@@ -84,7 +86,7 @@ export default function FitxaGos() {
 
   if (estatGossos.fase === 'carregant') {
     return (
-      <Pantalla esMobil={esMobil}>
+      <Pantalla esMobil={esMobil} onSortir={surt}>
         <Esquelet alcada={120} />
         <Esquelet alcada={220} opacitat={0.7} />
       </Pantalla>
@@ -93,7 +95,7 @@ export default function FitxaGos() {
 
   if (!gos) {
     return (
-      <Pantalla esMobil={esMobil}>
+      <Pantalla esMobil={esMobil} onSortir={surt}>
         <Text style={text.titolWeb}>Aquest gos no hi és</Text>
         <Boto titol="Torna a la llista" to="secundari" onPress={() => router.replace('/gossos')} />
       </Pantalla>
@@ -101,7 +103,7 @@ export default function FitxaGos() {
   }
 
   return (
-    <Pantalla esMobil={esMobil}>
+    <Pantalla esMobil={esMobil} onSortir={surt}>
       {/* Capçalera */}
       <View style={estils.capcalera}>
         <Avatar nom={gos.nom} mida={96} />
@@ -320,10 +322,18 @@ function Metrica({
   );
 }
 
-function Pantalla({ children, esMobil }: { children: React.ReactNode; esMobil: boolean }) {
+function Pantalla({
+  children, esMobil, onSortir,
+}: {
+  children: React.ReactNode;
+  esMobil: boolean;
+  onSortir: () => void;
+}) {
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio pestanyes={PESTANYES} activa="Gossos" /> : null}
+      {!esMobil ? (
+        <BarraNavegacio pestanyes={PESTANYES} activa="Gossos" onSortir={onSortir} />
+      ) : null}
       <ScrollView contentContainerStyle={estils.contingut}>{children}</ScrollView>
     </SafeAreaView>
   );

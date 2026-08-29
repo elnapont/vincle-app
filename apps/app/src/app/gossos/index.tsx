@@ -21,6 +21,7 @@ import { ETIQUETA_ESTAT_GOS } from '@vincle/shared-types';
 import { useGossos } from '../../dades/gossos.ts';
 import { DIES_DE_RETARD, diesDes, quanVaSer, useSessions } from '../../dades/sessions.ts';
 import { edat } from '../../dades/fixtures.ts';
+import { useSessio } from '../../estat/Sessio.tsx';
 import {
   BarraNavegacio, Boto, Esquelet, Targeta, Xip,
   color, espai, familia, radi, text, tinta, useTrencament,
@@ -43,6 +44,7 @@ const TO_ESTAT: Record<EstatGos, 'exit' | 'calid' | 'actiu'> = {
 
 export default function Gossos() {
   const { esMobil } = useTrencament();
+  const { surt } = useSessio();
   const router = useRouter();
   const { estat } = useGossos();
   const { estat: estatSessions } = useSessions();
@@ -89,7 +91,7 @@ export default function Gossos() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio pestanyes={PESTANYES} activa="Gossos" /> : null}
+      {!esMobil ? <BarraNavegacio pestanyes={PESTANYES} activa="Gossos" onSortir={surt} /> : null}
 
       <ScrollView contentContainerStyle={estils.contingut}>
         <View style={estils.capcalera}>

@@ -23,6 +23,7 @@ import { perfilDe, ranquing } from '@vincle/matching';
 import { useCataleg } from '../dades/useCataleg.ts';
 import type { CatalegRaces } from '../dades/races.ts';
 import { PES } from '../dades/questionari.ts';
+import { useSessio } from '../estat/Sessio.tsx';
 import { exporta } from '../dades/exporta.ts';
 import {
   BarraEix, BarraNavegacio, Boto, ControlLliscant, Esquelet, FotoRaca, Seccio, Targeta, Xip,
@@ -44,6 +45,7 @@ const DESCARTADES = 3;
 export default function Compatibilitats() {
   const { estat, reintenta } = useCataleg();
   const { lateralASobre } = useTrencament();
+  const { surt } = useSessio();
   const [trastorn, setTrastorn] = useState<Trastorn>('tea');
   const [pesMaximKg, setPesMaximKg] = useState<number | null>(null);
 
@@ -51,7 +53,7 @@ export default function Compatibilitats() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      <BarraNavegacio pestanyes={PESTANYES} activa="Compatibilitats" />
+      <BarraNavegacio pestanyes={PESTANYES} activa="Compatibilitats" onSortir={surt} />
 
       <ScrollView contentContainerStyle={estils.desplacament}>
         <View style={[estils.columnes, lateralASobre && estils.columnesApilades]}>

@@ -8,13 +8,14 @@
  */
 
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
 import { AGENDA_AVUI, ATENCIO } from '../dades/fixtures.ts';
 import { useGossos } from '../dades/gossos.ts';
 import { useSessions } from '../dades/sessions.ts';
 import { Avatar } from './gossos/index.tsx';
+import { useSessio } from '../estat/Sessio.tsx';
 import {
   BarraNavegacio, Boto, Seccio, Targeta,
   color, espai, text, tinta, useTrencament,
@@ -29,6 +30,7 @@ const PESTANYES = [
 
 export default function Inici() {
   const { esMobil, lateralASobre } = useTrencament();
+  const { surt } = useSessio();
   const avui = new Date().toLocaleDateString('ca-ES', {
     weekday: 'long', day: 'numeric', month: 'long',
   });
@@ -54,7 +56,7 @@ export default function Inici() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio pestanyes={PESTANYES} activa="Gossos" /> : null}
+      {!esMobil ? <BarraNavegacio pestanyes={PESTANYES} activa="Gossos" onSortir={surt} /> : null}
 
       <ScrollView contentContainerStyle={estils.contingut}>
         <View style={estils.salutacio}>
@@ -124,6 +126,12 @@ export default function Inici() {
             </Targeta>
           </View>
         </View>
+
+        {esMobil ? (
+          <Pressable onPress={surt} accessibilityRole="button" style={estils.peuSortir}>
+            <Text style={estils.sortir}>Tanca la sessió</Text>
+          </Pressable>
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );
@@ -190,6 +198,9 @@ const estils = StyleSheet.create({
 
   // Amplada sencera dins d'un enllaç: vegeu la nota del component Boto.
   enllacBloc: { width: '100%' },
+  // A mòbil no hi ha barra de navegació: el logout va al peu del panell.
+  peuSortir: { alignItems: 'center', paddingVertical: espai.l },
+  sortir: { ...text.navegacio, color: color.vermell },
   avis: { flexDirection: 'row', alignItems: 'flex-start', gap: espai.s },
   punt: { width: 8, height: 8, borderRadius: 4, marginTop: 6 },
   nomAvis: { ...text.cosSecundari, color: color.tinta },

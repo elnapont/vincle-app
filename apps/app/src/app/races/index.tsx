@@ -21,6 +21,7 @@ import type { Breed } from '@vincle/shared-types';
 import { etiquetaGrup } from '@vincle/shared-types';
 import { TRADUCCIO_TERME } from '@vincle/matching';
 import { useCataleg } from '../../dades/useCataleg.ts';
+import { useSessio } from '../../estat/Sessio.tsx';
 import {
   BarraNavegacio, Boto, Esquelet, FotoRaca, Targeta, TextOriginal, Xip,
   color, espai, familia, text, tinta, useTrencament,
@@ -84,6 +85,7 @@ function enFiles<T>(elements: T[], mida: number): (T | null)[][] {
 export default function CatalegRaces() {
   const { estat, reintenta } = useCataleg();
   const { esMobil, amplada: amplePantalla } = useTrencament();
+  const { surt } = useSessio();
   const [cerca, setCerca] = useState('');
   const [visibles, setVisibles] = useState(PER_PAGINA);
 
@@ -107,7 +109,7 @@ export default function CatalegRaces() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio pestanyes={PESTANYES} activa="Races" /> : null}
+      {!esMobil ? <BarraNavegacio pestanyes={PESTANYES} activa="Races" onSortir={surt} /> : null}
 
       <ScrollView contentContainerStyle={estils.contingut}>
         <View style={estils.encapcalament}>

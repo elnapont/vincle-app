@@ -6,7 +6,7 @@
  * pestanyes inferior.
  */
 
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'expo-router';
 import type { Href } from 'expo-router';
 import { color, espai, radi, tinta } from './tokens.ts';
@@ -18,12 +18,14 @@ export interface Pestanya {
 }
 
 export function BarraNavegacio({
-  pestanyes, activa, usuari = 'Elna Pont',
+  pestanyes, activa, usuari = 'Elna Pont', onSortir,
 }: {
   pestanyes: Pestanya[];
   /** Etiqueta de la pestanya activa. */
   activa: string;
   usuari?: string;
+  /** Si es passa, es dibuixa l'acció de tancar la sessió. */
+  onSortir?: () => void;
 }) {
   const inicials = usuari.split(' ').map((p) => p[0] ?? '').join('').slice(0, 2).toUpperCase();
 
@@ -54,6 +56,11 @@ export function BarraNavegacio({
         <View style={estils.avatar}>
           <Text style={estils.avatarText}>{inicials}</Text>
         </View>
+        {onSortir ? (
+          <Pressable onPress={onSortir} hitSlop={8} accessibilityRole="button">
+            <Text style={estils.sortir}>Surt</Text>
+          </Pressable>
+        ) : null}
       </View>
     </View>
   );
@@ -86,4 +93,5 @@ const estils = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center',
   },
   avatarText: { ...text.nomLlista, fontSize: 12, color: color.granat },
+  sortir: { ...text.navegacio, color: color.vermell },
 });
