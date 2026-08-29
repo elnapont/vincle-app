@@ -17,7 +17,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
 import type { Exercise } from '@vincle/shared-types';
-import { textRecomanacio } from '@vincle/shared-types';
+import { textRecomanacioCurt } from '@vincle/shared-types';
 import { BLOCS_CATALEG, EXERCICIS } from '../../dades/exercicis.ts';
 import {
   BarraNavegacio, Seccio, Targeta, Xip,
@@ -132,6 +132,7 @@ export default function CatalegExercicis() {
 
 function TargetaExercici({ exercici }: { exercici: Exercise }) {
   const nomBloc = BLOCS_CATALEG.find((b) => b.bloc === exercici.bloc)?.nom ?? '';
+  const previstos = PREVISTOS[exercici.bloc] ?? '?';
 
   return (
     <Link href={{ pathname: '/exercicis/[id]', params: { id: exercici.id } }} asChild>
@@ -141,15 +142,22 @@ function TargetaExercici({ exercici }: { exercici: Exercise }) {
         style={({ pressed }) => [estils.plena, pressed ? { opacity: 0.85 } : null]}
       >
         <Targeta estil={estils.targeta}>
-          <Text style={estils.eyebrow}>{nomBloc.toUpperCase()}</Text>
-          <Text style={estils.nomExercici}>{exercici.nom}</Text>
+          <Text style={estils.eyebrow}>
+            {`${nomBloc.toUpperCase()} · EXERCICI ${exercici.ordre} DE ${previstos}`}
+          </Text>
+          <View style={estils.filaNom}>
+            <View style={estils.ordinal}>
+              <Text style={estils.ordinalNumero}>{exercici.ordre}</Text>
+            </View>
+            <Text style={estils.nomExercici}>{exercici.nom}</Text>
+          </View>
 
           <Text style={text.cosSecundari} numberOfLines={3}>
             {exercici.explicacio}
           </Text>
 
           <View style={estils.peu}>
-            <Xip to="calid">{textRecomanacio(exercici.recomanacio)}</Xip>
+            <Xip to="calid" unaLinia>{textRecomanacioCurt(exercici.recomanacio)}</Xip>
           </View>
         </Targeta>
       </Pressable>
@@ -182,6 +190,15 @@ const estils = StyleSheet.create({
   cela: { width: '48.5%', minWidth: 280 },
   targeta: { gap: espai.s, height: '100%' },
   eyebrow: { ...text.escalaBarra },
-  nomExercici: { ...text.nomLlista, fontSize: 17 },
+  filaNom: { flexDirection: 'row', alignItems: 'center', gap: espai.s },
+  // El número d'ordre en un cercle: els exercicis d'un bloc es fan en ordre, i
+  // saber-lo d'un cop d'ull és el que demanava la revisió.
+  ordinal: {
+    width: 24, height: 24, borderRadius: 12,
+    backgroundColor: color.granat,
+    alignItems: 'center', justifyContent: 'center',
+  },
+  ordinalNumero: { ...text.metadadaFort, fontSize: 12, color: color.blanc },
+  nomExercici: { ...text.nomLlista, fontSize: 17, flexShrink: 1 },
   peu: { flexDirection: 'row', flexWrap: 'wrap', gap: espai.xs, marginTop: 'auto' },
 });

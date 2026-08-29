@@ -61,15 +61,22 @@ export function Targeta({
 export type TonXip = 'neutre' | 'actiu' | 'exit' | 'alerta' | 'calid';
 
 export function Xip({
-  children, to = 'neutre', onPress,
+  children, to = 'neutre', onPress, unaLinia = false,
 }: {
   children: ReactNode;
   to?: TonXip;
   onPress?: () => void;
+  /** Retalla el text a una línia. Per a llistes on el xip no pot créixer. */
+  unaLinia?: boolean;
 }) {
   const contingut = (
-    <View style={[estils.xip, estilsXip[to]]}>
-      <Text style={[estils.xipText, textXip[to]]}>{children}</Text>
+    <View style={[estils.xip, estilsXip[to], unaLinia && estils.xipUnaLinia]}>
+      <Text
+        style={[estils.xipText, textXip[to]]}
+        numberOfLines={unaLinia ? 1 : undefined}
+      >
+        {children}
+      </Text>
     </View>
   );
 
@@ -211,6 +218,9 @@ const estils = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   xipText: { ...text.cosSecundari, fontSize: 12.5, lineHeight: 15 },
+  // Amb `flexShrink` el xip pot encongir-se dins d'una fila en comptes de
+  // desbordar-la, i el text de dins es retalla amb punts suspensius.
+  xipUnaLinia: { flexShrink: 1, maxWidth: '100%' },
   boto: {
     minHeight: TOCABLE_MINIM,
     borderRadius: radi.boto,

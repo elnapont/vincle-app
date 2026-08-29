@@ -77,6 +77,18 @@ export function textRecomanacio(r: Recomanacio): string {
 }
 
 /**
+ * Forma curta de la recomanació, per a xips i llistes.
+ *
+ * Les recomanacions qualitatives poden ser frases senceres —«no es recomana cap
+ * nombre concret de sessions, aquesta mesura es va aprenent fins que el cadell
+ * canvia les dents»— i no caben en un xip. En comptes de retallar-les pel mig, es
+ * resumeixen: la frase completa surt a la fitxa, que és on hi ha espai.
+ */
+export function textRecomanacioCurt(r: Recomanacio): string {
+  return r.tipus === 'lliure' ? 'Sense nombre fix de sessions' : textRecomanacio(r);
+}
+
+/**
  * Sessions totals que suposa la recomanació, per comparar-hi el seguiment.
  * `null` quan no es pot saber: sense xifres o sense període no hi ha total.
  */
