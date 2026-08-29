@@ -3,10 +3,11 @@
  *
  * La pestanya activa va en vermell amb un subratllat de 2px enganxat a la vora
  * inferior de la barra. A mòbil no es dibuixa: allà la navegació és la barra de
- * pestanyes inferior.
+ * pestanyes inferior i les accions de compte viuen al peu del panell d'inici.
  */
 
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'expo-router';
 import type { Href } from 'expo-router';
 import { color, espai, radi, tinta } from './tokens.ts';
@@ -17,6 +18,9 @@ export interface Pestanya {
   desti: Href;
 }
 
+/** Alçada de la barra; el desplegable s'hi ancora just a sota. */
+const ALCADA = 60;
+
 export function BarraNavegacio({
   pestanyes, activa, usuari = 'Elna Pont', onSortir,
 }: {
@@ -24,10 +28,20 @@ export function BarraNavegacio({
   /** Etiqueta de la pestanya activa. */
   activa: string;
   usuari?: string;
-  /** Si es passa, es dibuixa l'acció de tancar la sessió. */
+  /** Si es passa, l'avatar obre un desplegable amb l'acció de tancar la sessió. */
   onSortir?: () => void;
 }) {
+  const [obert, setObert] = useState(false);
   const inicials = usuari.split(' ').map((p) => p[0] ?? '').join('').slice(0, 2).toUpperCase();
+
+  const identitat = (
+    <View style={estils.marca}>
+      <Text style={text.navegacio}>{usuari}</Text>
+      <View style={estils.avatar}>
+        <Text style={estils.avatarText}>{inicials}</Text>
+      </View>
+    </View>
+  );
 
   return (
     <View style={estils.barra}>
@@ -51,24 +65,55 @@ export function BarraNavegacio({
         })}
       </View>
 
-      <View style={estils.marca}>
-        <Text style={text.navegacio}>{usuari}</Text>
-        <View style={estils.avatar}>
-          <Text style={estils.avatarText}>{inicials}</Text>
-        </View>
-        {onSortir ? (
-          <Pressable onPress={onSortir} hitSlop={8} accessibilityRole="button">
-            <Text style={estils.sortir}>Surt</Text>
-          </Pressable>
-        ) : null}
-      </View>
+      {onSortir ? (
+        <Pressable
+          onPress={() => setObert(true)}
+          accessibilityRole="button"
+          accessibilityLabel="Obre el menú del compte"
+          accessibilityState={{ expanded: obert }}
+        >
+          {identitat}
+        </Pressable>
+      ) : identitat}
+
+      {/*
+        El desplegable va dins d'un `Modal` i no d'una vista posicionada dins de la
+        barra: així es dibuixa per damunt de tot i el fons captura el clic de fora
+        per tancar-lo, que és el que s'espera d'un menú.
+      */}
+      <Modal
+        visible={obert}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setObert(false)}
+      >
+        <Pressable
+          style={estils.fons}
+          onPress={() => setObert(false)}
+          accessibilityLabel="Tanca el menú"
+        >
+          {/* La posició és fixa perquè la geometria de la barra també ho és:
+              l'alçada i l'encoixinat lateral no canvien. */}
+          <View style={estils.desplegable}>
+            <Text style={estils.usuariMenu}>{usuari}</Text>
+            <View style={estils.separador} />
+            <Pressable
+              onPress={() => { setObert(false); onSortir?.(); }}
+              accessibilityRole="button"
+              style={({ pressed }) => [estils.opcio, pressed && estils.opcioPremuda]}
+            >
+              <Text style={estils.textOpcio}>Tanca la sessió</Text>
+            </Pressable>
+          </View>
+        </Pressable>
+      </Modal>
     </View>
   );
 }
 
 const estils = StyleSheet.create({
   barra: {
-    height: 60,
+    height: ALCADA,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -93,5 +138,22 @@ const estils = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center',
   },
   avatarText: { ...text.nomLlista, fontSize: 12, color: color.granat },
-  sortir: { ...text.navegacio, color: color.vermell },
+
+  fons: { flex: 1 },
+  desplegable: {
+    position: 'absolute',
+    top: ALCADA + espai.xs,
+    right: espai.xxxl,
+    minWidth: 200,
+    backgroundColor: color.blanc,
+    borderWidth: 1,
+    borderColor: tinta.vora,
+    borderRadius: radi.targeta,
+    paddingVertical: espai.xs,
+  },
+  usuariMenu: { ...text.metadada, paddingHorizontal: espai.m, paddingVertical: espai.xs },
+  separador: { height: 1, backgroundColor: tinta.separador, marginVertical: espai.xxs },
+  opcio: { paddingHorizontal: espai.m, paddingVertical: espai.s },
+  opcioPremuda: { backgroundColor: tinta.fila },
+  textOpcio: { ...text.navegacio, color: color.vermell },
 });
