@@ -7,11 +7,13 @@
  * en vermell perquè són el que s'ha de mirar.
  */
 
+import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
-import { AGENDA_AVUI, ATENCIO, METRIQUES } from '../dades/fixtures.ts';
+import { AGENDA_AVUI, ATENCIO } from '../dades/fixtures.ts';
 import { useGossos } from '../dades/gossos.ts';
+import { useSessions } from '../dades/sessions.ts';
 import { Avatar } from './gossos/index.tsx';
 import {
   BarraNavegacio, Boto, Seccio, Targeta,
@@ -32,12 +34,21 @@ export default function Inici() {
   });
 
   const { estat } = useGossos();
+  const { estat: estatSessions } = useSessions();
   const gossos = estat.fase === 'llest' ? estat.gossos : [];
 
-  // L'agenda i els avisos encara són dades de prova: no hi ha taules de sessions
-  // ni d'incidències. Es projecten sobre els gossos reals per posició, de manera
-  // que ensenyin noms de debò en comptes d'identificadors inventats; quan hi hagi
-  // les taules, això desapareix.
+  // L'instant de referència es fixa en obrir la pantalla: llegir el rellotge a
+  // cada dibuix faria que el recompte canviés sense que canviés cap dada.
+  const [ara] = useState(() => Date.now());
+
+  // Sessions dels últims set dies, comptades de les reals.
+  const sessionsSetmana = estatSessions.fase === 'llest'
+    ? estatSessions.sessions.filter((x) => ara - x.data.getTime() < 7 * 86400000).length
+    : 0;
+
+  // L'agenda i els avisos encara són dades de prova: no hi ha ni agenda ni taula
+  // d'incidències. Es projecten sobre els gossos reals per posició, de manera que
+  // ensenyin noms de debò; quan hi hagi les taules, això desapareix.
   const nomGos = (index: number) => gossos[index % Math.max(1, gossos.length)]?.nom ?? '—';
   const hiHaGossos = gossos.length > 0;
 
@@ -53,9 +64,9 @@ export default function Inici() {
 
         <View style={estils.metriques}>
           <Metrica valor={gossos.filter((g) => g.estat === 'ensinistrament').length} etiqueta="Gossos en seguiment" />
-          <Metrica valor={METRIQUES.sessionsSetmana} etiqueta="Sessions aquesta setmana" />
-          <Metrica valor={METRIQUES.fitesDelMes} etiqueta="Fites aquest mes" to="oliva" />
-          <Metrica valor={METRIQUES.incidenciesObertes} etiqueta="Incidències obertes" to="vermell" />
+          <Metrica valor={sessionsSetmana} etiqueta="Sessions aquesta setmana" />
+          <MetricaBuida etiqueta="Fites aquest mes" />
+          <MetricaBuida etiqueta="Incidències obertes" />
         </View>
 
         <View style={[estils.columnes, lateralASobre && estils.apilades]}>
@@ -115,6 +126,19 @@ export default function Inici() {
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+/**
+ * Mètrica que encara no es pot calcular: fites i incidències no tenen taula. Un
+ * guionet i no un zero, pel mateix criteri de tot el producte.
+ */
+function MetricaBuida({ etiqueta }: { etiqueta: string }) {
+  return (
+    <View style={estils.metrica}>
+      <Text style={[text.metrica, { color: tinta.eixSenseDadesGuionet }]}>—</Text>
+      <Text style={estils.etiquetaMetrica}>{etiqueta}</Text>
+    </View>
   );
 }
 

@@ -13,7 +13,7 @@
  */
 
 import { useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, useRouter } from 'expo-router';
 import type { Dog, EstatGos } from '@vincle/shared-types';
@@ -145,7 +145,11 @@ export default function Gossos() {
               </Targeta>
             ) : esMobil ? (
               visibles.map((g) => (
-                <TargetaGos key={g.id} gos={g} darrera={darreraSessio.get(g.id)} ara={ara} />
+                <Link key={g.id} href={{ pathname: '/gossos/[id]', params: { id: g.id } }} asChild>
+                  <Pressable accessibilityRole="link" accessibilityLabel={`Fitxa de ${g.nom}`}>
+                    <TargetaGos gos={g} darrera={darreraSessio.get(g.id)} ara={ara} />
+                  </Pressable>
+                </Link>
               ))
             ) : (
               <Taula gossos={visibles} darrera={darreraSessio} ara={ara} />
@@ -206,7 +210,10 @@ function Taula({ gossos, darrera, ara }: { gossos: Dog[]; darrera: Map<string, D
 
           <DarreraSessio data={darrera.get(gos.id)} ara={ara} estil={estils.colSessio} />
 
-          <Link href="/gossos" style={estils.colAccio}>
+          <Link
+            href={{ pathname: '/gossos/[id]', params: { id: gos.id } }}
+            style={estils.colAccio}
+          >
             <Text style={estils.enllacObre}>Obre</Text>
           </Link>
         </View>
