@@ -152,6 +152,16 @@ Client-servidor amb API REST. Sense sobre-enginyeria.
   /diccionari   → plantilla i dades d'origen del diccionari de traducció (§5.2, §5.3)
 ```
 
+> **Fora d'abast (decisió de v1).** El projecte **no tindrà alta d'usuari, perfil ni
+> recuperació de contrasenya**. No són l'objectiu del treball i, sense perfil ni alta, un flux
+> de recuperació no encaixaria enlloc. Els comptes es creen a mà des de Supabase. Per això la
+> pantalla d'entrada té «Sol·licita accés» i «He oblidat la contrasenya» com a text sense
+> destinació: són del handoff i es mantenen per fidelitat visual, no per descuit.
+>
+> **Comparació de races: descartada.** El handoff llista «Comparar» a la fitxa de raça i
+> «Compara les 3 primeres» a la pantalla de compatibilitats, però **no en dissenya la vista**.
+> Construir-la voldria dir inventar una pantalla sencera, així que s'han tret les dues accions.
+
 > **Pantalles que el handoff no té.** S'han construït amb el vocabulari del sistema i caldrà
 > que Claude Design les reculli quan es regeneri el paquet:
 >
@@ -695,7 +705,9 @@ registrar-lo*, tot al mateix lloc.
 - [ ] Definir el llistat de fites d'ensinistrament predefinides.
 - [ ] **Redactar / curar el catàleg d'exercicis** amb reforç positiu (§6.1), validat per una
   persona i amb font documentada.
-- [ ] Decidir abast del rol "família d'acollida" (apartat de moment del matching; §5).
+- [ ] Decidir abast del rol «família d'acollida» (apartat de moment del matching; §5).
+- [x] ~~Decidir l'abast de la gestió d'usuaris~~ → **fora d'abast**: sense alta, perfil ni
+  recuperació de contrasenya. Els comptes es creen a mà des de Supabase (§3).
 
 ---
 

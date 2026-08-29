@@ -14,7 +14,7 @@
  */
 
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
 import type { MatchResult, PerfilTrastorn, Trastorn } from '@vincle/shared-types';
@@ -23,6 +23,7 @@ import { perfilDe, ranquing } from '@vincle/matching';
 import { useCataleg } from '../dades/useCataleg.ts';
 import type { CatalegRaces } from '../dades/races.ts';
 import { PES } from '../dades/questionari.ts';
+import { exporta } from '../dades/exporta.ts';
 import {
   BarraEix, BarraNavegacio, Boto, ControlLliscant, Esquelet, Seccio, Targeta, Xip,
   alcadaBarra, color, espai, radi, text, tinta, useTrencament,
@@ -244,6 +245,7 @@ function Resultats({
   perfil: PerfilTrastorn;
   pesMaximKg: number | null;
 }) {
+  const [avisExportacio, setAvisExportacio] = useState<string | null>(null);
   const resultats = ranquing(cataleg.races, perfil, { pesMaximKg });
   const destacats = [...perfil.eixos].sort((a, b) => b.pes - a.pes).slice(0, 3);
   const eixosDestacats = destacats.map((e) => e.eix);
@@ -259,8 +261,28 @@ function Resultats({
         <View style={estils.filaAccions}>
           <Text style={text.metadada}>{cataleg.total} races avaluades</Text>
           <View style={estils.flexible} />
-          <Text style={estils.accio}>Exporta</Text>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => {
+              const r = exporta({
+                trastorn: perfil.trastorn,
+                resultats,
+                races: cataleg.races,
+                eixos: eixosDestacats,
+                pesMaximKg,
+              });
+              setAvisExportacio(r.fet
+                ? 'Rànquing exportat en CSV.'
+                : r.motiu);
+            }}
+          >
+            <Text style={estils.accio}>Exporta el rànquing</Text>
+          </Pressable>
         </View>
+
+        {avisExportacio ? (
+          <Text style={text.metadada}>{avisExportacio}</Text>
+        ) : null}
       </View>
 
       {resultats.slice(0, DESPLEGATS).map((resultat, i) => (
