@@ -13,7 +13,8 @@
     "dades:genera": "node --experimental-strip-types scripts/genera-dades-referencia.ts",
     "dades:previsualitza": "node --experimental-strip-types scripts/previsualitza-ranquing.ts",
     "test": "npm run test --workspaces --if-present",
-    "typecheck": "tsc --build"
+    "typecheck": "tsc --build",
+    "exercicis:genera": "node --experimental-strip-types scripts/genera-exercicis.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
