@@ -14,7 +14,7 @@
 import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { z } from 'zod';
 import type { Breed, EstatGos } from '@vincle/shared-types';
 import { ETIQUETA_ESTAT_GOS, estatGosSchema } from '@vincle/shared-types';
@@ -38,13 +38,28 @@ const gosSchema = z.object({
 export default function GosNou() {
   const router = useRouter();
   const { estat: estatCataleg } = useCataleg();
+  // La fitxa de raça hi arriba amb la raça ja triada.
+  const { breedId, breedNom } = useLocalSearchParams<{ breedId?: string; breedNom?: string }>();
 
   const [nom, setNom] = useState('');
   const [dataNaixement, setDataNaixement] = useState('');
   const [estat, setEstat] = useState<EstatGos>('avaluacio');
   const [familia, setFamilia] = useState('');
-  const [raca, setRaca] = useState<Breed | null>(null);
+  /**
+   * `undefined` vol dir que l'usuari encara no hi ha tocat res i, per tant, val la
+   * raça que ve pel paràmetre; `null` vol dir que l'ha tret expressament. Es
+   * deriva en comptes de posar-ho a un efecte, que provocaria un dibuix de més i
+   * sobreescriuria la tria si el catàleg arribés tard.
+   */
+  const [racaManual, setRacaManual] = useState<Breed | null | undefined>(undefined);
   const [cercaRaca, setCercaRaca] = useState('');
+
+  const racaDelParametre = useMemo(() => {
+    if (!breedId || estatCataleg.fase !== 'llest') return null;
+    return estatCataleg.cataleg.races.find((r) => r.id === breedId) ?? null;
+  }, [breedId, estatCataleg]);
+
+  const raca = racaManual === undefined ? racaDelParametre : racaManual;
 
   const [errors, setErrors] = useState<Record<string, string | undefined>>({});
   const [errorGeneral, setErrorGeneral] = useState<string | null>(null);
@@ -74,8 +89,8 @@ export default function GosNou() {
 
     const { error } = await creaGos({
       nom: validacio.data.nom,
-      breedId: raca?.id ?? null,
-      breedNom: raca?.nom ?? null,
+      breedId: raca?.id ?? breedId ?? null,
+      breedNom: raca?.nom ?? breedNom ?? null,
       dataNaixement: validacio.data.dataNaixement,
       estat: validacio.data.estat,
       familiaAcollida: familia || null,
@@ -146,7 +161,7 @@ export default function GosNou() {
           {raca ? (
             <View style={estils.racaTriada}>
               <Text style={text.nomLlista}>{raca.nom}</Text>
-              <Pressable onPress={() => { setRaca(null); setCercaRaca(''); }}>
+              <Pressable onPress={() => { setRacaManual(null); setCercaRaca(''); }}>
                 <Text style={estils.treu}>Treu</Text>
               </Pressable>
             </View>
@@ -167,7 +182,7 @@ export default function GosNou() {
               {suggeriments.map((r) => (
                 <Pressable
                   key={r.id}
-                  onPress={() => { setRaca(r); setCercaRaca(''); }}
+                  onPress={() => { setRacaManual(r); setCercaRaca(''); }}
                   style={estils.suggeriment}
                 >
                   <Text style={text.cosSecundari}>{r.nom}</Text>

@@ -148,10 +148,14 @@ export default function FitxaRaça() {
             </View>
           </View>
 
-          <View style={estils.accions}>
-            <Boto titol="Afegir al seguiment" estil={estils.accio} />
-            <Boto titol="Comparar" to="sobreGranat" estil={estils.accio} />
-          </View>
+          <Boto
+            titol="Afegeix un gos d'aquesta raça"
+            onPress={() => router.push({
+              pathname: '/gossos/nou',
+              params: { breedId: raça.id, breedNom: raça.nom },
+            })}
+            estil={estils.accio}
+          />
 
           <Targeta>
             <Seccio>Eixos derivats del temperament, mida i longevitat</Seccio>
@@ -331,8 +335,7 @@ const estils = StyleSheet.create({
   encapcalament: { gap: espai.s },
   eyebrow: { ...text.escalaBarra },
   xips: { flexDirection: 'row', flexWrap: 'wrap', gap: espai.xs },
-  accions: { flexDirection: 'row', gap: espai.s },
-  accio: { flex: 1 },
+  accio: { alignSelf: 'flex-start', paddingHorizontal: espai.xl },
   graellaEixos: { flexDirection: 'row', flexWrap: 'wrap', gap: espai.l },
   graellaUnaColumna: { flexDirection: 'column' },
   // Dues columnes: la meitat menys la meitat del buit.

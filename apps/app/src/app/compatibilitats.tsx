@@ -260,7 +260,6 @@ function Resultats({
           <Text style={text.metadada}>{cataleg.total} races avaluades</Text>
           <View style={estils.flexible} />
           <Text style={estils.accio}>Exporta</Text>
-          <Text style={estils.accio}>Compara les 3 primeres</Text>
         </View>
       </View>
 
