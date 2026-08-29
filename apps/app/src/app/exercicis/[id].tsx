@@ -12,8 +12,8 @@
  * existeix. Inventar passos per omplir el disseny seria fabricar contingut
  * d'ensinistrament, que és exactament el que el §6.1 prohibeix.
  *
- * La segona meitat de `6b`, la sessió guiada, encara no s'ha fet: necessita la
- * taula de sessions, que no existeix.
+ * El botó de practicar porta a la sessió, que fon la sessió guiada de `6b` amb el
+ * registre de `2e`.
  */
 
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -96,6 +96,15 @@ export default function FitxaExercici() {
         </Targeta>
 
         <Boto
+          titol="Practica-ho ara"
+          onPress={() => router.push({
+            pathname: '/sessions/nova',
+            params: { exerciciId: exercici.id },
+          })}
+          estil={estils.botoPracticar}
+        />
+
+        <Boto
           titol="Torna al catàleg"
           to="sobreGranat"
           onPress={() => router.back()}
@@ -119,4 +128,5 @@ const estils = StyleSheet.create({
   explicacio: { ...text.cos, lineHeight: 23 },
   recomanacio: { ...text.nomLlista, fontSize: 15, color: color.granat },
   matis: { ...text.cosSecundari, fontSize: 12.5, color: tinta.textSecundari },
+  botoPracticar: { height: 52 },
 });

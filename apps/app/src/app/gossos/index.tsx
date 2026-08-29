@@ -19,6 +19,7 @@ import { Link, useRouter } from 'expo-router';
 import type { Dog, EstatGos } from '@vincle/shared-types';
 import { ETIQUETA_ESTAT_GOS } from '@vincle/shared-types';
 import { useGossos } from '../../dades/gossos.ts';
+import { DIES_DE_RETARD, diesDes, quanVaSer, useSessions } from '../../dades/sessions.ts';
 import { edat } from '../../dades/fixtures.ts';
 import {
   BarraNavegacio, Boto, Esquelet, Targeta, Xip,
@@ -44,6 +45,10 @@ export default function Gossos() {
   const { esMobil } = useTrencament();
   const router = useRouter();
   const { estat } = useGossos();
+  const { estat: estatSessions } = useSessions();
+  // L'instant de referència es fixa en obrir la pantalla: llegir el rellotge a
+  // cada dibuix faria que el text canviés sense que canviés cap dada.
+  const [ara] = useState(() => Date.now());
   const [cerca, setCerca] = useState('');
   const [filtre, setFiltre] = useState<Filtre>('tots');
 
@@ -64,6 +69,20 @@ export default function Gossos() {
       return passaFiltre && passaCerca;
     });
   }, [cerca, filtre, tots]);
+
+  /**
+   * Darrera sessió de cada gos. Es calcula aquí i no a la base de dades perquè les
+   * sessions ja venen ordenades per data: la primera que es troba de cada gos és
+   * la més recent.
+   */
+  const darreraSessio = useMemo(() => {
+    const per = new Map<string, Date>();
+    if (estatSessions.fase !== 'llest') return per;
+    for (const s of estatSessions.sessions) {
+      if (!per.has(s.gosId)) per.set(s.gosId, s.data);
+    }
+    return per;
+  }, [estatSessions]);
 
   const compta = (e: Filtre) =>
     e === 'tots' ? tots.length : tots.filter((g) => g.estat === e).length;
@@ -125,9 +144,11 @@ export default function Gossos() {
                 </Text>
               </Targeta>
             ) : esMobil ? (
-              visibles.map((g) => <TargetaGos key={g.id} gos={g} />)
+              visibles.map((g) => (
+                <TargetaGos key={g.id} gos={g} darrera={darreraSessio.get(g.id)} ara={ara} />
+              ))
             ) : (
-              <Taula gossos={visibles} />
+              <Taula gossos={visibles} darrera={darreraSessio} ara={ara} />
             )}
           </>
         ) : null}
@@ -154,7 +175,7 @@ function LlistaBuida() {
 
 // ---------------------------------------------------------------------------
 
-function Taula({ gossos }: { gossos: Dog[] }) {
+function Taula({ gossos, darrera, ara }: { gossos: Dog[]; darrera: Map<string, Date>; ara: number }) {
   return (
     <Targeta estil={estils.taula}>
       <View style={estils.filaCapcalera}>
@@ -162,7 +183,7 @@ function Taula({ gossos }: { gossos: Dog[] }) {
         <Text style={[estils.capcaleraText, estils.colGos]}>Gos</Text>
         <Text style={[estils.capcaleraText, estils.colEstat]}>Estat</Text>
         <Text style={[estils.capcaleraText, estils.colFites]}>Fites</Text>
-        <Text style={[estils.capcaleraText, estils.colFamilia]}>Família</Text>
+        <Text style={[estils.capcaleraText, estils.colSessio]}>Darrera sessió</Text>
         <View style={estils.colAccio} />
       </View>
 
@@ -183,9 +204,7 @@ function Taula({ gossos }: { gossos: Dog[] }) {
 
           <Text style={[estils.colFites, estils.senseFites]}>—</Text>
 
-          <Text style={[estils.colFamilia, text.metadada]}>
-            {gos.familiaAcollida ?? '—'}
-          </Text>
+          <DarreraSessio data={darrera.get(gos.id)} ara={ara} estil={estils.colSessio} />
 
           <Link href="/gossos" style={estils.colAccio}>
             <Text style={estils.enllacObre}>Obre</Text>
@@ -196,7 +215,7 @@ function Taula({ gossos }: { gossos: Dog[] }) {
   );
 }
 
-function TargetaGos({ gos }: { gos: Dog }) {
+function TargetaGos({ gos, darrera, ara }: { gos: Dog; darrera: Date | undefined; ara: number }) {
   return (
     <Targeta mobil>
       <View style={estils.capcaleraTargeta}>
@@ -209,10 +228,34 @@ function TargetaGos({ gos }: { gos: Dog }) {
         </View>
         <Xip to={TO_ESTAT[gos.estat]}>{ETIQUETA_ESTAT_GOS[gos.estat]}</Xip>
       </View>
-      {gos.familiaAcollida ? (
-        <Text style={text.metadada}>{`Família d'acollida: ${gos.familiaAcollida}`}</Text>
-      ) : null}
+      <View style={estils.peuTargeta}>
+        <DarreraSessio data={darrera} ara={ara} />
+        {gos.familiaAcollida ? (
+          <Text style={text.metadada} numberOfLines={1}>{gos.familiaAcollida}</Text>
+        ) : null}
+      </View>
     </Targeta>
+  );
+}
+
+/**
+ * Text de la darrera sessió. Els retards es marquen en vermell, que és l'únic
+ * senyal d'alarma de la pantalla; sense cap sessió encara, un guionet, no un zero.
+ */
+function DarreraSessio({
+  data, ara, estil,
+}: {
+  data: Date | undefined;
+  ara: number;
+  estil?: object;
+}) {
+  if (!data) return <Text style={[estil, estils.senseFites]}>—</Text>;
+
+  const retard = diesDes(data, ara) > DIES_DE_RETARD;
+  return (
+    <Text style={[estil, text.metadada, retard && { color: color.vermell }]}>
+      {quanVaSer(data, ara)}
+    </Text>
   );
 }
 
@@ -275,12 +318,13 @@ const estils = StyleSheet.create({
   colGos: { flex: 1, gap: 2, minWidth: 0 },
   colEstat: { width: 150 },
   colFites: { width: 90 },
-  colFamilia: { width: 160 },
+  colSessio: { width: 120 },
   colAccio: { width: 50 },
   senseFites: { ...text.metadadaFort, color: tinta.eixSenseDadesGuionet },
   enllacObre: { ...text.navegacio, color: color.vermell },
 
   capcaleraTargeta: { flexDirection: 'row', alignItems: 'center', gap: espai.m },
+  peuTargeta: { flexDirection: 'row', justifyContent: 'space-between', gap: espai.m },
 
   avatar: {
     backgroundColor: color.sorra,
