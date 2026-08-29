@@ -9,3 +9,4 @@ export * from './MesuradorRecorregut.tsx';
 export * from './BarraNavegacio.tsx';
 export * from './Camp.tsx';
 export * from './FotoRaca.tsx';
+export * from './TextOriginal.tsx';

@@ -26,7 +26,8 @@ import { TRADUCCIO_TERME, derivaEixos, perfilDe, ranquing } from '@vincle/matchi
 import { useCataleg } from '../../dades/useCataleg.ts';
 import { useQuestionari } from '../../estat/Questionari.tsx';
 import {
-  BarraEix, Boto, Esquelet, FotoRaca, MesuradorRecorregut, Seccio, Targeta, Xip,
+  BarraEix, Boto, Esquelet, FotoRaca, MesuradorRecorregut, Seccio, Targeta,
+  TextOriginal, Xip,
   color, espai, text, tinta, useTrencament,
 } from '../../disseny/index.ts';
 
@@ -156,6 +157,18 @@ export default function FitxaRaça() {
             })}
             estil={estils.accio}
           />
+
+          {raça.descripcio || raça.historia ? (
+            <Targeta>
+              <Seccio>Sobre la raça</Seccio>
+              {raça.descripcio ? (
+                <TextOriginal titol="Descripció" contingut={raça.descripcio} />
+              ) : null}
+              {raça.historia ? (
+                <TextOriginal titol="Història" contingut={raça.historia} />
+              ) : null}
+            </Targeta>
+          ) : null}
 
           <Targeta>
             <Seccio>Eixos derivats del temperament, mida i longevitat</Seccio>

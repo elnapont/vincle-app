@@ -22,7 +22,7 @@ import { etiquetaGrup } from '@vincle/shared-types';
 import { TRADUCCIO_TERME } from '@vincle/matching';
 import { useCataleg } from '../../dades/useCataleg.ts';
 import {
-  BarraNavegacio, Boto, Esquelet, FotoRaca, Targeta, Xip,
+  BarraNavegacio, Boto, Esquelet, FotoRaca, Targeta, TextOriginal, Xip,
   color, espai, familia, text, tinta, useTrencament,
 } from '../../disseny/index.ts';
 
@@ -241,10 +241,7 @@ function TargetaRaca({ raca }: { raca: Breed }) {
       ) : null}
 
       {raca.descripcio ? (
-        <View style={estils.prosa}>
-          <Text style={estils.marcaOriginal}>TEXT ORIGINAL DE THE DOG API · EN ANGLÈS</Text>
-          <Text style={text.cosSecundari}>{raca.descripcio}</Text>
-        </View>
+        <TextOriginal titol="Descripció" contingut={raca.descripcio} />
       ) : null}
     </Targeta>
   );
@@ -273,11 +270,4 @@ const estils = StyleSheet.create({
   targeta: { gap: espai.s, height: '100%' },
   nom: { ...text.nomLlista, fontSize: 17 },
   xips: { flexDirection: 'row', flexWrap: 'wrap', gap: espai.xxs },
-  prosa: {
-    gap: espai.xxs,
-    borderLeftWidth: 2,
-    borderLeftColor: tinta.franjaAbsencia,
-    paddingLeft: espai.s,
-  },
-  marcaOriginal: { ...text.escalaBarra, color: tinta.metadada },
 });
