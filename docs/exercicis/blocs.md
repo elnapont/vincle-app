@@ -7,18 +7,14 @@ La descripció surt a la pantalla del catàleg, sota el nom del bloc.
 
 <!-- Descripció del bloc 1 -->
 
-## 2.
-
+## 2. Ordres
 <!-- Descripció del bloc 2 -->
 
-## 3.
-
+## 3. Carrer
 <!-- Descripció del bloc 3 -->
 
-## 4.
-
+## 4. Entrenament
 <!-- Descripció del bloc 4 -->
 
-## 5.
-
+## 5. Carícies
 <!-- Descripció del bloc 5 -->
