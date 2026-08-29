@@ -57,6 +57,39 @@ export const tinta = {
   fila: 'rgba(36,26,22,.03)',
 } as const;
 
+/**
+ * Color de cada bloc del catàleg d'exercicis.
+ *
+ * No és una paleta nova: són els tons que ja hi ha, assignats per ordre de bloc.
+ * El gràfic d'evolució de la fitxa del gos ja els feia servir per a les seves
+ * sèries, i el catàleg d'exercicis els reaprofita perquè les dues pantalles
+ * parlin el mateix idioma: el bloc 2 és del mateix color als dos llocs.
+ */
+const HUES_BLOC = ['#661414', '#a21a1a', '#c2ad9a', '#608028', '#4a0f0f'] as const;
+
+export function colorBloc(bloc: number): string {
+  return HUES_BLOC[(bloc - 1) % HUES_BLOC.length] ?? '#661414';
+}
+
+/**
+ * El mateix color molt rebaixat, per tenyir el fons d'una targeta.
+ *
+ * L'opacitat és deliberadament baixa: ha de servir per agrupar d'un cop d'ull
+ * sense competir amb els colors que sí que signifiquen alguna cosa —l'oliva de
+ * l'èxit, el vermell de les alertes— ni fer il·legible el text de sobre.
+ */
+const TENYIT_BLOC = [
+  'rgba(102,20,20,.05)',
+  'rgba(162,26,26,.05)',
+  'rgba(194,173,154,.16)',
+  'rgba(96,128,40,.06)',
+  'rgba(74,15,15,.05)',
+] as const;
+
+export function fonsBloc(bloc: number): string {
+  return TENYIT_BLOC[(bloc - 1) % TENYIT_BLOC.length] ?? TENYIT_BLOC[0];
+}
+
 /** Fons translúcids de color per als xips. */
 export const fons = {
   exit: 'rgba(96,128,40,.14)',

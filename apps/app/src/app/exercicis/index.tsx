@@ -22,7 +22,7 @@ import { BLOCS_CATALEG, EXERCICIS } from '../../dades/exercicis.ts';
 import { useSessio } from '../../estat/Sessio.tsx';
 import {
   BarraNavegacio, Seccio, Targeta, Xip,
-  color, espai, text, useTrencament,
+  color, colorBloc, espai, fonsBloc, text, useTrencament,
 } from '../../disseny/index.ts';
 
 const PESTANYES = [
@@ -118,13 +118,34 @@ export default function CatalegExercicis() {
               </Targeta>
             ) : null}
 
-            <View style={estils.graella}>
-              {visibles.map((e) => (
-                <View key={e.id} style={lateralASobre ? estils.plena : estils.cela}>
-                  <TargetaExercici exercici={e} />
+            {/*
+              La graella es parteix per blocs amb encapçalament, i cada targeta
+              va tenyida del color del seu bloc. Amb dinou exercicis en una
+              graella plana no es veia on acabava un bloc i on començava el
+              següent; el color sol tampoc no bastava, perquè és molt suau a posta.
+            */}
+            {BLOCS_CATALEG.map((b) => {
+              const delBloc = visibles.filter((e) => e.bloc === b.bloc);
+              if (delBloc.length === 0) return null;
+
+              return (
+                <View key={b.bloc} style={estils.grupBloc}>
+                  <View style={estils.capcaleraBloc}>
+                    <View style={[estils.mostraBloc, { backgroundColor: colorBloc(b.bloc) }]} />
+                    <Text style={estils.nomBlocGrup}>{b.nom}</Text>
+                    <Text style={text.metadadaFort}>{delBloc.length}</Text>
+                  </View>
+
+                  <View style={estils.graella}>
+                    {delBloc.map((e) => (
+                      <View key={e.id} style={lateralASobre ? estils.plena : estils.cela}>
+                        <TargetaExercici exercici={e} />
+                      </View>
+                    ))}
+                  </View>
                 </View>
-              ))}
-            </View>
+              );
+            })}
           </View>
         </View>
       </ScrollView>
@@ -133,7 +154,6 @@ export default function CatalegExercicis() {
 }
 
 function TargetaExercici({ exercici }: { exercici: Exercise }) {
-  const nomBloc = BLOCS_CATALEG.find((b) => b.bloc === exercici.bloc)?.nom ?? '';
   const previstos = PREVISTOS[exercici.bloc] ?? '?';
 
   return (
@@ -143,10 +163,8 @@ function TargetaExercici({ exercici }: { exercici: Exercise }) {
         accessibilityLabel={`Fitxa de ${exercici.nom}`}
         style={({ pressed }) => [estils.plena, pressed ? { opacity: 0.85 } : null]}
       >
-        <Targeta estil={estils.targeta}>
-          <Text style={estils.eyebrow}>
-            {`${nomBloc.toUpperCase()} · EXERCICI ${exercici.ordre} DE ${previstos}`}
-          </Text>
+        <Targeta estil={[estils.targeta, { backgroundColor: fonsBloc(exercici.bloc) }]}>
+          <Text style={estils.eyebrow}>{`EXERCICI ${exercici.ordre} DE ${previstos}`}</Text>
           <View style={estils.filaNom}>
             <View style={estils.ordinal}>
               <Text style={estils.ordinalNumero}>{exercici.ordre}</Text>
@@ -185,6 +203,10 @@ const estils = StyleSheet.create({
   nota: { ...text.cosSecundari, fontSize: 12.5, lineHeight: 18 },
 
   encapcalament: { gap: espai.xs },
+  grupBloc: { gap: espai.m },
+  capcaleraBloc: { flexDirection: 'row', alignItems: 'center', gap: espai.s },
+  mostraBloc: { width: 10, height: 10, borderRadius: 3 },
+  nomBlocGrup: { ...text.encapcalamentSeccio, flex: 1 },
   graella: { flexDirection: 'row', flexWrap: 'wrap', gap: espai.l },
   // Dues columnes: la meitat menys la meitat del buit. Sense `flexGrow`, perquè
   // si no una targeta sola s'estiraria fins a l'amplada sencera quan el bloc

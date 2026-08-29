@@ -12,11 +12,8 @@
  */
 
 import { StyleSheet, Text, View } from 'react-native';
-import { color, espai, radi, tinta } from './tokens.ts';
+import { color, colorBloc, espai, radi, tinta } from './tokens.ts';
 import { text } from './tipografia.ts';
-
-/** Colors de sèrie, en l'ordre en què s'assignen als blocs. */
-const COLORS_SERIE = [color.granat, color.vermell, color.sorra, color.oliva, color.granatFosc];
 
 export interface PuntEvolucio {
   /** Etiqueta curta del mes: «mar.», «abr.»… */
@@ -38,8 +35,10 @@ export function GraficEvolucio({
     ...punts.flatMap((p) => [...p.perBloc.values()]),
   );
 
-  const colorDe = (bloc: number) =>
-    COLORS_SERIE[blocs.findIndex((b) => b.bloc === bloc) % COLORS_SERIE.length] ?? color.granat;
+  // El color surt del número de bloc i no de la posició a la llegenda: així el
+  // bloc 2 és del mateix color aquí i al catàleg d'exercicis, encara que aquí
+  // només se'n dibuixin alguns.
+  const colorDe = (bloc: number) => (bloc === 0 ? color.sorra : colorBloc(bloc));
 
   return (
     <View style={estils.contenidor}>
