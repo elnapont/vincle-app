@@ -23,7 +23,7 @@ import { DIES_DE_RETARD, diesDes, quanVaSer, useSessions } from '../../dades/ses
 import { edat } from '../../dades/fixtures.ts';
 import { useSessio } from '../../estat/Sessio.tsx';
 import {
-  BarraNavegacio, Boto, Esquelet, Targeta, Xip,
+  BarraNavegacio, BarraPestanyesMobil, Boto, Esquelet, Targeta, Xip,
   color, espai, familia, radi, text, tinta, useTrencament,
 } from '../../disseny/index.ts';
 
@@ -86,7 +86,7 @@ export default function Gossos() {
     <SafeAreaView style={estils.pantalla} edges={['top']}>
       {!esMobil ? <BarraNavegacio activa="Gossos" onSortir={surt} /> : null}
 
-      <ScrollView contentContainerStyle={estils.contingut}>
+      <ScrollView style={estils.desplacador} contentContainerStyle={estils.contingut}>
         <View style={estils.capcalera}>
           <Text style={esMobil ? text.titolMobil : text.titolWeb}>Gossos en seguiment</Text>
           <Boto
@@ -156,6 +156,8 @@ export default function Gossos() {
           </>
         ) : null}
       </ScrollView>
+
+      {esMobil ? <BarraPestanyesMobil activa="Gossos" /> : null}
     </SafeAreaView>
   );
 }
@@ -284,6 +286,10 @@ export function Avatar({ nom, mida = 40 }: { nom: string; mida?: number }) {
 // ---------------------------------------------------------------------------
 
 const estils = StyleSheet.create({
+  // Que la llista s'encongeixi és el que deixa lloc a la barra de pestanyes de
+  // mòbil, que n'és germana. Ja ho feia sense dir-ho —la base de `ScrollView` a
+  // web ho resol per ordre del full—, però val més escriure-ho que dependre'n.
+  desplacador: { flex: 1 },
   pantalla: { flex: 1, backgroundColor: color.paper },
   contingut: {
     padding: espai.xxl, gap: espai.m,

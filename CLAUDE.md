@@ -186,6 +186,21 @@ Client-servidor amb API REST. Sense sobre-enginyeria.
 > a 631 races: es mostren **tal com arriben, amb una marca que ho digui**. Dir d'on ve un text
 > i en quina llengua està és més honest que amagar-lo o fer veure que és nostre.
 
+> **Navegació a mòbil: cinc pestanyes i no quatre.** El handoff demana «barra de pestanyes
+> de 4 elements amb l'actiu en vermell» i en llista el contingut: «Inici · Gossos · Races ·
+> Perfil». El **perfil és fora d'abast** (sense alta ni compte, veure més amunt), i les
+> seccions reals de Vincle són **cinc**. Deixar-ne una fora no simplificaria la barra: la
+> faria inabastable, perquè a mòbil no hi ha barra superior i ni «Compatibilitats» ni
+> «Exercicis» no tenen cap altra porta d'entrada.
+>
+> Les pestanyes **no són d'amplada igual**: cadascuna ocupa el que li demana el text, amb un
+> mínim tocable de 44px. A parts iguals, «Compatibilitats» quedaria tallada, i abreujar-la
+> obligaria a donar-li a mòbil un nom que no coincidiria amb el de la barra web.
+>
+> A web, en canvi, la barra en té **quatre**: l'inici hi arriba per la **marca «Vincle»**, que
+> és la convenció de tothom. Les destinacions de totes dues barres surten d'una sola llista
+> (`apps/app/src/disseny/seccions.ts`).
+
 > **Variants de disseny resoltes.** El handoff ofereix alternatives que s'han de triar:
 >
 > - **Rànquing mòbil (`7d`): s'implementa la variant de llista.** És l'hereva de la `3a`, la

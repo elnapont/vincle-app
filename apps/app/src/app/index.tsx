@@ -17,7 +17,7 @@ import { useSessions } from '../dades/sessions.ts';
 import { Avatar } from './gossos/index.tsx';
 import { useSessio } from '../estat/Sessio.tsx';
 import {
-  BarraNavegacio, Boto, Seccio, Targeta,
+  BarraNavegacio, BarraPestanyesMobil, Boto, Seccio, Targeta,
   color, espai, text, tinta, useTrencament,
 } from '../disseny/index.ts';
 
@@ -51,7 +51,7 @@ export default function Inici() {
     <SafeAreaView style={estils.pantalla} edges={['top']}>
       {!esMobil ? <BarraNavegacio onSortir={surt} /> : null}
 
-      <ScrollView contentContainerStyle={estils.contingut}>
+      <ScrollView style={estils.desplacador} contentContainerStyle={estils.contingut}>
         <View style={estils.salutacio}>
           <Text style={estils.data}>{avui.toUpperCase()}</Text>
           <Text style={esMobil ? text.titolMobil : text.titolWeb}>Bon dia, Elna</Text>
@@ -126,6 +126,8 @@ export default function Inici() {
           </Pressable>
         ) : null}
       </ScrollView>
+
+      {esMobil ? <BarraPestanyesMobil activa="Inici" /> : null}
     </SafeAreaView>
   );
 }
@@ -161,6 +163,10 @@ function Metrica({
 }
 
 const estils = StyleSheet.create({
+  // Que la llista s'encongeixi és el que deixa lloc a la barra de pestanyes de
+  // mòbil, que n'és germana. Ja ho feia sense dir-ho —la base de `ScrollView` a
+  // web ho resol per ordre del full—, però val més escriure-ho que dependre'n.
+  desplacador: { flex: 1 },
   pantalla: { flex: 1, backgroundColor: color.paper },
   contingut: {
     padding: espai.xxl, gap: espai.xl,

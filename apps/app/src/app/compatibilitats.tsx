@@ -26,7 +26,7 @@ import { PES } from '../dades/questionari.ts';
 import { useSessio } from '../estat/Sessio.tsx';
 import { exporta } from '../dades/exporta.ts';
 import {
-  BarraEix, BarraNavegacio, Boto, ControlLliscant, Esquelet, FotoRaca, Seccio, Targeta, Xip,
+  BarraEix, BarraNavegacio, BarraPestanyesMobil, Boto, ControlLliscant, Esquelet, FotoRaca, Seccio, Targeta, Xip,
   alcadaBarra, color, espai, radi, text, tinta, useTrencament,
 } from '../disseny/index.ts';
 
@@ -37,7 +37,7 @@ const DESCARTADES = 3;
 
 export default function Compatibilitats() {
   const { estat, reintenta } = useCataleg();
-  const { lateralASobre } = useTrencament();
+  const { esMobil, lateralASobre } = useTrencament();
   const { surt } = useSessio();
   const [trastorn, setTrastorn] = useState<Trastorn>('tea');
   const [pesMaximKg, setPesMaximKg] = useState<number | null>(null);
@@ -46,9 +46,9 @@ export default function Compatibilitats() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      <BarraNavegacio activa="Compatibilitats" onSortir={surt} />
+      {!esMobil ? <BarraNavegacio activa="Compatibilitats" onSortir={surt} /> : null}
 
-      <ScrollView contentContainerStyle={estils.desplacament}>
+      <ScrollView style={estils.desplacador} contentContainerStyle={estils.desplacament}>
         <View style={[estils.columnes, lateralASobre && estils.columnesApilades]}>
           <View style={[estils.lateral, lateralASobre && estils.plena]}>
             <PanellTrastorn actiu={trastorn} onTria={setTrastorn} />
@@ -76,6 +76,8 @@ export default function Compatibilitats() {
           </View>
         </View>
       </ScrollView>
+
+      {esMobil ? <BarraPestanyesMobil activa="Compatibilitats" /> : null}
     </SafeAreaView>
   );
 }
@@ -452,6 +454,10 @@ function Carregant() {
 // ---------------------------------------------------------------------------
 
 const estils = StyleSheet.create({
+  // Que la llista s'encongeixi és el que deixa lloc a la barra de pestanyes de
+  // mòbil, que n'és germana. Ja ho feia sense dir-ho —la base de `ScrollView` a
+  // web ho resol per ordre del full—, però val més escriure-ho que dependre'n.
+  desplacador: { flex: 1 },
   pantalla: { flex: 1, backgroundColor: color.paper },
   desplacament: { padding: espai.xxl, maxWidth: 1180, width: '100%', alignSelf: 'center' },
   columnes: { flexDirection: 'row', gap: espai.xxl, alignItems: 'flex-start' },

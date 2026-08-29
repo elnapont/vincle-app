@@ -21,7 +21,7 @@ import { textRecomanacioCurt } from '@vincle/shared-types';
 import { BLOCS_CATALEG, EXERCICIS } from '../../dades/exercicis.ts';
 import { useSessio } from '../../estat/Sessio.tsx';
 import {
-  BarraNavegacio, Seccio, Targeta, Xip,
+  BarraNavegacio, BarraPestanyesMobil, Seccio, Targeta, Xip,
   color, colorBloc, espai, fonsBloc, text, useTrencament,
 } from '../../disseny/index.ts';
 
@@ -53,7 +53,7 @@ export default function CatalegExercicis() {
     <SafeAreaView style={estils.pantalla} edges={['top']}>
       {!esMobil ? <BarraNavegacio activa="Exercicis" onSortir={surt} /> : null}
 
-      <ScrollView contentContainerStyle={estils.desplacament}>
+      <ScrollView style={estils.desplacador} contentContainerStyle={estils.desplacament}>
         <View style={[estils.columnes, lateralASobre && estils.apilades]}>
           {/* Panell lateral: blocs i la nota fixa sobre el catàleg */}
           <View style={[estils.lateral, lateralASobre && estils.plena]}>
@@ -138,6 +138,8 @@ export default function CatalegExercicis() {
           </View>
         </View>
       </ScrollView>
+
+      {esMobil ? <BarraPestanyesMobil activa="Exercicis" /> : null}
     </SafeAreaView>
   );
 }
@@ -175,6 +177,10 @@ function TargetaExercici({ exercici }: { exercici: Exercise }) {
 }
 
 const estils = StyleSheet.create({
+  // Que la llista s'encongeixi és el que deixa lloc a la barra de pestanyes de
+  // mòbil, que n'és germana. Ja ho feia sense dir-ho —la base de `ScrollView` a
+  // web ho resol per ordre del full—, però val més escriure-ho que dependre'n.
+  desplacador: { flex: 1 },
   pantalla: { flex: 1, backgroundColor: color.paper },
   desplacament: { padding: espai.xxl, maxWidth: 1180, width: '100%', alignSelf: 'center' },
   columnes: { flexDirection: 'row', gap: espai.xxl, alignItems: 'flex-start' },

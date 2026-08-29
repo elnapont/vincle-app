@@ -23,7 +23,7 @@ import { TRADUCCIO_TERME } from '@vincle/matching';
 import { useCataleg } from '../../dades/useCataleg.ts';
 import { useSessio } from '../../estat/Sessio.tsx';
 import {
-  BarraNavegacio, Boto, Esquelet, FotoRaca, Targeta, TextOriginal, Xip,
+  BarraNavegacio, BarraPestanyesMobil, Boto, Esquelet, FotoRaca, Targeta, TextOriginal, Xip,
   color, espai, familia, text, tinta, useTrencament,
 } from '../../disseny/index.ts';
 
@@ -104,7 +104,7 @@ export default function CatalegRaces() {
     <SafeAreaView style={estils.pantalla} edges={['top']}>
       {!esMobil ? <BarraNavegacio activa="Races" onSortir={surt} /> : null}
 
-      <ScrollView contentContainerStyle={estils.contingut}>
+      <ScrollView style={estils.desplacador} contentContainerStyle={estils.contingut}>
         <View style={estils.encapcalament}>
           <Text style={esMobil ? text.titolMobil : text.titolWeb}>Catàleg de races</Text>
           <Text style={text.cosSecundari}>
@@ -207,6 +207,8 @@ export default function CatalegRaces() {
           </>
         ) : null}
       </ScrollView>
+
+      {esMobil ? <BarraPestanyesMobil activa="Races" /> : null}
     </SafeAreaView>
   );
 }
@@ -243,6 +245,10 @@ function TargetaRaca({ raca }: { raca: Breed }) {
 }
 
 const estils = StyleSheet.create({
+  // Que la llista s'encongeixi és el que deixa lloc a la barra de pestanyes de
+  // mòbil, que n'és germana. Ja ho feia sense dir-ho —la base de `ScrollView` a
+  // web ho resol per ordre del full—, però val més escriure-ho que dependre'n.
+  desplacador: { flex: 1 },
   pantalla: { flex: 1, backgroundColor: color.paper },
   contingut: {
     padding: espai.xxl, gap: espai.l,

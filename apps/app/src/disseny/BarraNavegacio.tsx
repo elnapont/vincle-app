@@ -5,31 +5,16 @@
  * inferior de la barra. A mòbil no es dibuixa: allà la navegació és la barra de
  * pestanyes inferior i les accions de compte viuen al peu del panell d'inici.
  *
- * **Les pestanyes es defineixen aquí i només aquí.** Abans cada pantalla se'n
- * passava la seva còpia, i sis còpies de la mateixa llista van acabar com havien
- * d'acabar: la de «Compatibilitats» apuntava «Gossos» a l'inici i no a la llista
- * de gossos, així que el mateix menú portava a llocs diferents segons d'on
- * venies. Una pantalla ha de dir on és, no quin és el menú.
+ * Les destinacions surten de `seccions.ts`, compartides amb la barra de pestanyes
+ * de mòbil. Una pantalla ha de dir on és, no quin és el menú.
  */
 
 import { useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'expo-router';
-import type { Href } from 'expo-router';
+import { SECCIONS_WEB } from './seccions.ts';
 import { color, espai, radi, tinta } from './tokens.ts';
 import { familia, text } from './tipografia.ts';
-
-interface Pestanya {
-  etiqueta: string;
-  desti: Href;
-}
-
-const PESTANYES: Pestanya[] = [
-  { etiqueta: 'Gossos', desti: '/gossos' },
-  { etiqueta: 'Races', desti: '/races' },
-  { etiqueta: 'Compatibilitats', desti: '/compatibilitats' },
-  { etiqueta: 'Exercicis', desti: '/exercicis' },
-];
 
 /** Alçada de la barra; el desplegable s'hi ancora just a sota. */
 const ALCADA = 60;
@@ -81,7 +66,7 @@ export function BarraNavegacio({
           </View>
         </Link>
 
-        {PESTANYES.map((pestanya) => {
+        {SECCIONS_WEB.map((pestanya) => {
           const esActiva = pestanya.etiqueta === activa;
           return (
             <Link key={pestanya.etiqueta} href={pestanya.desti} style={estils.pestanya}>
