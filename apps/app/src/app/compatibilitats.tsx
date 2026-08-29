@@ -30,13 +30,6 @@ import {
   alcadaBarra, color, espai, radi, text, tinta, useTrencament,
 } from '../disseny/index.ts';
 
-const PESTANYES = [
-  { etiqueta: 'Gossos', desti: '/' as const },
-  { etiqueta: 'Races', desti: '/races' as const },
-  { etiqueta: 'Compatibilitats', desti: '/compatibilitats' as const },
-  { etiqueta: 'Exercicis', desti: '/exercicis' as const },
-];
-
 /** Quants resultats es despleguen abans d'aplanar la resta a una línia. */
 const DESPLEGATS = 5;
 const APLANATS = 8;
@@ -53,7 +46,7 @@ export default function Compatibilitats() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      <BarraNavegacio pestanyes={PESTANYES} activa="Compatibilitats" onSortir={surt} />
+      <BarraNavegacio activa="Compatibilitats" onSortir={surt} />
 
       <ScrollView contentContainerStyle={estils.desplacament}>
         <View style={[estils.columnes, lateralASobre && estils.columnesApilades]}>

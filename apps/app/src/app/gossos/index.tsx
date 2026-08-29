@@ -27,13 +27,6 @@ import {
   color, espai, familia, radi, text, tinta, useTrencament,
 } from '../../disseny/index.ts';
 
-const PESTANYES = [
-  { etiqueta: 'Gossos', desti: '/gossos' as const },
-  { etiqueta: 'Races', desti: '/races' as const },
-  { etiqueta: 'Compatibilitats', desti: '/compatibilitats' as const },
-  { etiqueta: 'Exercicis', desti: '/exercicis' as const },
-];
-
 type Filtre = EstatGos | 'tots';
 
 const TO_ESTAT: Record<EstatGos, 'exit' | 'calid' | 'actiu'> = {
@@ -91,7 +84,7 @@ export default function Gossos() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio pestanyes={PESTANYES} activa="Gossos" onSortir={surt} /> : null}
+      {!esMobil ? <BarraNavegacio activa="Gossos" onSortir={surt} /> : null}
 
       <ScrollView contentContainerStyle={estils.contingut}>
         <View style={estils.capcalera}>

@@ -30,13 +30,6 @@ import {
   type PuntEvolucio,
 } from '../../disseny/index.ts';
 
-const PESTANYES = [
-  { etiqueta: 'Gossos', desti: '/gossos' as const },
-  { etiqueta: 'Races', desti: '/races' as const },
-  { etiqueta: 'Compatibilitats', desti: '/compatibilitats' as const },
-  { etiqueta: 'Exercicis', desti: '/exercicis' as const },
-];
-
 type Rang = 3 | 6 | 'tot';
 
 export default function FitxaGos() {
@@ -332,7 +325,7 @@ function Pantalla({
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
       {!esMobil ? (
-        <BarraNavegacio pestanyes={PESTANYES} activa="Gossos" onSortir={onSortir} />
+        <BarraNavegacio activa="Gossos" onSortir={onSortir} />
       ) : null}
       <ScrollView contentContainerStyle={estils.contingut}>{children}</ScrollView>
     </SafeAreaView>

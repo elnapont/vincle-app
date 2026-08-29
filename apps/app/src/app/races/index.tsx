@@ -27,13 +27,6 @@ import {
   color, espai, familia, text, tinta, useTrencament,
 } from '../../disseny/index.ts';
 
-const PESTANYES = [
-  { etiqueta: 'Gossos', desti: '/gossos' as const },
-  { etiqueta: 'Races', desti: '/races' as const },
-  { etiqueta: 'Compatibilitats', desti: '/compatibilitats' as const },
-  { etiqueta: 'Exercicis', desti: '/exercicis' as const },
-];
-
 /**
  * Normalitza per comparar: sense accents, sense punt volat i en minúscules. Sense
  * això, buscar «intelligent» no trobaria «intel·ligent» ni «sabues» trobaria
@@ -109,7 +102,7 @@ export default function CatalegRaces() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio pestanyes={PESTANYES} activa="Races" onSortir={surt} /> : null}
+      {!esMobil ? <BarraNavegacio activa="Races" onSortir={surt} /> : null}
 
       <ScrollView contentContainerStyle={estils.contingut}>
         <View style={estils.encapcalament}>

@@ -4,6 +4,12 @@
  * La pestanya activa va en vermell amb un subratllat de 2px enganxat a la vora
  * inferior de la barra. A mòbil no es dibuixa: allà la navegació és la barra de
  * pestanyes inferior i les accions de compte viuen al peu del panell d'inici.
+ *
+ * **Les pestanyes es defineixen aquí i només aquí.** Abans cada pantalla se'n
+ * passava la seva còpia, i sis còpies de la mateixa llista van acabar com havien
+ * d'acabar: la de «Compatibilitats» apuntava «Gossos» a l'inici i no a la llista
+ * de gossos, així que el mateix menú portava a llocs diferents segons d'on
+ * venies. Una pantalla ha de dir on és, no quin és el menú.
  */
 
 import { useState } from 'react';
@@ -13,20 +19,29 @@ import type { Href } from 'expo-router';
 import { color, espai, radi, tinta } from './tokens.ts';
 import { familia, text } from './tipografia.ts';
 
-export interface Pestanya {
+interface Pestanya {
   etiqueta: string;
   desti: Href;
 }
+
+const PESTANYES: Pestanya[] = [
+  { etiqueta: 'Gossos', desti: '/gossos' },
+  { etiqueta: 'Races', desti: '/races' },
+  { etiqueta: 'Compatibilitats', desti: '/compatibilitats' },
+  { etiqueta: 'Exercicis', desti: '/exercicis' },
+];
 
 /** Alçada de la barra; el desplegable s'hi ancora just a sota. */
 const ALCADA = 60;
 
 export function BarraNavegacio({
-  pestanyes, activa, usuari = 'Elna Pont', onSortir,
+  activa, usuari = 'Elna Pont', onSortir,
 }: {
-  pestanyes: Pestanya[];
-  /** Etiqueta de la pestanya activa. */
-  activa: string;
+  /**
+   * Etiqueta de la pestanya on som. A l'inici no se'n passa cap: allà no som dins
+   * de cap secció i el lloc on som el marca la marca, que hi porta.
+   */
+  activa?: string;
   usuari?: string;
   /** Si es passa, l'avatar obre un desplegable amb l'acció de tancar la sessió. */
   onSortir?: () => void;
@@ -46,14 +61,27 @@ export function BarraNavegacio({
   return (
     <View style={estils.barra}>
       <View style={estils.esquerra}>
-        <View style={estils.marca}>
-          <View style={estils.logotip}>
-            <Text style={estils.logotipLletra}>V</Text>
-          </View>
-          <Text style={estils.nomMarca}>Vincle</Text>
-        </View>
+        {/*
+          La marca és la porta de l'inici: és on tothom la busca, i deixa que
+          «Gossos» signifiqui sempre la llista de gossos.
 
-        {pestanyes.map((pestanya) => {
+          L'estil va a la vista de dins i no al `Link`. A web el `Link` és una
+          àncora amb `display: inline`, així que posar-li direcció i separació no
+          faria res; funciona perquè, com que és filla d'un contenidor flex, el
+          navegador la tracta com un bloc. Fora d'un contenidor flex aquest mateix
+          patró s'esclafa —ja ens va passar amb les files de la llista de gossos—,
+          i per això qui disposa és sempre la vista.
+        */}
+        <Link href="/" accessibilityLabel="Vincle, ves a l'inici">
+          <View style={estils.marca}>
+            <View style={estils.logotip}>
+              <Text style={estils.logotipLletra}>V</Text>
+            </View>
+            <Text style={estils.nomMarca}>Vincle</Text>
+          </View>
+        </Link>
+
+        {PESTANYES.map((pestanya) => {
           const esActiva = pestanya.etiqueta === activa;
           return (
             <Link key={pestanya.etiqueta} href={pestanya.desti} style={estils.pestanya}>

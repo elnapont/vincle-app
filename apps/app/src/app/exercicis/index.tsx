@@ -25,13 +25,6 @@ import {
   color, colorBloc, espai, fonsBloc, text, useTrencament,
 } from '../../disseny/index.ts';
 
-const PESTANYES = [
-  { etiqueta: 'Gossos', desti: '/gossos' as const },
-  { etiqueta: 'Races', desti: '/races' as const },
-  { etiqueta: 'Compatibilitats', desti: '/compatibilitats' as const },
-  { etiqueta: 'Exercicis', desti: '/exercicis' as const },
-];
-
 /**
  * Quants exercicis té cada bloc.
  *
@@ -58,7 +51,7 @@ export default function CatalegExercicis() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio pestanyes={PESTANYES} activa="Exercicis" onSortir={surt} /> : null}
+      {!esMobil ? <BarraNavegacio activa="Exercicis" onSortir={surt} /> : null}
 
       <ScrollView contentContainerStyle={estils.desplacament}>
         <View style={[estils.columnes, lateralASobre && estils.apilades]}>

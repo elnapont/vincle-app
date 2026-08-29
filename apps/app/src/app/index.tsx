@@ -21,13 +21,6 @@ import {
   color, espai, text, tinta, useTrencament,
 } from '../disseny/index.ts';
 
-const PESTANYES = [
-  { etiqueta: 'Gossos', desti: '/gossos' as const },
-  { etiqueta: 'Races', desti: '/races' as const },
-  { etiqueta: 'Compatibilitats', desti: '/compatibilitats' as const },
-  { etiqueta: 'Exercicis', desti: '/exercicis' as const },
-];
-
 export default function Inici() {
   const { esMobil, lateralASobre } = useTrencament();
   const { surt } = useSessio();
@@ -56,7 +49,7 @@ export default function Inici() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio pestanyes={PESTANYES} activa="Gossos" onSortir={surt} /> : null}
+      {!esMobil ? <BarraNavegacio onSortir={surt} /> : null}
 
       <ScrollView contentContainerStyle={estils.contingut}>
         <View style={estils.salutacio}>
