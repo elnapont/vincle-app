@@ -1,0 +1,154 @@
+# Desplegament de Vincle en un servidor propi (per exemple, Debian).
+#
+# Aixeca només allò que Vincle fa servir de Supabase: base de dades, Auth,
+# PostgREST i la funció de races. **No** hi ha Storage, ni Realtime, ni Studio,
+# ni Analytics, que la pila oficial d'autoallotjament sí que porta: si l'aplicació
+# no els crida, mantenir-los només serien serveis més per vigilar i actualitzar.
+#
+# Tot passa per un sol punt d'entrada, el servei `web`, que serveix l'aplicació i
+# fa de passarel·la cap als serveis de darrere. Com que el navegador demana la
+# pàgina i l'API **al mateix origen**, no hi ha CORS enlloc i només cal publicar
+# un port.
+#
+#   navegador ──▶ web (nginx)  ┬── / .............. l'aplicació, fitxers estàtics
+#                              ├── /auth/v1/ ...... auth (GoTrue)
+#                              ├── /rest/v1/ ...... rest (PostgREST)
+#                              └── /functions/v1/ . funcions (edge-runtime)
+#                                        │
+#                                   postgres
+#
+# Les versions van totes clavades. `latest` en un servidor vol dir que un dia
+# qualsevol el desplegament canvia sol i ningú no sap per què.
+
+name: vincle
+
+services:
+  postgres:
+    # Postgres oficial i no `supabase/postgres`: Vincle no fa servir cap extensió
+    # pròpia de Supabase, i aquella imatge porta un superusuari diferent i tot un
+    # aparell de rols que aquí només caldria desfer.
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?cal definir-la al fitxer .env}
+      POSTGRES_DB: postgres
+    volumes:
+      - dades-postgres:/var/lib/postgresql/data
+      # Rols, esquema `auth` i la funció `auth.uid()` de la qual depenen totes
+      # les polítiques RLS. Només s'executa el primer cop, quan el volum és buit.
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    # Sense `ports`: la base de dades no s'ha de poder tocar des de fora del
+    # servidor. Per entrar-hi des de casa, un túnel SSH.
+    expose:
+      - '5432'
+
+  auth:
+    image: supabase/gotrue:v2.196.0
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: '9999'
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: postgres://supabase_auth_admin:${POSTGRES_PASSWORD}@postgres:5432/postgres
+      API_EXTERNAL_URL: ${URL_PUBLICA:?cal definir-la al fitxer .env}
+      GOTRUE_SITE_URL: ${URL_PUBLICA}
+      GOTRUE_JWT_SECRET: ${JWT_SECRET:?cal definir-lo al fitxer .env}
+      GOTRUE_JWT_EXP: '3600'
+      GOTRUE_JWT_AUD: authenticated
+      GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
+      # Vincle no té alta d'usuari (CLAUDE.md §3): els comptes els crea l'equip.
+      # Deixar-ho obert permetria que qualsevol es fes un compte al servidor.
+      GOTRUE_DISABLE_SIGNUP: 'true'
+      GOTRUE_EXTERNAL_EMAIL_ENABLED: 'true'
+      # Sense servidor de correu no es poden enviar confirmacions, i sense
+      # confirmar, un compte creat a mà no podria entrar mai.
+      GOTRUE_MAILER_AUTOCONFIRM: 'true'
+    expose:
+      - '9999'
+
+  rest:
+    image: postgrest/postgrest:v16.2
+    restart: unless-stopped
+    depends_on:
+      migracions:
+        condition: service_completed_successfully
+    environment:
+      PGRST_DB_URI: postgres://authenticator:${POSTGRES_PASSWORD}@postgres:5432/postgres
+      PGRST_DB_SCHEMAS: public
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: ${JWT_SECRET}
+      PGRST_DB_USE_LEGACY_GUCS: 'false'
+    expose:
+      - '3000'
+
+  funcions:
+    image: supabase/edge-runtime:v1.74.3
+    restart: unless-stopped
+    depends_on:
+      migracions:
+        condition: service_completed_successfully
+    volumes:
+      - ../apps/api/supabase/functions/races:/funcions/races:ro
+    # Vincle té una funció i prou, així que se serveix directament com a servei
+    # principal. La pila oficial hi posa al davant una funció despatxadora que
+    # mira el camí i decideix; amb una sola destinació, seria una peça de més.
+    command: ['start', '--main-service', '/funcions/races']
+    environment:
+      # La funció desa la còpia del catàleg a la base de dades, i hi arriba per
+      # la mateixa passarel·la que el navegador.
+      SUPABASE_URL: http://web
+      SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY:?cal definir-la al fitxer .env}
+      SUPABASE_ANON_KEY: ${ANON_KEY:?cal definir-la al fitxer .env}
+      DOG_API_KEY: ${DOG_API_KEY:-}
+    expose:
+      - '9000'
+
+  # Servei d'un sol ús: aplica les migracions i s'atura. Ha d'anar a part de la
+  # inicialització de Postgres perquè les taules referencien `auth.users`, que no
+  # existeix fins que GoTrue no ha fet les seves.
+  migracions:
+    image: postgres:17-alpine
+    depends_on:
+      postgres:
+        condition: service_healthy
+      auth:
+        condition: service_started
+    environment:
+      PGHOST: postgres
+      PGUSER: postgres
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: postgres
+    volumes:
+      - ../apps/api/supabase/migrations:/migracions:ro
+      - ./migracions/aplica.sh:/aplica.sh:ro
+      - ./migracions/01-auth-uid.sql:/correccions/01-auth-uid.sql:ro
+    entrypoint: ['sh', '/aplica.sh']
+    restart: 'no'
+
+  web:
+    build:
+      context: ..
+      dockerfile: desplegament/web/Dockerfile
+      args:
+        # Mateix origen que la pàgina, així que no hi ha CORS. Es cou dins de la
+        # imatge: Expo resol les `EXPO_PUBLIC_*` en construir, no en executar.
+        EXPO_PUBLIC_SUPABASE_URL: ${URL_PUBLICA}
+        EXPO_PUBLIC_SUPABASE_ANON_KEY: ${ANON_KEY}
+    restart: unless-stopped
+    depends_on:
+      - auth
+      - rest
+      - funcions
+    ports:
+      - '${PORT_PUBLIC:-8080}:80'
+
+volumes:
+  dades-postgres:

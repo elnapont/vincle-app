@@ -1,0 +1,12 @@
+# El context de construcció és tot el repositori, i sense això hi entrarien
+# centenars de megues que la imatge no fa servir i que, a més, invalidarien la
+# memòria cau de Docker a cada canvi.
+node_modules
+**/node_modules
+**/dist
+.git
+.expo
+**/.expo
+desplegament/.env
+**/.env
+.DS_Store
