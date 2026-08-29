@@ -162,6 +162,16 @@ Client-servidor amb API REST. Sense sobre-enginyeria.
 > «Compara les 3 primeres» a la pantalla de compatibilitats, però **no en dissenya la vista**.
 > Construir-la voldria dir inventar una pantalla sencera, així que s'han tret les dues accions.
 
+> **Divergències a `6a` i `6b` per la forma del contingut.** El handoff dibuixa aquestes
+> pantalles suposant exercicis amb **dificultat**, **objectiu**, **passos numerats** i **criteri
+> d'assoliment**. El contingut real no té res d'això (§6.1): cada exercici és una **explicació
+> seguida** amb una nota opcional i una recomanació de pràctica, i el catàleg té **cinc blocs**
+> i no quatre categories. Les pantalles mantenen l'estructura visual —franja oliva a la targeta
+> principal, bloc en mono, títol serif, xips— però amb el contingut que existeix. Dibuixar xips
+> de dificultat buits o comptar passos inexistents seria ensenyar dades inventades.
+>
+> **La sessió guiada de `6b` encara no s'ha fet:** necessita la taula de sessions.
+
 > **Pantalles que el handoff no té.** S'han construït amb el vocabulari del sistema i caldrà
 > que Claude Design les reculli quan es regeneri el paquet:
 >

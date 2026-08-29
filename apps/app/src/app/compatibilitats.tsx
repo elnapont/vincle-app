@@ -33,7 +33,7 @@ const PESTANYES = [
   { etiqueta: 'Gossos', desti: '/' as const },
   { etiqueta: 'Races', desti: '/races' as const },
   { etiqueta: 'Compatibilitats', desti: '/compatibilitats' as const },
-  { etiqueta: 'Sessions', desti: '/' as const },
+  { etiqueta: 'Exercicis', desti: '/exercicis' as const },
 ];
 
 /** Quants resultats es despleguen abans d'aplanar la resta a una línia. */
