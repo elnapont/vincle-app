@@ -7,3 +7,4 @@ export * from './CapcaleraPas.tsx';
 export * from './ControlLliscant.tsx';
 export * from './MesuradorRecorregut.tsx';
 export * from './BarraNavegacio.tsx';
+export * from './Camp.tsx';
