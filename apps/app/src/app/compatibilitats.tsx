@@ -17,7 +17,7 @@ import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
-import type { MatchResult, PerfilTrastorn, Trastorn } from '@vincle/shared-types';
+import type { Breed, MatchResult, PerfilTrastorn, Trastorn } from '@vincle/shared-types';
 import { ETIQUETA_EIX, ETIQUETA_TRASTORN_CURTA, TRASTORNS } from '@vincle/shared-types';
 import { perfilDe, ranquing } from '@vincle/matching';
 import { useCataleg } from '../dades/useCataleg.ts';
@@ -25,7 +25,7 @@ import type { CatalegRaces } from '../dades/races.ts';
 import { PES } from '../dades/questionari.ts';
 import { exporta } from '../dades/exporta.ts';
 import {
-  BarraEix, BarraNavegacio, Boto, ControlLliscant, Esquelet, Seccio, Targeta, Xip,
+  BarraEix, BarraNavegacio, Boto, ControlLliscant, Esquelet, FotoRaca, Seccio, Targeta, Xip,
   alcadaBarra, color, espai, radi, text, tinta, useTrencament,
 } from '../disseny/index.ts';
 
@@ -247,6 +247,9 @@ function Resultats({
 }) {
   const [avisExportacio, setAvisExportacio] = useState<string | null>(null);
   const resultats = ranquing(cataleg.races, perfil, { pesMaximKg });
+  // El resultat del motor porta l'identificador i el nom, no la fitxa sencera:
+  // la fotografia s'ha d'anar a buscar al catàleg.
+  const perId = new Map(cataleg.races.map((r) => [r.id, r]));
   const destacats = [...perfil.eixos].sort((a, b) => b.pes - a.pes).slice(0, 3);
   const eixosDestacats = destacats.map((e) => e.eix);
 
@@ -289,6 +292,7 @@ function Resultats({
         <FilaDesplegada
           key={resultat.breedId}
           resultat={resultat}
+          raca={perId.get(resultat.breedId)}
           perfil={perfil}
           eixosDestacats={eixosDestacats}
           primer={i === 0}
@@ -311,9 +315,10 @@ function Resultats({
 }
 
 function FilaDesplegada({
-  resultat, perfil, eixosDestacats, primer,
+  resultat, raca, perfil, eixosDestacats, primer,
 }: {
   resultat: MatchResult;
+  raca: Breed | undefined;
   perfil: PerfilTrastorn;
   eixosDestacats: string[];
   primer: boolean;
@@ -321,7 +326,12 @@ function FilaDesplegada({
   return (
     <Targeta franja={primer ? 'oliva' : 'vermell'}>
       <View style={estils.fila}>
-        <View style={estils.miniatura} />
+        <FotoRaca
+          url={raca?.imatgeUrl ?? null}
+          nom={resultat.nom}
+          relacio={1}
+          estil={estils.miniatura}
+        />
 
         <View style={estils.blocNom}>
           <Link
@@ -476,7 +486,8 @@ const estils = StyleSheet.create({
   accio: { ...text.navegacio, color: color.vermell },
 
   fila: { flexDirection: 'row', gap: espai.l, alignItems: 'center' },
-  miniatura: { width: 64, height: 64, borderRadius: 10, backgroundColor: '#e6ddd2' },
+  // La relació 1 amb amplada fixa dona un quadrat de 64px.
+  miniatura: { width: 64, borderRadius: 10 },
   blocNom: { width: 210, gap: espai.xxs },
   enllacNom: { textDecorationLine: 'none' },
   blocEixos: { flex: 1, gap: espai.xs, minWidth: 0 },

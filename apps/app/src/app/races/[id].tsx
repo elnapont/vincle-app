@@ -28,7 +28,7 @@ import { useQuestionari } from '../../estat/Questionari.tsx';
 import {
   BarraEix, Boto, Esquelet, FotoRaca, MesuradorRecorregut, Seccio, Targeta,
   TextOriginal, Xip,
-  color, espai, text, tinta, useTrencament,
+  color, espai, text, useTrencament,
 } from '../../disseny/index.ts';
 
 /** Ordre de la graella de vuit valors, tal com el fixa el handoff. */
@@ -340,11 +340,6 @@ const estils = StyleSheet.create({
   columnaEsquerra: { width: 330, gap: espai.l },
   columnaDreta: { flex: 1, gap: espai.l, minWidth: 0 },
   plena: { width: '100%' },
-  imatge: {
-    height: 250, borderRadius: 12,
-    backgroundColor: '#e6ddd2',
-    borderWidth: 1, borderColor: tinta.vora,
-  },
   encapcalament: { gap: espai.s },
   eyebrow: { ...text.escalaBarra },
   xips: { flexDirection: 'row', flexWrap: 'wrap', gap: espai.xs },
