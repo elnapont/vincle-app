@@ -20,7 +20,7 @@ import { join } from 'node:path';
 const DIR_ORIGEN = 'docs/exercicis';
 const FITXER_SORTIDA = 'apps/app/src/dades/exercicis.ts';
 
-const DIFICULTATS = ['inicial', 'intermedia', 'avancada'];
+const FREQUENCIES = ['diaria', 'total'];
 
 /** Quants exercicis ha de tenir cada bloc, segons el que va fixar l'equip. */
 const EXERCICIS_PER_BLOC: Record<number, number> = { 1: 3, 2: 5, 3: 4, 4: 3, 5: 4 };
@@ -34,20 +34,21 @@ const senseOmplir: string[] = [];
 // Lectura del Markdown
 // ---------------------------------------------------------------------------
 
-interface Pas { ordre: number; titol: string; descripcio: string }
-
 interface Exercici {
   id: string;
   bloc: number;
   ordre: number;
   nom: string;
-  dificultat: string;
-  objectiu: string;
-  passos: Pas[];
-  criteriAssoliment: string;
-  recomanacio: { sessions: number; minutsPerSessio: number; dies: number };
+  explicacio: string;
+  nota: string | null;
+  recomanacio: {
+    sessionsMin: number;
+    sessionsMax: number;
+    frequencia: string;
+    dies: number;
+    minutsPerSessio: number | null;
+  };
   milestoneIds: string[];
-  font: string;
 }
 
 /**
@@ -84,34 +85,14 @@ function seccio(text: string, titol: string): string {
   for (const tros of text.split(/^## /m).slice(1)) {
     const salt = tros.indexOf('\n');
     const capcalera = (salt < 0 ? tros : tros.slice(0, salt)).trim();
-    if (capcalera === titol) return (salt < 0 ? '' : tros.slice(salt + 1)).trim();
+    if (capcalera === titol) {
+      const cos = salt < 0 ? '' : tros.slice(salt + 1);
+      // Els comentaris de la plantilla són ajudes per a qui omple, no contingut:
+      // si no es treien, una plantilla sense tocar semblaria plena.
+      return cos.replace(/<!--[\s\S]*?-->/g, '').trim();
+    }
   }
   return '';
-}
-
-/** Passos numerats: `### 1. Títol` seguit de la descripció. */
-function llegeixPassos(text: string, fitxer: string): Pas[] {
-  const blocPassos = seccio(text, 'Passos');
-  const passos: Pas[] = [];
-
-  const trossos = blocPassos.split(/^### /m).slice(1);
-  for (const [i, tros] of trossos.entries()) {
-    const salt = tros.indexOf('\n');
-    const capcalera = (salt < 0 ? tros : tros.slice(0, salt)).trim();
-    const descripcio = (salt < 0 ? '' : tros.slice(salt + 1)).trim();
-
-    // El número del títol és opcional: si hi és, es respecta; si no, es dedueix.
-    const ambNumero = capcalera.match(/^(\d+)[.)]\s*(.+)$/);
-    const titol = ambNumero ? ambNumero[2]!.trim() : capcalera;
-
-    if (!titol) { problemes.push(`${fitxer}: hi ha un pas sense títol.`); continue; }
-    if (!descripcio) { problemes.push(`${fitxer}: el pas «${titol}» no té descripció.`); }
-
-    passos.push({ ordre: i + 1, titol, descripcio });
-  }
-
-  if (passos.length === 0) problemes.push(`${fitxer}: no té cap pas.`);
-  return passos;
 }
 
 function nombre(camps: Record<string, string>, clau: string, fitxer: string): number {
@@ -124,55 +105,76 @@ function nombre(camps: Record<string, string>, clau: string, fitxer: string): nu
   return valor;
 }
 
+/**
+ * Nombre de sessions, que pot ser un valor sol o un rang: «3-4» vol dir de tres
+ * a quatre. Amb un valor sol, el mínim i el màxim coincideixen.
+ */
+function rangSessions(brut: string, fitxer: string): { min: number; max: number } {
+  const parts = brut.split(/\s*[-–]\s*/).map((p) => Number(p.trim()));
+  const valids = parts.every((n) => Number.isInteger(n) && n > 0);
+
+  if (!brut || parts.length > 2 || !valids) {
+    problemes.push(`${fitxer}: «sessions» ha de ser un número o un rang com «3-4» (ara: «${brut}»).`);
+    return { min: 0, max: 0 };
+  }
+
+  const [a, b] = [parts[0]!, parts[1] ?? parts[0]!];
+  if (a > b) {
+    problemes.push(`${fitxer}: el rang de sessions va del gran al petit («${brut}»).`);
+    return { min: b, max: a };
+  }
+  return { min: a, max: b };
+}
+
 function llegeixExercici(fitxer: string, cami: string): Exercici | null {
   const text = readFileSync(cami, 'utf8');
   const camps = llegeixCapdamunt(text, fitxer);
   if (Object.keys(camps).length === 0) return null;
 
   const nom = camps.nom ?? '';
+  const explicacio = seccio(text, 'Explicació');
 
-  // Plantilla encara sense tocar: es diu un cop i no set vegades. Amb dinou
+  // Plantilla encara sense tocar: es diu un cop i no cinc vegades. Amb dinou
   // fitxers buits, la llista detallada d'errors seria inservible.
-  if (!nom && !camps.font && !camps.dificultat) {
+  if (!nom && !camps.sessions && !explicacio) {
     senseOmplir.push(fitxer);
     return null;
   }
 
   if (!nom) problemes.push(`${fitxer}: falta el nom.`);
+  if (!explicacio) problemes.push(`${fitxer}: falta la secció «## Explicació».`);
 
-  const dificultat = camps.dificultat ?? '';
-  if (!DIFICULTATS.includes(dificultat)) {
-    problemes.push(`${fitxer}: dificultat «${dificultat}» desconeguda. Vàlides: ${DIFICULTATS.join(', ')}.`);
+  const frequencia = camps.frequencia ?? '';
+  if (!FREQUENCIES.includes(frequencia)) {
+    problemes.push(`${fitxer}: freqüència «${frequencia}» desconeguda. Vàlides: ${FREQUENCIES.join(', ')}.`);
   }
-
-  const objectiu = seccio(text, 'Objectiu');
-  if (!objectiu) problemes.push(`${fitxer}: falta la secció «## Objectiu».`);
-
-  const criteri = seccio(text, "Criteri d'assoliment");
-  if (!criteri) problemes.push(`${fitxer}: falta la secció «## Criteri d'assoliment».`);
-
-  // La font és obligatòria: el §6.1 exigeix que el contingut d'ensinistrament
-  // estigui validat per una persona i que la font quedi documentada.
-  const font = camps.font ?? '';
-  if (!font) problemes.push(`${fitxer}: falta la font. El §6.1 la fa obligatòria.`);
 
   const bloc = nombre(camps, 'bloc', fitxer);
   const ordre = nombre(camps, 'ordre', fitxer);
+  const sessions = rangSessions(camps.sessions ?? '', fitxer);
+
+  // Els minuts són opcionals: hi ha recomanacions que no diuen quant dura cada
+  // sessió, i inventar-ho seria pitjor que deixar-ho en blanc.
+  const minutsBrut = camps.minuts ?? '';
+  const minuts = minutsBrut ? nombre(camps, 'minuts', fitxer) : null;
+
+  // La nota també és opcional: molts exercicis no en tenen.
+  const nota = seccio(text, 'Nota');
 
   return {
     id: `e${bloc}-${ordre}`,
-    bloc, ordre, nom, dificultat, objectiu,
-    passos: llegeixPassos(text, fitxer),
-    criteriAssoliment: criteri,
+    bloc, ordre, nom, explicacio,
+    nota: nota || null,
     recomanacio: {
-      sessions: nombre(camps, 'sessions', fitxer),
-      minutsPerSessio: nombre(camps, 'minuts', fitxer),
+      sessionsMin: sessions.min,
+      sessionsMax: sessions.max,
+      frequencia,
       dies: nombre(camps, 'dies', fitxer),
+      minutsPerSessio: minuts,
     },
     // Les fites encara no estan definides (§9). El camp queda buit i s'omplirà
     // sense haver de tocar els fitxers dels exercicis.
     milestoneIds: [],
-    font,
   };
 }
 
@@ -201,6 +203,12 @@ function main(): void {
   for (const e of exercicis) {
     if (vistos.has(e.id)) problemes.push(`Hi ha dos exercicis amb bloc ${e.bloc} i ordre ${e.ordre}.`);
     vistos.add(e.id);
+  }
+  for (const e of exercicis) {
+    if (!blocs.some((b) => b.bloc === e.bloc)) {
+      problemes.push(`El bloc ${e.bloc} té exercicis però no té nom a blocs.md.`);
+      break;
+    }
   }
   for (const [bloc, esperats] of Object.entries(EXERCICIS_PER_BLOC)) {
     const n = exercicis.filter((e) => e.bloc === Number(bloc)).length;
@@ -264,9 +272,9 @@ function llegeixBlocs(): Bloc[] {
     blocs.push({ bloc: Number(m[1]), nom: m[2]!.trim(), descripcio });
   }
 
-  // Només s'exigeixen els cinc quan ja s'ha començat a omplir.
-  if (blocs.length > 0 && blocs.length !== 5) {
-    problemes.push(`blocs.md: hi ha ${blocs.length} blocs amb nom i n'hi ha d'haver 5.`);
+  // Mentre s'omple, tenir-ne menys de cinc és normal i no ha de bloquejar res.
+  if (blocs.length > 0 && blocs.length < 5) {
+    avisos.push(`blocs.md: ${blocs.length} de 5 blocs tenen nom.`);
   }
   return blocs;
 }
@@ -286,7 +294,7 @@ function escriu(exercicis: Exercici[], blocs: Bloc[]): void {
     '];',
     '',
     '/** Catàleg curat d\'exercicis. Contingut de referència: l\'app no en crea de nous.',
-    ' *  Font de cada exercici documentada al seu fitxer de `docs/exercicis`. */',
+    ' *  Escrit per la responsable del projecte com a part del marc pràctic del TR. */',
     'export const EXERCICIS: readonly Exercise[] = [',
     ...exercicis.flatMap((e) => [
       '  {',
@@ -294,17 +302,13 @@ function escriu(exercicis: Exercici[], blocs: Bloc[]): void {
       `    bloc: ${e.bloc},`,
       `    ordre: ${e.ordre},`,
       `    nom: ${j(e.nom)},`,
-      `    dificultat: ${j(e.dificultat)},`,
-      `    objectiu: ${j(e.objectiu)},`,
-      '    passos: [',
-      ...e.passos.map((p) =>
-        `      { ordre: ${p.ordre}, titol: ${j(p.titol)}, descripcio: ${j(p.descripcio)} },`),
-      '    ],',
-      `    criteriAssoliment: ${j(e.criteriAssoliment)},`,
-      `    recomanacio: { sessions: ${e.recomanacio.sessions}, `
-        + `minutsPerSessio: ${e.recomanacio.minutsPerSessio}, dies: ${e.recomanacio.dies} },`,
+      `    explicacio: ${j(e.explicacio)},`,
+      `    nota: ${j(e.nota)},`,
+      `    recomanacio: { sessionsMin: ${e.recomanacio.sessionsMin}, `
+        + `sessionsMax: ${e.recomanacio.sessionsMax}, `
+        + `frequencia: ${j(e.recomanacio.frequencia)}, dies: ${e.recomanacio.dies}, `
+        + `minutsPerSessio: ${e.recomanacio.minutsPerSessio} },`,
       `    milestoneIds: [],`,
-      `    font: ${j(e.font)},`,
       '  },',
     ]),
     '];',

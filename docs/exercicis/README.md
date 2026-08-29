@@ -13,44 +13,51 @@ Cada fitxer té dues parts. Al capdamunt, entre dues línies de `---`, les dades
 
 ```
 bloc: 1
-ordre: 2
-nom: Crida amb distraccions moderades
-dificultat: intermedia
-sessions: 15
-minuts: 20
-dies: 3
-font: Manual X, pàg. 42
+ordre: 1
+nom: Clicker
+sessions: 3-4
+frequencia: diaria
+dies: 6
+minuts:
 ```
 
-`dificultat` només accepta **`inicial`**, **`intermedia`** o **`avancada`**, sense accents.
+**La recomanació de pràctica** admet les dues formes que té el contingut real:
 
-Les tres xifres de la recomanació es llegeixen com «**15 sessions de 20 minuts durant
-3 dies**». Van separades i no com a text perquè el seguiment hi pugui comparar el que
-s'ha fet de debò.
+| El que diu el paper | Com s'escriu |
+|---|---|
+| «3-4 sessions diàries durant 6 dies» | `sessions: 3-4` · `frequencia: diaria` · `dies: 6` |
+| «15 sessions de 20 minuts durant 3 dies» | `sessions: 15` · `minuts: 20` · `frequencia: total` · `dies: 3` |
 
-A sota, tres seccions:
+`sessions` accepta un número o un rang. `frequencia` és **`diaria`** si les
+sessions són per dia, o **`total`** si són el total repartit pel període. `minuts`
+és opcional: si la recomanació no diu quant dura cada sessió, es deixa en blanc en
+comptes d'inventar-ho.
 
-- **`## Objectiu`** — què s'ha d'aconseguir, en una o dues frases.
-- **`## Passos`** — un pas per cada `###`. El número del títol és opcional. Cada pas
-  necessita títol i descripció, i tot ha d'anar amb **reforç positiu**.
-- **`## Criteri d'assoliment`** — com se sap que el gos l'ha assolit. Ha de ser
-  observable i comptable, perquè el seguiment el pugui fer servir.
+A sota, dues seccions:
 
-Els comentaris `<!-- ... -->` són ajudes: es poden esborrar o deixar, no molesten.
+- **`## Explicació`** — l'exercici explicat, amb reforç positiu. **Prosa seguida**,
+  no cal partir-ho en passos numerats.
+- **`## Nota`** — opcional. Adaptacions o alternatives, com ara que el clicker es
+  pot substituir per paraules o carícies. Si l'exercici no en té, esborra la secció.
+
+Els comentaris `<!-- ... -->` són ajudes i no compten com a contingut: es poden
+deixar o esborrar.
 
 ## Els blocs
 
 `blocs.md` porta el nom i la descripció dels cinc. La descripció surt a la pantalla
 del catàleg, sota el nom del bloc.
 
-## La font és obligatòria
+## Sense font ni dificultat
 
-El §6.1 exigeix que el contingut d'ensinistrament el curi i el validi una persona i
-que **la font quedi documentada**. Un exercici sense font no es genera: l'script
-s'atura i diu quin fitxer li falta.
+El model no en té, i és deliberat. Aquest contingut **no ve d'un manual extern**:
+l'ha preparat la responsable del projecte a partir de la seva formació, i generar
+un pla d'ensinistrament per a gossos de teràpia forma part del marc pràctic del
+treball de recerca. Citar-ne una font seria atribuir a algú altre una feina que és
+del treball.
 
-No és una formalitat. És contingut que algú aplicarà a un gos real, i la memòria del
-treball ha de poder dir d'on surt cada cosa.
+Tampoc no hi ha **criteri d'assoliment**: no es té encara i no s'ha volgut inventar
+un criteri comptable que ningú no ha decidit. Quan hi sigui, s'afegirà.
 
 ## Generar-ho
 

@@ -22,43 +22,51 @@ export const blocSchema = z.union([
 ]);
 export type Bloc = z.infer<typeof blocSchema>;
 
-export const dificultatSchema = z.enum(['inicial', 'intermedia', 'avancada']);
-export type Dificultat = z.infer<typeof dificultatSchema>;
-
-export const ETIQUETA_DIFICULTAT: Record<Dificultat, string> = {
-  'inicial': 'Inicial',
-  'intermedia': 'Intermèdia',
-  'avancada': 'Avançada',
-};
-
 /**
- * Recomanació de pràctica, del tipus «15 sessions de 20 minuts durant 3 dies».
+ * Recomanació de pràctica.
  *
- * Es guarda descomposta i no com a text lliure perquè el seguiment hi pugui
- * comparar el que s'ha fet de debò: quantes sessions porta el gos, quants minuts
- * i en quants dies.
+ * Té dues formes perquè el contingut real en té dues: «3-4 sessions diàries
+ * durant 6 dies» és un rang **per dia**, i «15 sessions de 20 minuts durant 3
+ * dies» és un **total** amb durada. Forçar-ne una de sola obligaria a inventar
+ * dades o a perdre'n.
+ *
+ * Es guarda descomposta i no com a text perquè el seguiment hi pugui comparar el
+ * que s'ha fet de debò.
  */
 export const recomanacioSchema = z.object({
-  sessions: z.number().int().positive(),
-  minutsPerSessio: z.number().int().positive(),
+  /** Mínim de sessions. Amb un valor sol, coincideix amb el màxim. */
+  sessionsMin: z.number().int().positive(),
+  sessionsMax: z.number().int().positive(),
+  /** `diaria`: les sessions són per dia. `total`: repartides pel període. */
+  frequencia: z.enum(['diaria', 'total']),
   dies: z.number().int().positive(),
+  /** Durada de cada sessió, quan consta. */
+  minutsPerSessio: z.number().int().positive().nullable(),
 });
 
 export type Recomanacio = z.infer<typeof recomanacioSchema>;
 
 /** Text de la recomanació per a la interfície, en català. */
 export function textRecomanacio(r: Recomanacio): string {
-  const sessions = `${r.sessions} ${r.sessions === 1 ? 'sessió' : 'sessions'}`;
+  const unaSola = r.sessionsMax === 1;
+  const quantes = r.sessionsMin === r.sessionsMax
+    ? `${r.sessionsMin}`
+    : `${r.sessionsMin}–${r.sessionsMax}`;
+  const paraula = unaSola ? 'sessió' : 'sessions';
+  // La cadència va just darrere del nom i concorda amb ell: «1 sessió diària»,
+  // «3–4 sessions diàries».
+  const cadencia = r.frequencia === 'diaria' ? (unaSola ? ' diària' : ' diàries') : '';
+  const durada = r.minutsPerSessio ? ` de ${r.minutsPerSessio} minuts` : '';
   const dies = `${r.dies} ${r.dies === 1 ? 'dia' : 'dies'}`;
-  return `${sessions} de ${r.minutsPerSessio} minuts durant ${dies}`;
+
+  return `${quantes} ${paraula}${cadencia}${durada} durant ${dies}`;
 }
 
-/** Un pas de l'exercici, sempre amb reforç positiu (§6.1). */
-export const pasSchema = z.object({
-  ordre: z.number().int().positive(),
-  titol: z.string().min(1),
-  descripcio: z.string().min(1),
-});
+/** Sessions totals que suposa la recomanació, per comparar-hi el seguiment. */
+export function sessionsTotals(r: Recomanacio): { min: number; max: number } {
+  const factor = r.frequencia === 'diaria' ? r.dies : 1;
+  return { min: r.sessionsMin * factor, max: r.sessionsMax * factor };
+}
 
 export const exerciseSchema = z.object({
   id: z.string(),
@@ -66,23 +74,19 @@ export const exerciseSchema = z.object({
   /** Posició dins del bloc; els exercicis d'un bloc també van ordenats. */
   ordre: z.number().int().positive(),
   nom: z.string().min(1),
-  dificultat: dificultatSchema,
-  /** Què es vol aconseguir amb l'exercici. */
-  objectiu: z.string().min(1),
-  /** L'explicació desenvolupada, amb els passos de reforç positiu. */
-  passos: z.array(pasSchema).min(1),
-  /** Com se sap que el gos l'ha assolit. */
-  criteriAssoliment: z.string().min(1),
+  /**
+   * Explicació de l'exercici, en prosa i amb reforç positiu.
+   *
+   * No són passos numerats: el contingut real és una explicació seguida, i
+   * partir-la en passos obligaria a inventar-ne una estructura que no té.
+   */
+  explicacio: z.string().min(1),
+  /** Nota d'adaptació o alternativa, si l'exercici en porta. */
+  nota: z.string().nullable(),
   recomanacio: recomanacioSchema,
   milestoneIds: z.array(z.string()),
-  /**
-   * Font del contingut. El §6.1 exigeix que l'ensinistrament el curi i el validi
-   * una persona i que la font quedi documentada; per això no és opcional.
-   */
-  font: z.string().min(1),
 });
 
-export type Pas = z.infer<typeof pasSchema>;
 export type Exercise = z.infer<typeof exerciseSchema>;
 
 export const blocCatalegSchema = z.object({

@@ -3,7 +3,7 @@
 Els cinc blocs, en ordre. El nom va a l'encapçalament i la descripció a sota.
 La descripció surt a la pantalla del catàleg, sota el nom del bloc.
 
-## 1.
+## 1. Base
 
 <!-- Descripció del bloc 1 -->
 
