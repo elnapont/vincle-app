@@ -32,8 +32,13 @@ export function EmpremtaGos({ mida = 76 }: { mida?: number }) {
       // És decoració: el titular i l'explicació de sota ja diuen què passa, i
       // repetir-ho aquí només faria que un lector de pantalla ho digués dues
       // vegades.
-      accessibilityElementsHidden
-      importantForAccessibility="no-hide-descendants"
+      //
+      // `aria-hidden` i no la parella `accessibilityElementsHidden` +
+      // `importantForAccessibility`: aquelles dues són d'React Native i
+      // `react-native-svg` les deixa passar tal com són fins al DOM, on el
+      // navegador no les coneix i React se'n queixa per consola. `aria-hidden`
+      // és HTML vàlid i React Native el tradueix a les dues d'abans a mòbil.
+      aria-hidden
     >
       <Circle cx={50} cy={50} r={50} fill={FONS} />
 
