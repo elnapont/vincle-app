@@ -12,7 +12,7 @@
  */
 
 import { StyleSheet, Text, View } from 'react-native';
-import { color, colorBloc, espai, radi, tinta } from './tokens.ts';
+import { color, colorBlocSuau, espai, radi, tinta } from './tokens.ts';
 import { text } from './tipografia.ts';
 
 export interface PuntEvolucio {
@@ -37,8 +37,9 @@ export function GraficEvolucio({
 
   // El color surt del número de bloc i no de la posició a la llegenda: així el
   // bloc 2 és del mateix color aquí i al catàleg d'exercicis, encara que aquí
-  // només se'n dibuixin alguns.
-  const colorDe = (bloc: number) => (bloc === 0 ? color.sorra : colorBloc(bloc));
+  // només se'n dibuixin alguns. S'agafa la versió rebaixada: el to ple, en un
+  // gràfic d'aquesta mida, resulta massa fort.
+  const colorDe = (bloc: number) => (bloc === 0 ? color.sorra : colorBlocSuau(bloc));
 
   return (
     <View style={estils.contenidor}>

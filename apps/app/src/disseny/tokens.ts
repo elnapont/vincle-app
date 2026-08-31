@@ -60,12 +60,16 @@ export const tinta = {
 /**
  * Color de cada bloc del catàleg d'exercicis.
  *
- * No és una paleta nova: són els tons que ja hi ha, assignats per ordre de bloc.
- * El gràfic d'evolució de la fitxa del gos ja els feia servir per a les seves
- * sèries, i el catàleg d'exercicis els reaprofita perquè les dues pantalles
- * parlin el mateix idioma: el bloc 2 és del mateix color als dos llocs.
+ * **PROVA — colors triats per l'equip, fora de la paleta del producte.** Els cinc
+ * tons de la §Colors no arribaven a distingir els blocs d'un cop d'ull, perquè
+ * tres són variacions de vermell. Aquests són tons plens i sense parentiu entre
+ * ells, escollits perquè es diferenciïn.
+ *
+ * El gràfic d'evolució de la fitxa del gos surt d'aquest mateix token, de manera
+ * que les seves sèries també canvien: el bloc 2 ha de ser del mateix color als
+ * dos llocs.
  */
-const HUES_BLOC = ['#661414', '#a21a1a', '#c2ad9a', '#608028', '#4a0f0f'] as const;
+const HUES_BLOC = ['#ff99d8', '#0cc0df', '#99e17a', '#ffbd59', '#cb6ce6'] as const;
 
 export function colorBloc(bloc: number): string {
   return HUES_BLOC[(bloc - 1) % HUES_BLOC.length] ?? '#661414';
@@ -77,17 +81,36 @@ export function colorBloc(bloc: number): string {
  * L'opacitat és deliberadament baixa: ha de servir per agrupar d'un cop d'ull
  * sense competir amb els colors que sí que signifiquen alguna cosa —l'oliva de
  * l'èxit, el vermell de les alertes— ni fer il·legible el text de sobre.
+ *
+ * **No és la mateixa per a tots.** Amb una sola opacitat, el cian taparia la
+ * targeta i el rosa gairebé no es veuria: els tons no són igual de foscos.
+ * Cadascuna està calculada perquè els cinc tenyits quedin a la mateixa distància
+ * del blanc, i així cap bloc no pesa més que un altre.
  */
 const TENYIT_BLOC = [
-  'rgba(102,20,20,.05)',
-  'rgba(162,26,26,.05)',
-  'rgba(194,173,154,.16)',
-  'rgba(96,128,40,.06)',
-  'rgba(74,15,15,.05)',
+  'rgba(255,153,216,.183)',
+  'rgba(12,192,223,.079)',
+  'rgba(153,225,122,.117)',
+  'rgba(255,189,89,.112)',
+  'rgba(203,108,230,.127)',
 ] as const;
 
 export function fonsBloc(bloc: number): string {
   return TENYIT_BLOC[(bloc - 1) % TENYIT_BLOC.length] ?? TENYIT_BLOC[0];
+}
+
+/**
+ * El to del bloc rebaixat, per a les barres i la llegenda del gràfic d'evolució.
+ *
+ * Ni el to ple, que damunt d'un gràfic petit resulta massa fort, ni el tenyit de
+ * la targeta: aquell està calculat per quedar gairebé blanc i, en una barra sobre
+ * fons blanc, la taronja i la cian pràcticament desapareixerien. Aquest queda
+ * entremig, prou suau per no cridar i prou sòlid per veure's.
+ */
+const SUAUS_BLOC = ['#ffa6dd', '#a4e7f3', '#c6eeb5', '#ffdca7', '#e0a7f0'] as const;
+
+export function colorBlocSuau(bloc: number): string {
+  return SUAUS_BLOC[(bloc - 1) % SUAUS_BLOC.length] ?? SUAUS_BLOC[0];
 }
 
 /** Fons translúcids de color per als xips. */
