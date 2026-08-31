@@ -1,5 +1,6 @@
 {
   "extends": "expo/tsconfig.base",
+  "_comentari": "types: node hi és pels fitxers de prova, que s'executen amb el executor de proves de Node. Sense això, tsc no coneix ni node:test ni node:assert.",
   "compilerOptions": {
     "strict": true,
     "paths": {
@@ -11,7 +12,10 @@
       ]
     },
     "allowImportingTsExtensions": true,
-    "noEmit": true
+    "noEmit": true,
+    "types": [
+      "node"
+    ]
   },
   "include": [
     "**/*.ts",

@@ -20,6 +20,7 @@ import type { Breed, EstatGos } from '@vincle/shared-types';
 import { ETIQUETA_ESTAT_GOS, estatGosSchema } from '@vincle/shared-types';
 import { useCataleg } from '../../dades/useCataleg.ts';
 import { creaGos } from '../../dades/gossos.ts';
+import { avuiISO, dataISO, emmascaraData } from '../../dades/data.ts';
 import {
   Boto, Camp, Seccio, Targeta, Xip,
   color, espai, familia, radi, text, tinta,
@@ -27,13 +28,41 @@ import {
 
 const ESTATS: EstatGos[] = ['avaluacio', 'ensinistrament', 'assignat'];
 
-const gosSchema = z.object({
-  nom: z.string().trim().min(1, 'Cal un nom.'),
-  dataNaixement: z.string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Escriu la data com ara 2024-03-15.')
-    .refine((d) => new Date(d) <= new Date(), 'La data no pot ser al futur.'),
-  estat: estatGosSchema,
-});
+/**
+ * L'esquema es construeix amb el dia d'avui en comptes de mirar el rellotge des
+ * de dins: la validació s'executa mentre es dibuixa la pantalla, i llegir-hi
+ * l'hora la faria impura.
+ *
+ * Les dues comprovacions de la data van a un sol `superRefine` i no encadenades:
+ * amb dos `refine`, una data mal escrita en dispararia els dos i el camp
+ * ensenyaria dos errors alhora.
+ */
+function creaGosSchema(avui: string) {
+  return z.object({
+    nom: z.string().trim().min(1, 'Cal un nom.'),
+    dataNaixement: z.string().superRefine((escrita, ctx) => {
+      const iso = dataISO(escrita);
+
+      if (iso === null) {
+        ctx.addIssue({
+          code: 'custom',
+          message: escrita.replace(/\D/g, '').length === 8
+            // Té les vuit xifres, així que el problema no és com s'ha escrit
+            // sinó que aquell dia no existeix: un 31 d'un mes de 30, o un 29 de
+            // febrer d'un any que no és de traspàs.
+            ? 'Aquesta data no existeix.'
+            : 'Escriu la data com ara 15/03/2024.',
+        });
+        return;
+      }
+
+      if (iso > avui) {
+        ctx.addIssue({ code: 'custom', message: 'La data no pot ser al futur.' });
+      }
+    }),
+    estat: estatGosSchema,
+  });
+}
 
 export default function GosNou() {
   const router = useRouter();
@@ -65,6 +94,11 @@ export default function GosNou() {
   const [errorGeneral, setErrorGeneral] = useState<string | null>(null);
   const [desant, setDesant] = useState(false);
 
+  // El moment es captura un sol cop, en muntar: així «avui» no canvia entre
+  // dibuixos i la validació és pura.
+  const [ara] = useState(() => Date.now());
+  const gosSchema = useMemo(() => creaGosSchema(avuiISO(ara)), [ara]);
+
   const validacio = gosSchema.safeParse({ nom, dataNaixement, estat });
 
   const suggeriments = useMemo(() => {
@@ -91,7 +125,8 @@ export default function GosNou() {
       nom: validacio.data.nom,
       breedId: raca?.id ?? breedId ?? null,
       breedNom: raca?.nom ?? breedNom ?? null,
-      dataNaixement: validacio.data.dataNaixement,
+      // A la base de dades hi va en ISO; el camp la recull en DD/MM/AAAA.
+      dataNaixement: dataISO(validacio.data.dataNaixement)!,
       estat: validacio.data.estat,
       familiaAcollida: familia || null,
     });
@@ -125,10 +160,14 @@ export default function GosNou() {
           <Camp
             etiqueta="Data de naixement"
             value={dataNaixement}
-            onChangeText={setDataNaixement}
+            // Les barres les posa la màscara a mesura que s'escriu: qui ompli
+            // el camp només ha de teclejar les xifres.
+            onChangeText={(t) => setDataNaixement(emmascaraData(t))}
             onBlur={validaCamp('dataNaixement')}
             error={errors.dataNaixement}
-            placeholder="2024-03-15"
+            placeholder="15/03/2024"
+            inputMode="numeric"
+            maxLength={10}
             autoCapitalize="none"
           />
 
