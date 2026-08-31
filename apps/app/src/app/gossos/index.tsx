@@ -23,7 +23,7 @@ import { DIES_DE_RETARD, diesDes, quanVaSer, useSessions } from '../../dades/ses
 import { edat } from '../../dades/fixtures.ts';
 import { useSessio } from '../../estat/Sessio.tsx';
 import {
-  BarraNavegacio, BarraPestanyesMobil, Boto, Esquelet, Targeta, Xip,
+  BarraNavegacio, BarraPestanyesMobil, EmpremtaGos, Boto, Esquelet, Targeta, Xip,
   color, espai, familia, radi, text, tinta, useTrencament,
 } from '../../disseny/index.ts';
 
@@ -167,7 +167,7 @@ function LlistaBuida() {
   const router = useRouter();
   return (
     <Targeta franja="absencia" estil={estils.buida}>
-      <View style={estils.marcadorBuit} />
+      <EmpremtaGos />
       <Text style={estils.titolBuit}>Encara no hi ha cap gos</Text>
       <Text style={estils.textBuit}>
         Afegeix el primer gos en seguiment i podràs registrar-hi sessions, fites i
@@ -313,10 +313,6 @@ const estils = StyleSheet.create({
   carregant: { gap: espai.m },
 
   buida: { alignItems: 'center', gap: espai.m, paddingVertical: espai.xxl },
-  marcadorBuit: {
-    width: 76, height: 76, borderRadius: 38,
-    backgroundColor: tinta.pistaEix,
-  },
   titolBuit: { fontFamily: familia.serif, fontSize: 21, color: color.tinta },
   textBuit: { ...text.cosSecundari, textAlign: 'center', maxWidth: 360 },
 
