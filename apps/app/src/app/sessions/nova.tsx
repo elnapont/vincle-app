@@ -147,6 +147,18 @@ export default function SessioNova() {
         {/* Guia: l'explicació de l'exercici mentre es practica */}
         {exercici ? (
           <Targeta mobil franja="oliva">
+            {/*
+              El nom presideix la targeta perquè, amb el selector amagat, aquesta
+              és la que diu quin exercici s'està practicant. La capçalera de la
+              pantalla també el porta, però queda fixa a dalt i el text de «Com es
+              fa» és llarg: mentre es llegeix, convé tenir-lo a la vista.
+            */}
+            <View style={estils.filaSeccio}>
+              <Text style={estils.nomExercici}>{exercici.nom}</Text>
+              <Pressable onPress={() => setTriatManual(null)}>
+                <Text style={estils.canvia}>Fes-la lliure</Text>
+              </Pressable>
+            </View>
             <Seccio>Com es fa</Seccio>
             <Text style={estils.explicacio}>{exercici.explicacio}</Text>
             <Xip to="calid" unaLinia>{textRecomanacio(exercici.recomanacio)}</Xip>
@@ -160,45 +172,47 @@ export default function SessioNova() {
           </Targeta>
         ) : null}
 
-        {/* Quin exercici */}
-        <Targeta mobil>
-          <View style={estils.filaSeccio}>
+        {/*
+          Quin exercici. Només surt si encara no n'hi ha cap: a la sessió s'hi
+          arriba des del camí del gos o des de la fitxa de l'exercici, i allà ja
+          s'ha triat. Ensenyar les dinou opcions a sobre convidava a desfer una
+          decisió que ja s'havia pres. Per canviar-la hi ha «Fes-la lliure», que
+          torna a mostrar el selector.
+        */}
+        {!exercici ? (
+          <Targeta mobil>
             <Seccio>Quin exercici</Seccio>
-            {exercici ? (
-              <Pressable onPress={() => setTriatManual(null)}>
-                <Text style={estils.canvia}>Fes-la lliure</Text>
-              </Pressable>
-            ) : null}
-          </View>
 
-          {BLOCS_CATALEG.map((b) => {
-            const delBloc = EXERCICIS.filter((e) => e.bloc === b.bloc);
-            if (delBloc.length === 0) return null;
-            return (
-              <View key={b.bloc} style={estils.grupBloc}>
-                <Text style={estils.nomBloc}>{b.nom.toUpperCase()}</Text>
-                <View style={estils.xips}>
-                  {delBloc.map((e) => (
-                    <Xip
-                      key={e.id}
-                      to={idActiu === e.id ? 'actiu' : 'neutre'}
-                      onPress={() => setTriatManual(e.id)}
-                    >
-                      {`${e.ordre}. ${e.nom}`}
-                    </Xip>
-                  ))}
+            {BLOCS_CATALEG.map((b) => {
+              const delBloc = EXERCICIS.filter((e) => e.bloc === b.bloc);
+              if (delBloc.length === 0) return null;
+              return (
+                <View key={b.bloc} style={estils.grupBloc}>
+                  <Text style={estils.nomBloc}>{b.nom.toUpperCase()}</Text>
+                  <View style={estils.xips}>
+                    {delBloc.map((e) => (
+                      <Xip
+                        key={e.id}
+                        // Sense estat actiu: aquest selector només es dibuixa
+                        // quan no hi ha cap exercici triat, i triar-ne un
+                        // l'amaga, de manera que cap xip no arriba a marcar-se.
+                        to="neutre"
+                        onPress={() => setTriatManual(e.id)}
+                      >
+                        {`${e.ordre}. ${e.nom}`}
+                      </Xip>
+                    ))}
+                  </View>
                 </View>
-              </View>
-            );
-          })}
+              );
+            })}
 
-          {!exercici ? (
             <Text style={estils.pistaLliure}>
               Sense exercici triat es desa com a sessió lliure, que també compta a
               l'historial però no avança el camí.
             </Text>
-          ) : null}
-        </Targeta>
+          </Targeta>
+        ) : null}
 
         {/* Amb què */}
         {gossos.length > 1 ? (
@@ -341,6 +355,7 @@ const estils = StyleSheet.create({
   titolModal: { ...text.nomLlista, fontSize: 15, textAlign: 'center' },
   filaSeccio: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: espai.m },
   canvia: { ...text.cosSecundari, fontSize: 12.5, color: color.vermell },
+  nomExercici: { ...text.nomLlista, fontSize: 16, flexShrink: 1 },
   grupBloc: { gap: espai.xs },
   nomBloc: { ...text.escalaBarra },
   pistaLliure: { ...text.cosSecundari, fontSize: 12.5, lineHeight: 18 },
