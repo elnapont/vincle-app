@@ -3,6 +3,10 @@
  *
  *   node desplegament/genera-claus.mjs
  *
+ * El servidor no ha de tenir Node per força. Des de l'arrel del repositori:
+ *
+ *   docker run --rm -v "$PWD/desplegament:/d:ro" node:22-alpine node /d/genera-claus.mjs
+ *
  * A Supabase allotjat, aquestes claus les dona el tauler. En un servidor propi
  * no les dona ningú: són testimonis JWT signats amb el secret del servidor, i
  * s'han de fabricar. La `anon` viatja al navegador i és pública; la

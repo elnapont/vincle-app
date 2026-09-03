@@ -39,11 +39,23 @@ navegador ──▶ web (nginx) ┬── /               l'aplicació, fitxers 
 
 ```sh
 cp desplegament/.env.example desplegament/.env
-node desplegament/genera-claus.mjs        # enganxa les quatre línies al .env
-$EDITOR desplegament/.env                 # URL_PUBLICA i DOG_API_KEY
+
+# Les quatre claus. Si el servidor no té Node —i no cal que en tingui—, es
+# generen dins d'un contenidor d'un sol ús:
+docker run --rm -v "$PWD/desplegament:/d:ro" node:22-alpine node /d/genera-claus.mjs
+
+# Amb Node al servidor, l'equivalent és:
+#   node desplegament/genera-claus.mjs
+
+$EDITOR desplegament/.env                 # enganxa-hi les quatre línies,
+                                          # més URL_PUBLICA i DOG_API_KEY
 
 docker compose -f desplegament/docker-compose.yml up -d --build
 ```
+
+L'ordre de dalt s'executa **des de l'arrel del repositori**. No instal·la res: el
+contenidor s'esborra tot seguit i l'única petja que deixa és la imatge
+descarregada, que de tota manera fa servir la construcció del servei `web`.
 
 `URL_PUBLICA` ha de ser **l'adreça de debò** des d'on es veurà Vincle, amb
 esquema i port si en porta. No és cosmètica: se li cou a dins l'aplicació perquè
