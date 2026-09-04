@@ -78,7 +78,7 @@ function enFiles<T>(elements: T[], mida: number): (T | null)[][] {
 export default function CatalegRaces() {
   const { estat, reintenta } = useCataleg();
   const { esMobil, amplada: amplePantalla } = useTrencament();
-  const { surt } = useSessio();
+  const { usuari, surt } = useSessio();
   const [cerca, setCerca] = useState('');
   const [visibles, setVisibles] = useState(PER_PAGINA);
 
@@ -102,7 +102,7 @@ export default function CatalegRaces() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio activa="Races" onSortir={surt} /> : null}
+      {!esMobil ? <BarraNavegacio usuari={usuari} activa="Races" onSortir={surt} /> : null}
 
       <ScrollView style={estils.desplacador} contentContainerStyle={estils.contingut}>
         <View style={estils.encapcalament}>

@@ -37,7 +37,7 @@ const TO_ESTAT: Record<EstatGos, 'exit' | 'calid' | 'actiu'> = {
 
 export default function Gossos() {
   const { esMobil } = useTrencament();
-  const { surt } = useSessio();
+  const { usuari, surt } = useSessio();
   const router = useRouter();
   const { estat } = useGossos();
   const { estat: estatSessions } = useSessions();
@@ -84,7 +84,7 @@ export default function Gossos() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio activa="Gossos" onSortir={surt} /> : null}
+      {!esMobil ? <BarraNavegacio usuari={usuari} activa="Gossos" onSortir={surt} /> : null}
 
       <ScrollView style={estils.desplacador} contentContainerStyle={estils.contingut}>
         <View style={estils.capcalera}>

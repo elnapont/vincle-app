@@ -36,7 +36,7 @@ export default function FitxaGos() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { esMobil, lateralASobre } = useTrencament();
-  const { surt } = useSessio();
+  const { usuari, surt } = useSessio();
   const { estat: estatGossos } = useGossos();
   const { estat: estatSessions } = useSessions(id);
   const { assolits, recarrega: recarregaAssoliments } = useAssoliments(id);
@@ -79,7 +79,7 @@ export default function FitxaGos() {
 
   if (estatGossos.fase === 'carregant') {
     return (
-      <Pantalla esMobil={esMobil} onSortir={surt}>
+      <Pantalla esMobil={esMobil} usuari={usuari} onSortir={surt}>
         <Esquelet alcada={120} />
         <Esquelet alcada={220} opacitat={0.7} />
       </Pantalla>
@@ -88,7 +88,7 @@ export default function FitxaGos() {
 
   if (!gos) {
     return (
-      <Pantalla esMobil={esMobil} onSortir={surt}>
+      <Pantalla esMobil={esMobil} usuari={usuari} onSortir={surt}>
         <Text style={text.titolWeb}>Aquest gos no hi és</Text>
         <Boto titol="Torna a la llista" to="secundari" onPress={() => router.replace('/gossos')} />
       </Pantalla>
@@ -96,7 +96,7 @@ export default function FitxaGos() {
   }
 
   return (
-    <Pantalla esMobil={esMobil} onSortir={surt}>
+    <Pantalla esMobil={esMobil} usuari={usuari} onSortir={surt}>
       {/* Capçalera */}
       <View style={estils.capcalera}>
         <Avatar nom={gos.nom} mida={96} />
@@ -316,16 +316,17 @@ function Metrica({
 }
 
 function Pantalla({
-  children, esMobil, onSortir,
+  children, esMobil, usuari, onSortir,
 }: {
   children: React.ReactNode;
   esMobil: boolean;
+  usuari: string;
   onSortir: () => void;
 }) {
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
       {!esMobil ? (
-        <BarraNavegacio activa="Gossos" onSortir={onSortir} />
+        <BarraNavegacio usuari={usuari} activa="Gossos" onSortir={onSortir} />
       ) : null}
       <ScrollView contentContainerStyle={estils.contingut}>{children}</ScrollView>
     </SafeAreaView>

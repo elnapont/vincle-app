@@ -51,8 +51,14 @@ SERVICE=$(npx supabase status -o json | node -pe "JSON.parse(require('fs').readF
 curl -X POST "http://127.0.0.1:54321/auth/v1/admin/users" \
   -H "apikey: $SERVICE" -H "Authorization: Bearer $SERVICE" \
   -H "Content-Type: application/json" \
-  -d '{"email":"elna@vincle.cat","password":"vincle-local-2026","email_confirm":true}'
+  -d '{"email":"elna@vincle.cat","password":"vincle-local-2026","email_confirm":true,
+       "user_metadata":{"nom":"Elna Pont"}}'
 ```
+
+`email_confirm: true` no envia cap correu: marca l'adreça com a ja verificada.
+Amb `false`, el compte no es podria fer servir per entrar. El `nom` de
+`user_metadata` és el que l'aplicació ensenya a la barra i a la salutació; sense
+ell, hi surt el correu.
 
 Aquestes credencials són **només per a desenvolupament local**. L'stack local de
 Supabase no és accessible des de fora de l'ordinador i les seves claus són

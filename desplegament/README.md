@@ -67,7 +67,24 @@ Un cop amunt, crear el compte de l'Elna (no hi ha alta d'usuari, §3):
 curl -X POST "$URL_PUBLICA/auth/v1/admin/users" \
   -H "apikey: $SERVICE_ROLE_KEY" -H "Authorization: Bearer $SERVICE_ROLE_KEY" \
   -H 'Content-Type: application/json' \
-  -d '{"email":"...","password":"...","email_confirm":true}'
+  -d '{"email":"...","password":"...","email_confirm":true,
+       "user_metadata":{"nom":"Elna Pont"}}'
+```
+
+**`email_confirm` ha d'anar a `true`.** No envia cap correu: marca l'adreça com a
+ja verificada. Amb `false` el compte es crea sense confirmar i **no es pot
+entrar** —GoTrue respon «Email not confirmed»—, que és el contrari del que sembla
+que fa.
+
+El `nom` de `user_metadata` és el que l'aplicació ensenya a la barra i a la
+salutació. Si no s'hi posa, la barra ensenya el correu i la salutació es queda a
+«Bon dia»: el nom no es dedueix de l'adreça. Es pot afegir o canviar més tard:
+
+```sh
+curl -X PUT "$URL_PUBLICA/auth/v1/admin/users/<id-de-l-usuari>" \
+  -H "apikey: $SERVICE_ROLE_KEY" -H "Authorization: Bearer $SERVICE_ROLE_KEY" \
+  -H 'Content-Type: application/json' \
+  -d '{"user_metadata":{"nom":"Elna Pont"}}'
 ```
 
 ## Les claus

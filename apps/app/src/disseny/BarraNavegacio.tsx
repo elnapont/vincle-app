@@ -20,14 +20,18 @@ import { familia, text } from './tipografia.ts';
 const ALCADA = 60;
 
 export function BarraNavegacio({
-  activa, usuari = 'Elna Pont', onSortir,
+  activa, usuari, onSortir,
 }: {
   /**
    * Etiqueta de la pestanya on som. A l'inici no se'n passa cap: allà no som dins
    * de cap secció i el lloc on som el marca la marca, que hi porta.
    */
   activa?: string;
-  usuari?: string;
+  /**
+   * Qui ha entrat. Ve de fora i no té valor per defecte: abans hi havia un nom
+   * escrit aquí dins, i la barra el mostrava entrés qui entrés.
+   */
+  usuari: string;
   /** Si es passa, l'avatar obre un desplegable amb l'acció de tancar la sessió. */
   onSortir?: () => void;
 }) {

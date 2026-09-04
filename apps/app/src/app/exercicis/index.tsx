@@ -41,7 +41,7 @@ const PER_BLOC = new Map<number, number>(
 
 export default function CatalegExercicis() {
   const { esMobil, lateralASobre } = useTrencament();
-  const { surt } = useSessio();
+  const { usuari, surt } = useSessio();
   const [bloc, setBloc] = useState<number | null>(null);
 
   const visibles = useMemo(
@@ -51,7 +51,7 @@ export default function CatalegExercicis() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio activa="Exercicis" onSortir={surt} /> : null}
+      {!esMobil ? <BarraNavegacio usuari={usuari} activa="Exercicis" onSortir={surt} /> : null}
 
       <ScrollView style={estils.desplacador} contentContainerStyle={estils.desplacament}>
         <View style={[estils.columnes, lateralASobre && estils.apilades]}>

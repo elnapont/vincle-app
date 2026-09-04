@@ -23,7 +23,7 @@ import {
 
 export default function Inici() {
   const { esMobil, lateralASobre } = useTrencament();
-  const { surt } = useSessio();
+  const { nom, usuari, surt } = useSessio();
   const avui = new Date().toLocaleDateString('ca-ES', {
     weekday: 'long', day: 'numeric', month: 'long',
   });
@@ -49,12 +49,19 @@ export default function Inici() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio onSortir={surt} /> : null}
+      {!esMobil ? <BarraNavegacio usuari={usuari} onSortir={surt} /> : null}
 
       <ScrollView style={estils.desplacador} contentContainerStyle={estils.contingut}>
         <View style={estils.salutacio}>
           <Text style={estils.data}>{avui.toUpperCase()}</Text>
-          <Text style={esMobil ? text.titolMobil : text.titolWeb}>Bon dia, Elna</Text>
+          {/*
+            Es saluda pel nom només si el compte en porta un. Si no, «Bon dia» a
+            seques: el correu com a nom de pila faria una salutació estranya, i
+            deduir-lo de l'adreça seria inventar-se'l.
+          */}
+          <Text style={esMobil ? text.titolMobil : text.titolWeb}>
+            {nom ? `Bon dia, ${nom.split(' ')[0]}` : 'Bon dia'}
+          </Text>
         </View>
 
         <View style={estils.metriques}>

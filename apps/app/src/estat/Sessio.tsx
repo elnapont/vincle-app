@@ -15,6 +15,21 @@ import { supabase } from '../dades/supabase.ts';
 interface EstatSessio {
   /** `undefined` mentre encara no sabem si hi ha sessió. */
   sessio: Session | null | undefined;
+  /**
+   * Nom de la persona, tal com es va desar al compte. `null` quan el compte no
+   * en porta cap.
+   *
+   * Serveix per saludar. No es dedueix del correu: de `elna@vincle.cat` se'n
+   * podria treure «Elna», però de `info@fundacio.org` en sortiria «Info», i
+   * saludar algú per un nom inventat és pitjor que no saludar-lo.
+   */
+  nom: string | null;
+  /**
+   * El que s'ensenya a la barra de navegació: el nom si n'hi ha i, si no, el
+   * correu, que sempre hi és. Buit si no hi ha sessió, cas en què la barra no
+   * es dibuixa.
+   */
+  usuari: string;
   entra: (correu: string, contrasenya: string) => Promise<{ error: string | null }>;
   surt: () => Promise<void>;
 }
@@ -49,16 +64,29 @@ export function ProveidorSessio({ children }: { children: ReactNode }) {
     return () => data.subscription.unsubscribe();
   }, []);
 
-  const valor = useMemo<EstatSessio>(() => ({
-    sessio,
-    entra: async (correu, contrasenya) => {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: correu, password: contrasenya,
-      });
-      return { error: error ? tradueixError(error.message) : null };
-    },
-    surt: async () => { await supabase.auth.signOut(); },
-  }), [sessio]);
+  const valor = useMemo<EstatSessio>(() => {
+    // El nom viu a `user_metadata`, que és on el deixa qui crea el compte:
+    //   {"email":"...","password":"...","email_confirm":true,
+    //    "user_metadata":{"nom":"Elna Pont"}}
+    // Es comprova que sigui text i que no sigui buit, perquè `user_metadata` és
+    // JSON lliure i hi pot haver qualsevol cosa.
+    const brut = sessio?.user?.user_metadata?.nom;
+    const nom = typeof brut === 'string' && brut.trim() !== '' ? brut.trim() : null;
+    const correuDelCompte = sessio?.user?.email ?? null;
+
+    return {
+      sessio,
+      nom,
+      usuari: nom ?? correuDelCompte ?? '',
+      entra: async (correu, contrasenya) => {
+        const { error } = await supabase.auth.signInWithPassword({
+          email: correu, password: contrasenya,
+        });
+        return { error: error ? tradueixError(error.message) : null };
+      },
+      surt: async () => { await supabase.auth.signOut(); },
+    };
+  }, [sessio]);
 
   return <Context.Provider value={valor}>{children}</Context.Provider>;
 }

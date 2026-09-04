@@ -38,7 +38,7 @@ const DESCARTADES = 3;
 export default function Compatibilitats() {
   const { estat, reintenta } = useCataleg();
   const { esMobil, lateralASobre } = useTrencament();
-  const { surt } = useSessio();
+  const { usuari, surt } = useSessio();
   const [trastorn, setTrastorn] = useState<Trastorn>('tea');
   const [pesMaximKg, setPesMaximKg] = useState<number | null>(null);
 
@@ -46,7 +46,7 @@ export default function Compatibilitats() {
 
   return (
     <SafeAreaView style={estils.pantalla} edges={['top']}>
-      {!esMobil ? <BarraNavegacio activa="Compatibilitats" onSortir={surt} /> : null}
+      {!esMobil ? <BarraNavegacio usuari={usuari} activa="Compatibilitats" onSortir={surt} /> : null}
 
       <ScrollView style={estils.desplacador} contentContainerStyle={estils.desplacament}>
         <View style={[estils.columnes, lateralASobre && estils.columnesApilades]}>
