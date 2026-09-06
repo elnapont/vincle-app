@@ -136,15 +136,9 @@ export default function Entrada() {
           <Text style={estils.nomMarca}>Vincle</Text>
         </View>
 
-        <View style={estils.titularBloc}>
-          <Text style={estils.titular}>
-            Cada gos té el seu ritme. Nosaltres el recordem.
-          </Text>
-          <Text style={estils.subtitolWeb}>
-            Sessions, fites i evolució en un sol lloc, i una guia per entendre quins
-            temperaments encaixen amb cada persona.
-          </Text>
-        </View>
+        <Text style={estils.titular}>
+          Acompanyem l'ensinistrament de gossos d'assistència, sessió a sessió.
+        </Text>
 
         <Text style={estils.versio}>v1.0 · català</Text>
       </View>
@@ -222,14 +216,9 @@ const estils = StyleSheet.create({
   },
   logotipLletraPetita: { fontFamily: familia.serif, fontSize: 19, color: color.granat },
   nomMarca: { fontFamily: familia.sansFort, fontSize: 15, color: color.blanc },
-  titularBloc: { gap: espai.l },
   titular: {
-    fontFamily: familia.serif, fontSize: 40, lineHeight: 46,
+    fontFamily: familia.serif, fontSize: 34, lineHeight: 40,
     color: color.blanc, maxWidth: 330,
-  },
-  subtitolWeb: {
-    fontFamily: familia.sans, fontSize: 15, lineHeight: 24,
-    color: 'rgba(255,255,255,.66)', maxWidth: 320,
   },
   versio: { fontFamily: familia.mono, fontSize: 12, color: 'rgba(255,255,255,.4)' },
   panellFormulari: {
