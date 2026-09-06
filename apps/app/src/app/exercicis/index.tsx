@@ -184,7 +184,9 @@ const estils = StyleSheet.create({
   pantalla: { flex: 1, backgroundColor: color.paper },
   desplacament: { padding: espai.xxl, maxWidth: 1180, width: '100%', alignSelf: 'center' },
   columnes: { flexDirection: 'row', gap: espai.xxl, alignItems: 'flex-start' },
-  apilades: { flexDirection: 'column' },
+  // En girar la direcció, el `flex-start` de dalt passa a governar l'amplada i
+  // les columnes deixen de valer el que la pantalla. Cal tornar-hi el `stretch`.
+  apilades: { flexDirection: 'column', alignItems: 'stretch' },
   lateral: { width: 270, gap: espai.l },
   plena: { width: '100%' },
   contingut: { flex: 1, gap: espai.l, minWidth: 0 },

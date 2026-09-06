@@ -336,7 +336,9 @@ const estils = StyleSheet.create({
     maxWidth: 1180, width: '100%', alignSelf: 'center',
   },
   columnes: { flexDirection: 'row', gap: espai.xxl, alignItems: 'flex-start' },
-  columnesApilades: { flexDirection: 'column' },
+  // En girar la direcció, el `flex-start` de dalt passa a governar l'amplada i
+  // les columnes deixen de valer el que la pantalla. Cal tornar-hi el `stretch`.
+  columnesApilades: { flexDirection: 'column', alignItems: 'stretch' },
   columnaEsquerra: { width: 330, gap: espai.l },
   columnaDreta: { flex: 1, gap: espai.l, minWidth: 0 },
   plena: { width: '100%' },

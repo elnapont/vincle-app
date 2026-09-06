@@ -355,7 +355,9 @@ const estils = StyleSheet.create({
   etiquetaMetrica: { ...text.cosSecundari, fontSize: 12.5 },
 
   columnes: { flexDirection: 'row', gap: espai.l, alignItems: 'flex-start' },
-  apilades: { flexDirection: 'column' },
+  // En girar la direcció, el `flex-start` de dalt passa a governar l'amplada i
+  // les columnes deixen de valer el que la pantalla. Cal tornar-hi el `stretch`.
+  apilades: { flexDirection: 'column', alignItems: 'stretch' },
   principal: { flex: 1, minWidth: 0, gap: espai.l },
   lateral: { width: 320 },
   plena: { width: '100%' },

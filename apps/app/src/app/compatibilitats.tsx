@@ -517,7 +517,12 @@ const estils = StyleSheet.create({
   // A mòbil els 28px de farciment es mengen una vuitena part de la pantalla.
   desplacamentMobil: { padding: espai.xl },
   columnes: { flexDirection: 'row', gap: espai.xxl, alignItems: 'flex-start' },
-  columnesApilades: { flexDirection: 'column' },
+  // El `stretch` no és redundant: en girar la direcció, el `flex-start` de dalt
+  // passa a governar l'AMPLADA, i la columna de contingut deixava de valer el
+  // que la pantalla per valer el que el seu contingut més ample. Per això tot el
+  // rànquing se n'anava cap a la dreta i el text ni tan sols s'hi partia. El
+  // panell lateral se n'escapava només perquè ja demana `width: 100%`.
+  columnesApilades: { flexDirection: 'column', alignItems: 'stretch' },
   lateral: { width: 270, gap: espai.l },
   plena: { width: '100%' },
   contingut: { flex: 1, gap: espai.m, minWidth: 0 },
