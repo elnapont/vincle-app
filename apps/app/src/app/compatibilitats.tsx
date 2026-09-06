@@ -48,7 +48,10 @@ export default function Compatibilitats() {
     <SafeAreaView style={estils.pantalla} edges={['top']}>
       {!esMobil ? <BarraNavegacio usuari={usuari} activa="Compatibilitats" onSortir={surt} /> : null}
 
-      <ScrollView style={estils.desplacador} contentContainerStyle={estils.desplacament}>
+      <ScrollView
+        style={estils.desplacador}
+        contentContainerStyle={[estils.desplacament, esMobil && estils.desplacamentMobil]}
+      >
         <View style={[estils.columnes, lateralASobre && estils.columnesApilades]}>
           <View style={[estils.lateral, lateralASobre && estils.plena]}>
             <PanellTrastorn actiu={trastorn} onTria={setTrastorn} />
@@ -71,7 +74,12 @@ export default function Compatibilitats() {
             ) : null}
 
             {estat.fase === 'llest' ? (
-              <Resultats cataleg={estat.cataleg} perfil={perfil} pesMaximKg={pesMaximKg} />
+              <Resultats
+                cataleg={estat.cataleg}
+                perfil={perfil}
+                pesMaximKg={pesMaximKg}
+                esMobil={esMobil}
+              />
             ) : null}
           </View>
         </View>
@@ -236,11 +244,12 @@ function PanellFiltre({
 // ---------------------------------------------------------------------------
 
 function Resultats({
-  cataleg, perfil, pesMaximKg,
+  cataleg, perfil, pesMaximKg, esMobil,
 }: {
   cataleg: CatalegRaces;
   perfil: PerfilTrastorn;
   pesMaximKg: number | null;
+  esMobil: boolean;
 }) {
   const [avisExportacio, setAvisExportacio] = useState<string | null>(null);
   const resultats = ranquing(cataleg.races, perfil, { pesMaximKg });
@@ -257,7 +266,7 @@ function Resultats({
           {`${ETIQUETA_TRASTORN_CURTA[perfil.trastorn]} · `}
           {destacats.map((e) => `${ETIQUETA_EIX[e.eix].toUpperCase()} ${e.pes}%`).join(' · ')}
         </Text>
-        <Text style={text.titolWeb}>Races més compatibles</Text>
+        <Text style={esMobil ? text.titolMobil : text.titolWeb}>Races més compatibles</Text>
         <View style={estils.filaAccions}>
           <Text style={text.metadada}>{cataleg.total} races avaluades</Text>
           <View style={estils.flexible} />
@@ -293,6 +302,7 @@ function Resultats({
           perfil={perfil}
           eixosDestacats={eixosDestacats}
           primer={i === 0}
+          esMobil={esMobil}
         />
       ))}
 
@@ -311,62 +321,106 @@ function Resultats({
   );
 }
 
+/**
+ * Una fila desplegada del rànquing.
+ *
+ * A web són quatre columnes en una sola línia: miniatura, identitat, eixos i
+ * puntuació. **A mòbil no hi caben**, i encongir-les no és una sortida: la
+ * miniatura, el percentatge de 30px i el nom d'una raça tenen una amplada mínima
+ * real, i per sota d'ella la fila se sortia per la dreta. La targeta es parteix
+ * en dues línies —identitat i puntuació a dalt, els tres eixos a sota a tota
+ * amplada—, que és la mateixa composició que ja fa servir el rànquing de mòbil
+ * de la pantalla `7d`.
+ */
 function FilaDesplegada({
-  resultat, raca, perfil, eixosDestacats, primer,
+  resultat, raca, perfil, eixosDestacats, primer, esMobil,
 }: {
   resultat: MatchResult;
   raca: Breed | undefined;
   perfil: PerfilTrastorn;
   eixosDestacats: string[];
   primer: boolean;
+  esMobil: boolean;
 }) {
+  const miniatura = (
+    <FotoRaca
+      url={raca?.imatgeUrl ?? null}
+      nom={resultat.nom}
+      relacio={1}
+      estil={estils.miniatura}
+    />
+  );
+
+  const identitat = (
+    <View style={esMobil ? estils.blocNomMobil : estils.blocNom}>
+      <Link
+        href={{ pathname: '/races/[id]', params: { id: resultat.breedId } }}
+        style={estils.enllacNom}
+      >
+        <Text style={text.nomLlista}>{resultat.nom}</Text>
+      </Link>
+      <Text style={text.metadada}>
+        {[
+          resultat.penalitzacio ? resultat.penalitzacio : null,
+          resultat.eixosSenseDades > 0
+            ? `${resultat.eixosSenseDades} de 8 eixos sense dades` : null,
+        ].filter(Boolean).join(' · ') || 'tots els eixos derivats'}
+      </Text>
+    </View>
+  );
+
+  const eixos = (
+    <View style={esMobil ? estils.eixosMobil : estils.blocEixos}>
+      {eixosDestacats.map((eix) => {
+        const derivat = resultat.eixos.find((e) => e.eix === eix);
+        const pesEix = perfil.eixos.find((e) => e.eix === eix);
+        return (
+          <BarraEix
+            key={eix}
+            eix={eix as never}
+            valor={derivat?.valor ?? null}
+            direccio={pesEix?.direccio ?? 'suma'}
+          />
+        );
+      })}
+    </View>
+  );
+
+  const puntuacio = (
+    <View style={esMobil ? estils.blocPuntuacioMobil : estils.blocPuntuacio}>
+      <Text
+        style={[
+          estils.percentatge,
+          esMobil && estils.percentatgeMobil,
+          { color: primer ? color.oliva : color.vermell },
+        ]}
+      >
+        {resultat.puntuacio.toFixed(1).replace('.', ',')}%
+      </Text>
+      <Text style={text.metadadaFort}>{`#${resultat.posicio}`}</Text>
+    </View>
+  );
+
+  if (esMobil) {
+    return (
+      <Targeta franja={primer ? 'oliva' : 'vermell'}>
+        <View style={estils.capcaleraMobil}>
+          {miniatura}
+          {identitat}
+          {puntuacio}
+        </View>
+        {eixos}
+      </Targeta>
+    );
+  }
+
   return (
     <Targeta franja={primer ? 'oliva' : 'vermell'}>
       <View style={estils.fila}>
-        <FotoRaca
-          url={raca?.imatgeUrl ?? null}
-          nom={resultat.nom}
-          relacio={1}
-          estil={estils.miniatura}
-        />
-
-        <View style={estils.blocNom}>
-          <Link
-            href={{ pathname: '/races/[id]', params: { id: resultat.breedId } }}
-            style={estils.enllacNom}
-          >
-            <Text style={text.nomLlista}>{resultat.nom}</Text>
-          </Link>
-          <Text style={text.metadada}>
-            {[
-              resultat.penalitzacio ? resultat.penalitzacio : null,
-              resultat.eixosSenseDades > 0
-                ? `${resultat.eixosSenseDades} de 8 eixos sense dades` : null,
-            ].filter(Boolean).join(' · ') || 'tots els eixos derivats'}
-          </Text>
-        </View>
-
-        <View style={estils.blocEixos}>
-          {eixosDestacats.map((eix) => {
-            const derivat = resultat.eixos.find((e) => e.eix === eix);
-            const pesEix = perfil.eixos.find((e) => e.eix === eix);
-            return (
-              <BarraEix
-                key={eix}
-                eix={eix as never}
-                valor={derivat?.valor ?? null}
-                direccio={pesEix?.direccio ?? 'suma'}
-              />
-            );
-          })}
-        </View>
-
-        <View style={estils.blocPuntuacio}>
-          <Text style={[estils.percentatge, { color: primer ? color.oliva : color.vermell }]}>
-            {resultat.puntuacio.toFixed(1).replace('.', ',')}%
-          </Text>
-          <Text style={text.metadadaFort}>{`#${resultat.posicio}`}</Text>
-        </View>
+        {miniatura}
+        {identitat}
+        {eixos}
+        {puntuacio}
       </View>
     </Targeta>
   );
@@ -380,10 +434,10 @@ function FilaAplanada({ resultat }: { resultat: MatchResult }) {
         href={{ pathname: '/races/[id]', params: { id: resultat.breedId } }}
         style={estils.flexible}
       >
-        <Text style={estils.nomCompacte}>{resultat.nom}</Text>
+        <Text style={estils.nomCompacte} numberOfLines={1}>{resultat.nom}</Text>
       </Link>
       {resultat.penalitzacio ? (
-        <Text style={estils.penalitzacio}>{resultat.penalitzacio}</Text>
+        <Text style={estils.penalitzacio} numberOfLines={1}>{resultat.penalitzacio}</Text>
       ) : null}
       <Text style={estils.percentatgeCompacte}>
         {resultat.puntuacio.toFixed(1).replace('.', ',')}%
@@ -423,8 +477,8 @@ function BlocDescartades({
       {resultats.map((r) => (
         <View key={r.breedId} style={estils.filaCompacta}>
           <Text style={text.metadadaFort}>{`#${r.posicio}`}</Text>
-          <Text style={[estils.nomCompacte, estils.flexible]}>{r.nom}</Text>
-          <Text style={text.metadada}>{motiu(r)}</Text>
+          <Text style={[estils.nomCompacte, estils.flexible]} numberOfLines={1}>{r.nom}</Text>
+          <Text style={estils.motiu} numberOfLines={1}>{motiu(r)}</Text>
           <Text style={estils.percentatgeCompacte}>
             {r.puntuacio.toFixed(1).replace('.', ',')}%
           </Text>
@@ -460,6 +514,8 @@ const estils = StyleSheet.create({
   desplacador: { flex: 1 },
   pantalla: { flex: 1, backgroundColor: color.paper },
   desplacament: { padding: espai.xxl, maxWidth: 1180, width: '100%', alignSelf: 'center' },
+  // A mòbil els 28px de farciment es mengen una vuitena part de la pantalla.
+  desplacamentMobil: { padding: espai.xl },
   columnes: { flexDirection: 'row', gap: espai.xxl, alignItems: 'flex-start' },
   columnesApilades: { flexDirection: 'column' },
   lateral: { width: 270, gap: espai.l },
@@ -483,7 +539,9 @@ const estils = StyleSheet.create({
 
   encapcalament: { gap: espai.xs, marginBottom: espai.xs },
   eyebrow: { ...text.escalaBarra, color: color.olivaFosc },
-  filaAccions: { flexDirection: 'row', alignItems: 'baseline', gap: espai.m },
+  // Amb prou lloc queden a la mateixa línia; a mòbil l'acció baixa a la següent
+  // en comptes d'estrènyer el recompte de races.
+  filaAccions: { flexDirection: 'row', alignItems: 'baseline', gap: espai.m, flexWrap: 'wrap' },
   accio: { ...text.navegacio, color: color.vermell },
 
   fila: { flexDirection: 'row', gap: espai.l, alignItems: 'center' },
@@ -495,9 +553,22 @@ const estils = StyleSheet.create({
   blocPuntuacio: { width: 120, alignItems: 'flex-end', gap: 2 },
   percentatge: { ...text.percentatgeFitxa },
 
+  // Variant de mòbil: capçalera d'una línia i eixos a sota. Els blocs que a web
+  // tenen amplada fixa aquí l'agafen del contingut, i el nom és l'únic que
+  // creix, perquè és l'únic que pot ocupar el que sobri.
+  capcaleraMobil: { flexDirection: 'row', gap: espai.m, alignItems: 'center' },
+  blocNomMobil: { flex: 1, minWidth: 0, gap: espai.xxs },
+  blocPuntuacioMobil: { alignItems: 'flex-end', gap: 2 },
+  percentatgeMobil: { fontSize: 30, lineHeight: 32 },
+  eixosMobil: { gap: espai.s },
+
   filaCompacta: { flexDirection: 'row', alignItems: 'baseline', gap: espai.m },
   nomCompacte: { ...text.cosSecundari, color: color.tinta },
-  penalitzacio: { ...text.metadada, color: color.vermell },
+  // A React Native res no s'encongeix per defecte, al contrari que al CSS del
+  // navegador. Sense això, un motiu llarg empeny el percentatge fora de la
+  // targeta en comptes de retallar-se.
+  motiu: { ...text.metadada, flexShrink: 1 },
+  penalitzacio: { ...text.metadada, color: color.vermell, flexShrink: 1 },
   percentatgeCompacte: { ...text.metadadaFort, color: color.tinta },
 
   carregant: { gap: espai.m },
