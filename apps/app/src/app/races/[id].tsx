@@ -201,23 +201,32 @@ export default function FitxaRaça() {
 
             {encaixos.map((e, i) => {
               const actiu = e.trastorn === trastorn;
+              const percentatge = (
+                <Text style={[
+                  estils.percentatgeEncaix,
+                  { color: i === 0 ? color.oliva : color.vermell },
+                ]}>
+                  {e.puntuacio.toFixed(1).replace('.', ',')}%
+                </Text>
+              );
+
               return (
-                <View key={e.trastorn} style={estils.filaEncaix}>
-                  <View style={estils.nomEncaix}>
-                    <Text style={[estils.trastornNom, actiu && estils.trastornActiu]}>
-                      {ETIQUETA_TRASTORN[e.trastorn]}
-                    </Text>
-                    <Text style={text.metadada}>{`#${e.posicio} de ${e.total}`}</Text>
+                <View key={e.trastorn} style={esMobil ? estils.encaixApilat : estils.filaEncaix}>
+                  <View style={esMobil ? estils.capcaleraEncaix : estils.nomEncaix}>
+                    <View style={[estils.identitatEncaix, esMobil && estils.flexible]}>
+                      <Text style={[estils.trastornNom, actiu && estils.trastornActiu]}>
+                        {ETIQUETA_TRASTORN[e.trastorn]}
+                      </Text>
+                      <Text style={text.metadada}>{`#${e.posicio} de ${e.total}`}</Text>
+                    </View>
+                    {esMobil ? percentatge : null}
                   </View>
-                  <View style={estils.mesuradorEncaix}>
+
+                  <View style={esMobil ? undefined : estils.mesuradorEncaix}>
                     <MesuradorRecorregut puntuacio={e.puntuacio} primer={i === 0} />
                   </View>
-                  <Text style={[
-                    estils.percentatgeEncaix,
-                    { color: i === 0 ? color.oliva : color.vermell },
-                  ]}>
-                    {e.puntuacio.toFixed(1).replace('.', ',')}%
-                  </Text>
+
+                  {!esMobil ? percentatge : null}
                 </View>
               );
             })}
@@ -357,6 +366,18 @@ const estils = StyleSheet.create({
   valorDada: { ...text.cosSecundari, color: color.tinta },
   filaEncaix: { flexDirection: 'row', alignItems: 'center', gap: espai.m },
   nomEncaix: { width: 190, gap: 1 },
+  /*
+   * A mòbil la fila es parteix: nom i percentatge a dalt, mesurador a sota a
+   * tota amplada. En una sola línia demanava 356px de mínim —190 del nom, 90 del
+   * mesurador, 52 del percentatge i els buits—, més que l'interior d'una targeta
+   * en un telèfon, i el percentatge en quedava fora. El mesurador tampoc no hi
+   * cabia: les seves tres etiquetes se solapaven en 90px i ara tenen l'amplada
+   * sencera per repartir-se.
+   */
+  encaixApilat: { gap: espai.xs },
+  identitatEncaix: { gap: 1 },
+  capcaleraEncaix: { flexDirection: 'row', alignItems: 'baseline', gap: espai.m },
+  flexible: { flex: 1 },
   trastornNom: { ...text.cosSecundari, fontSize: 13, color: color.tinta },
   trastornActiu: { fontFamily: text.nomLlista.fontFamily },
   mesuradorEncaix: { flex: 1, minWidth: 90 },
